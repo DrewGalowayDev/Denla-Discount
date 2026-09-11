@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Denla Discount Shop - Best Prices on Electronics & More</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="denla, discount shop, electronics, groceries, beverages, household items, best prices, Kenya" name="keywords">
+    <meta content="Denla Discount Shop - Your one-stop shop for electronics, groceries, beverages and household items at unbeatable prices in Kenya" name="description">
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start --
+    <div class="container-fluid px-5 border-bottom">
+        <div class="row gx-0 align-items-center py-2">
+            <div class="col-lg-4 text-center text-lg-start mb-2 mb-lg-0 d-none d-lg-block">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a href="#" class="text-muted me-2"> Help</a><small> / </small>
+                    <a href="#" class="text-muted mx-2"> Support</a><small> / </small>
+                    <a href="#" class="text-muted ms-2"> Contact</a>
+
+                </div>
+            </div>
+            <div class="col-lg-4 text-center d-flex align-items-center justify-content-center mb-2 mb-lg-0 d-none d-lg-flex">
+                <small class="text-dark fw-bold">Call Us:</small>
+                <a href="tel:+254704546916" class="text-dark ms-2 fw-bold" style="font-size: 15px; text-decoration: none;">+254 704 546 916</a>
+            </div>
+
+            <div class="col-12 col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>
+                                KSh</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item"> KSh (Kenya Shillings)</a>
+                            <a href="#" class="dropdown-item"> USD (Dollar)</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>
+                                English</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item"> English</a>
+                            <a href="#" class="dropdown-item"> Kiswahili</a>
+                            <a href="#" class="dropdown-item"> Spanol</a>
+                            <a href="#" class="dropdown-item"> Italiano</a>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white" style="z-index: 1000;">
+        <div class="row gx-7 align-items-center">
+            <div class="col-lg-2 text-center text-lg-start pe-4">
+                <div class="d-inline-flex align-items-center">
+                    <a href="index.html" class="navbar-brand p-0">
+                        <h2 class="m-0" style="color: #FF6B35; font-weight: bold;">
+                            <i class="fas fa-store me-2"></i>Denla Discount
+                        </h2>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 text-center ps-3">
+                
+                <div class="position-relative" style="margin: 0 auto; max-width: 500px;">
+                     <div class="dropdown" id="authDropdown">
+                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i
+                                    class="fa fa-home me-2"></i> My Dashboard</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i
+                                    class="fas fa-sign-in-alt me-2"></i> Login</a>
+                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i
+                                    class="fas fa-user-plus me-2"></i> Sign Up</a>
+                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i
+                                    class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                            <div class="dropdown-divider" id="authDivider"></div>
+                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log
+                                Out</a>
+                        </div>
+                    </div>
+                    <div class="d-flex border rounded-pill">
+                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="indexSearchInput" onkeyup="handleIndexSearch(event)"
+                            placeholder="Search for products...">
+                        <select class="form-select text-dark border-0 border-start rounded-0 p-2" id="categoryFilter"
+                            style="width: 150px; font-size: 14px;">
+                            <option value="">All</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Beverages">Beverages</option>
+                            <option value="Dairy Products">Dairy</option>
+                            <option value="Bakery">Bakery</option>
+                            <option value="Household Items">Household</option>
+                            <option value="Personal Care">Personal Care</option>
+                        </select>
+                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4" style="border: 0;" onclick="performIndexSearch()"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                    <div class="search-results-dropdown" id="indexSearchDropdown"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                    
+                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
+                                class="fas fa-random"></i></span></a>
+                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
+                                class="fas fa-heart"></i></span></a>
+                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
+                                class="fas fa-shopping-cart"></i></span></a>
+                    
+                    <!-- Login Button - shown when not logged in -->
+                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 ms-2" id="loginBtn">
+                        <i class="fas fa-user me-2"></i>Login
+                    </a>
+                    
+                    <!-- Dashboard Button - shown when logged in -->
+                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 ms-2" id="dashboardBtn" style="display: none;">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    
+                    <!-- User Menu - shown when logged in -->
+                    <div class="dropdown" id="userMenuDropdown" style="display: none;">
+                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i><span id="userMenuName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Navbar & Categories Bar -->
+    <div class="container-fluid nav-bar p-0 sticky-top bg-white" style="z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <div class="row gx-0 align-items-center" style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); padding: 0 2.5rem;">
+            <div class="col-lg-3 d-none d-lg-block">
+                <nav class="navbar navbar-light position-relative" style="width: 250px;">
+                    <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#allCat">
+                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
+                    </button>
+                    <div class="collapse navbar-collapse rounded-bottom" id="allCat">
+                        <div class="navbar-nav ms-auto py-0">
+                            <ul class="list-unstyled categories-bars" id="desktopCategoryList">
+                                <!-- Categories loaded dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-12 col-lg-9">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background: transparent;">
+                    <a href="index.html" class="navbar-brand d-block d-lg-none">
+                        <h3 class="m-0 text-white"><i class="fas fa-store me-2"></i>Denla Discount</h3>
+                    </a>
+                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars fa-1x"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="index.html" class="nav-item nav-link active fw-bold text-white">Home</a>
+                            <a href="shop.html" class="nav-item nav-link text-white-50 fw-semibold">Shop</a>
+                            <a href="cart.html" class="nav-item nav-link text-white-50 fw-semibold">Shop Cart</a>
+                            <a href="cheackout.html" class="nav-item nav-link text-white-50 fw-semibold">Checkout</a>
+                            <a href="#" class="nav-item nav-link text-white-50 fw-semibold" id="myAccountLink">My Account</a>
+                            <a href="contact.html" class="nav-item nav-link text-white-50 fw-semibold me-2">Contact</a>
+                            <div class="nav-item dropdown d-block d-lg-none mb-3">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
+                                <div class="dropdown-menu m-0">
+                                    <ul class="list-unstyled categories-bars" id="mobileCategoryList">
+                                        <!-- Categories loaded dynamically -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm color-white"><i
+                                class="fa fa-mobile-alt me-2"></i>+254 704 546 916</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Categories Bar End -->
+
+    <!-- Mobile Search Bar Start -->
+    <div class="container-fluid d-lg-none bg-light py-3 sticky-top" style="z-index: 998;">
+        <div class="container">
+            <div class="position-relative">
+                <div class="d-flex border rounded-pill bg-white">
+                    <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="mobileIndexSearchInput" onkeyup="handleMobileIndexSearch(event)"
+                        placeholder="Search for products...">
+                    <button type="button" class="btn btn-primary rounded-pill py-2 px-4" style="border: 0;" onclick="performMobileIndexSearch()"><i
+                            class="fas fa-search"></i></button>
+                </div>
+                <div class="search-results-dropdown" id="mobileIndexSearchDropdown"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Search Bar End -->
+
+    <!-- Latest Products Marquee Start -->
+    <div class="product-marquee-wrapper bg-gradient-primary py-2">
+        <div class="product-marquee-container">
+            <div class="product-marquee" id="productMarquee">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>`
+    <!-- Latest Products Marquee End -->
+
+    <!-- Carousel Start -->
+    <div class="container-fluid carousel bg-light px-0">
+        <div class="row g-0 justify-content-end">
+            <div class="col-12 col-lg-7 col-xl-9">
+                <div class="header-carousel owl-carousel bg-light py-5">
+                    <!-- Slide 1: Big Savings Sale -->
+                    <div class="row g-0 header-carousel-item align-items-center">
+                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="img/carousel-1.png" class="img-fluid w-100" alt="Denla Discount Shop Sale">
+                        </div>
+                        <div class="col-xl-6 carousel-content p-4">
+                            <div class="d-flex align-items-center mb-3 wow fadeInRight" data-wow-delay="0.1s">
+                                <span class="badge text-white px-3 py-2 fs-6 me-2" style="background: #FF6B35;">
+                                    <i class="fas fa-percentage me-2"></i>Mega Sale
+                                </span>
+                                <span class="text-primary fw-bold fs-5">Limited Time!</span>
+                            </div>
+                            <h4 class="text-uppercase fw-bold mb-3 wow fadeInRight" data-wow-delay="0.2s"
+                                style="letter-spacing: 3px; color: #FF6B35;">UP TO 30% OFF STOREWIDE</h4>
+                            <h1 class="display-4 fw-bold mb-4 wow fadeInRight" data-wow-delay="0.3s"
+                                style="line-height: 1.2;">Best Prices on Groceries, Electronics & More!</h1>
+                            <p class="text-dark mb-4 wow fadeInRight" data-wow-delay="0.4s">
+                                <i class="fas fa-check-circle text-success me-2"></i>Fresh products delivered daily<br>
+                                <i class="fas fa-check-circle text-success me-2"></i>Quality guaranteed on all items
+                            </p>
+                            <div class="d-flex gap-3 wow fadeInRight" data-wow-delay="0.5s">
+                                <a class="btn text-white rounded-pill py-3 px-5 fw-bold" style="background: #FF6B35;" href="shop.html"><i
+                                        class="fas fa-shopping-bag me-2"></i>Shop Now</a>
+                                <a class="btn btn-outline-primary rounded-pill py-3 px-4" href="#">View Deals</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2: Household & Daily Essentials -->
+                    <div class="row g-0 header-carousel-item align-items-center">
+                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="img/carousel-2.png" class="img-fluid w-100" alt="Household Items Sale">
+                        </div>
+                        <div class="col-xl-6 carousel-content p-4">
+                            <div class="badge bg-warning text-dark px-3 py-2 fs-6 mb-3 wow fadeInRight"
+                                data-wow-delay="0.1s">
+                                <i class="fas fa-star me-2"></i>Featured Deal
+                            </div>
+                            <h4 class="text-uppercase fw-bold mb-3 wow fadeInRight" data-wow-delay="0.2s"
+                                style="letter-spacing: 3px;">SPECIAL OFFERS</h4>
+                            <h1 class="display-4 fw-bold mb-4 wow fadeInRight" data-wow-delay="0.3s"
+                                style="line-height: 1.2;">Household Items & Daily Essentials</h1>
+                            <p class="text-dark mb-4 wow fadeInRight" data-wow-delay="0.4s">
+                                <i class="fas fa-home text-primary me-2"></i>Everything for your home<br>
+                                <i class="fas fa-truck text-primary me-2"></i>Fast & Convenient Delivery
+                            </p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5 fw-bold wow fadeInRight"
+                                data-wow-delay="0.5s" href="shop.html"><i class="fas fa-shopping-basket me-2"></i>Shop Now</a>
+                        </div>
+                    </div>
+                    <!-- Slide 3: Fresh Groceries & Beverages -->
+                    <div class="row g-0 header-carousel-item align-items-center">
+                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="img/carousel-1.png" class="img-fluid w-100" alt="Groceries & Beverages">
+                        </div>
+                        <div class="col-xl-6 carousel-content p-4">
+                            <div class="badge bg-info text-white px-3 py-2 fs-6 mb-3 wow fadeInRight"
+                                data-wow-delay="0.1s">
+                                <i class="fas fa-leaf me-2"></i>Fresh Today
+                            </div>
+                            <h4 class="text-uppercase fw-bold mb-3 wow fadeInRight" data-wow-delay="0.2s"
+                                style="letter-spacing: 3px;">DAILY FRESH STOCK</h4>
+                            <h1 class="display-4 fw-bold mb-4 wow fadeInRight" data-wow-delay="0.3s"
+                                style="line-height: 1.2;">Fresh Groceries & Beverages</h1>
+                            <p class="text-dark mb-4 wow fadeInRight" data-wow-delay="0.4s">
+                                <i class="fas fa-shopping-cart text-primary me-2"></i>Wide variety of fresh produce<br>
+                                <i class="fas fa-badge-check text-primary me-2"></i>Quality you can trust
+                            </p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5 fw-bold wow fadeInRight"
+                                data-wow-delay="0.5s" href="shop.html"><i class="fas fa-apple-alt me-2"></i>Browse Groceries</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar Special Offer -->
+            <div class="col-12 col-lg-5 col-xl-3 wow fadeInRight" data-wow-delay="0.1s">
+                <div class="carousel-header-banner h-100 position-relative">
+                    <img src="img/young.webp" class="img-fluid w-100 h-100" style="object-fit: cover;"
+                        alt="Special Offer">
+                    <div class="carousel-banner-offer">
+                        <p class="bg-danger text-white rounded fs-6 py-2 px-3 mb-0 me-2 fw-bold"><i
+                                class="fas fa-tag me-2"></i>Save $43</p>
+                        <p class="text-danger fs-6 fw-bold mb-0">Hot Deal!</p>
+                    </div>
+                    <div class="carousel-banner">
+                        <div class="carousel-banner-content text-center p-4">
+                            <span class="badge bg-primary text-white px-3 py-2 mb-3">Limited Stock</span>
+                            <a href="#" class="d-block mb-2 text-white-50">Special Offer</a>
+                            <a href="#" class="d-block text-white fs-4 fw-bold mb-3">Top Quality Products at Unbeatable Prices!</a>
+                            <del class="me-2 text-white-50 fs-6">KSh 5,000</del>
+                            <h3 class="text-warning fw-bold mb-0">KSh 3,500</h3>
+                            <p class="text-white-50 small mt-2 mb-0"><i class="fas fa-clock me-1"></i>Offer ends soon!
+                            </p>
+                        </div>
+                        <a href="cart.html" class="btn btn-warning text-dark fw-bold rounded-pill py-2 px-4"><i
+                                class="fas fa-shopping-cart me-2"></i>Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+    <!-- Featured Categories Start -->
+    <div class="container-fluid bg-white py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                <h4 class="text-primary mb-3 border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+                    data-wow-delay="0.1s">Shop by Category</h4>
+                <h1 class="display-5 mb-0 wow fadeInUp" data-wow-delay="0.2s">Featured Categories</h1>
+            </div>
+            <div class="row g-4">
+                <!-- Groceries Category -->
+                <div class="col-6 col-md-4 col-lg-2-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <a href="shop.html?category=groceries" class="text-decoration-none">
+                        <div class="category-card border rounded-4 p-4 text-center h-100 position-relative overflow-hidden"
+                            style="transition: all 0.3s;">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-shopping-basket fa-3x" style="transition: transform 0.3s; color: #FF6B35;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Groceries</h5>
+                            <p class="text-muted small mb-0">Fresh & Packaged Foods</p>
+                            <span class="badge text-white position-absolute top-0 end-0 m-2" style="background: #FF6B35;">New</span>
+                        </div>
+                    </a>
+                </div>
+                <!-- Beverages Category -->
+                <div class="col-6 col-md-4 col-lg-2-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <a href="shop.html?category=beverages" class="text-decoration-none">
+                        <div class="category-card border rounded-4 p-4 text-center h-100 position-relative overflow-hidden"
+                            style="transition: all 0.3s;">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-wine-bottle fa-3x" style="transition: transform 0.3s; color: #FF6B35;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Beverages</h5>
+                            <p class="text-muted small mb-0">Soft Drinks & Juices</p>
+                            <span class="badge bg-danger position-absolute top-0 end-0 m-2">Sale</span>
+                        </div>
+                    </a>
+                </div>
+                <!-- Dairy Products Category -->
+                <div class="col-6 col-md-4 col-lg-2-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <a href="shop.html?category=dairy" class="text-decoration-none">
+                        <div class="category-card border rounded-4 p-4 text-center h-100 position-relative overflow-hidden"
+                            style="transition: all 0.3s;">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-cheese fa-3x" style="transition: transform 0.3s; color: #FF6B35;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Dairy Products</h5>
+                            <p class="text-muted small mb-0">Milk, Cheese & Yogurt</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Household Items Category -->
+                <div class="col-6 col-md-4 col-lg-2-4 wow fadeInUp" data-wow-delay="0.4s">
+                    <a href="shop.html?category=household" class="text-decoration-none">
+                        <div class="category-card border rounded-4 p-4 text-center h-100 position-relative overflow-hidden"
+                            style="transition: all 0.3s;">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-home fa-3x" style="transition: transform 0.3s; color: #FF6B35;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Household Items</h5>
+                            <p class="text-muted small mb-0">Cleaning & Home Care</p>
+                            <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Hot</span>
+                        </div>
+                    </a>
+                </div>
+                <!-- Personal Care Category -->
+                <div class="col-6 col-md-4 col-lg-2-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <a href="shop.html?category=personal-care" class="text-decoration-none">
+                        <div class="category-card border rounded-4 p-4 text-center h-100 position-relative overflow-hidden"
+                            style="transition: all 0.3s;">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-spa fa-3x" style="transition: transform 0.3s; color: #FF6B35;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Personal Care</h5>
+                            <p class="text-muted small mb-0">Bath & Body Products</p>
+                            <span class="badge bg-success position-absolute top-0 end-0 m-2">Trending</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Featured Categories End -->
+
+    <!-- Services Start -->
+    <div class="container-fluid px-0 bg-light">
+        <div class="row g-0">
+            <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">
+                <div class="p-4">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="fa fa-sync-alt fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Free Return</h6>
+                            <p class="mb-0">30 days money back guarantee!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fab fa-telegram-plane fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Free Shipping</h6>
+                            <p class="mb-0">Free shipping on all order</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-life-ring fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Support 24/7</h6>
+                            <p class="mb-0">We support online 24 hrs a day</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-credit-card fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Receive Gift Card</h6>
+                            <p class="mb-0">Recieve gift all over order KSh 6,500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-lock fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Secure Payment</h6>
+                            <p class="mb-0">We Value Your Security</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-blog fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Online Service</h6>
+                            <p class="mb-0">Free return products in 30 days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services End -->
+
+    <!-- Just In Section Start -->
+    <div class="container-fluid bg-white py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <span class="badge bg-success px-4 py-3 fs-5 rounded-pill">
+                                <i class="fas fa-bolt me-2"></i>Just In
+                            </span>
+                        </div>
+                        <div class="flex-grow-1 ms-4">
+                            <h1 class="display-5 mb-2 wow fadeInUp" data-wow-delay="0.1s">Newest Arrivals</h1>
+                            <p class="text-muted mb-0 wow fadeInUp" data-wow-delay="0.2s">Fresh stock just landed! Be
+                                the first to grab the latest tech.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="shop.html?filter=new" class="btn btn-outline-primary rounded-pill py-3 px-5 wow fadeInUp"
+                        data-wow-delay="0.3s">
+                        View All New Items <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div id="justInGrid" class="product-grid">
+                <!-- Just In products will be injected here by JS (preserves original classes and layout) -->
+            </div>
+        </div>
+    </div>
+    <!-- Just In Section End -->
+
+
+    <!-- Our Products Start -->
+    <div class="container-fluid products productList overflow-hidden" style="padding-top: 3rem; padding-bottom: 0;">
+        <div class="container products-mini">
+            <div class="mx-auto text-center mb-4" style="max-width: 900px;">
+                <h4 class="text-primary border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+                    data-wow-delay="0.1s">Products</h4>
+                <h1 class="mb-3 display-4 wow fadeInUp" data-wow-delay="0.3s">Just Pick Your Favorite Products</h1>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+                <ul class="nav nav-pills d-inline-flex text-center py-2 px-2 rounded bg-light flex-wrap justify-content-center">
+                    <li class="nav-item">
+                        <a class="d-flex py-2 mx-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                            <span class="text-dark" style="width: 130px;"><i class="fas fa-th-large me-1"></i>All Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex py-2 mx-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
+                            <span class="text-dark" style="width: 150px;"><i class="fas fa-laptop me-1"></i>Computers & Mobile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
+                            <span class="text-dark" style="width: 140px;"><i class="fas fa-headphones me-1"></i>Audio & Visual</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
+                            <span class="text-dark" style="width: 180px;"><i class="fas fa-plug me-1"></i>Components & Accessories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
+                            <span class="text-dark" style="width: 150px;"><i class="fas fa-briefcase me-1"></i>Business & Deals</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content" style="margin-top: 1rem;">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div id="products-tab-1" class="product-grid" style="min-height: 0;">
+                        <!-- All Products -->
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane fade p-0">
+                    <div id="products-tab-2" class="product-grid" style="min-height: 0;">
+                        <!-- Computers & Mobile -->
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane fade p-0">
+                    <div id="products-tab-3" class="product-grid" style="min-height: 0;">
+                        <!-- Audio & Visual -->
+                    </div>
+                </div>
+                <div id="tab-4" class="tab-pane fade p-0">
+                    <div id="products-tab-4" class="product-grid" style="min-height: 0;">
+                        <!-- Components & Accessories -->
+                    </div>
+                </div>
+                <div id="tab-5" class="tab-pane fade p-0">
+                    <div id="products-tab-5" class="product-grid" style="min-height: 0;">
+                        <!-- Business & Deals -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Our Products End -->
+
+    <!-- Product Banner Start -->
+    <div class="container-fluid" style="padding-top: 2rem; padding-bottom: 3rem;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
+                    <a href="#">
+                        <div class="bg-primary rounded position-relative">
+                            <img src="img/product-banner.jpg" class="img-fluid w-100 rounded" alt="">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
+                                style="background: rgba(255, 255, 255, 0.5);">
+                                <h3 class="display-5 text-primary">EOS Rebel <br> <span>T7i Kit</span></h3>
+                                <p class="fs-4 text-muted">KSh 115,999</p>
+                                <a href="#" class="btn btn-primary rounded-pill align-self-start py-2 px-4">Shop Now</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
+                    <a href="#">
+                        <div class="text-center bg-primary rounded position-relative">
+                            <img src="img/product-banner-2.jpg" class="img-fluid w-100" alt="">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
+                                style="background: rgba(242, 139, 0, 0.5);">
+                                <h2 class="display-2 text-secondary">SALE</h2>
+                                <h4 class="display-5 text-white mb-4">Get UP To 50% Off</h4>
+                                <a href="#" class="btn btn-secondary rounded-pill align-self-center py-2 px-4">Shop
+                                    Now</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Banner End -->
+
+    <!-- Product List Satrt -->
+    <div id="allProductsSection" class="container-fluid products productList overflow-hidden" style="display: none; padding: 0; margin: 0; min-height: 0;">
+        <div class="container products-mini" style="padding-top: 1rem; padding-bottom: 0;">
+            <div class="mx-auto text-center" style="max-width: 900px; margin-bottom: 0.5rem;">
+                <h4 class="text-primary border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+                    data-wow-delay="0.1s" style="margin-bottom: 0.5rem;">Products</h4>
+                <h1 class="mb-0 display-6 wow fadeInUp" data-wow-delay="0.3s" style="font-size: 1.8rem;">All Product Items</h1>
+            </div>
+            <div id="productListCarousel" class="wow fadeInUp" data-wow-delay="0.3s" style="padding-top: 0.5rem; min-height: 0;">
+            </div>
+        </div>
+    </div>
+    <!-- Product List End -->
+
+    <!-- Bestseller Products Start -->
+    <div class="container-fluid products pb-5">
+        <div class="container products-mini py-5">
+            <div class="mx-auto text-center mb-5" style="max-width: 700px;">
+                <h4 class="text-primary mb-4 border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+                    data-wow-delay="0.1s">Bestseller Products</h4>
+                <p class="mb-0 wow fadeInUp" data-wow-delay="0.2s">Discover our most popular tech products loved by thousands of customers across Kenya. These top-rated items combine quality, performance, and exceptional value.</p>
+            </div>
+            <div class="row g-4">
+                <!-- Bestseller products dynamically loaded by js/load-products.js -->
+
+
+
+
+
+                                <a href="#"
+                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
+                                        class="rounded-circle btn-sm-square border"><i
+                                            class="fas fa-random"></i></i></a>
+                                <a href="#"
+                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
+                                        class="rounded-circle btn-sm-square border"><i class="fas fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bestseller Products End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Kisii Branch</h4>
+                            <p class="mb-2">Kisii Town, Kisii County, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Nairobi Branch</h4>
+                            <p class="mb-2">Nairobi CBD, Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-envelope fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Email Us</h4>
+                            <p class="mb-2">info@awesometech.co.ke</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fa fa-phone-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Call Us</h4>
+                            <p class="mb-2">+254 704 546 916</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <div class="footer-item">
+                            <h4 class="text-primary mb-4">Denla Discount Shop</h4>
+                            <p class="mb-3">Your one-stop discount shop for groceries, electronics, beverages, household items and more in Kenya. Unbeatable prices, quality products, exceptional service.</p>
+                            <div class="position-relative mx-auto rounded-pill">
+                                <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
+                                    placeholder="Enter your email">
+                                <button type="button"
+                                    class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Customer Service</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Returns</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
+                        <a href="#" class="" id="myAccountLinkFooter"><i class="fas fa-angle-right me-2"></i> My Account</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe Notification</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Information</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Seller Login</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Extras</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Wishlist</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-md-0">
+                    <span class="text-primary"><a href="#" class="border-bottom text-primary"><i
+                                class="fas fa-copyright me-2" style="color: #FF6B35;"></i>Denla Discount Shop</a>, <span style="color: #FF6B35;">All rights reserved.</span></span>
+                </div>
+                <div class="col-md-6 text-center text-md-end" style="color: #ff6600;">
+                    Designed & Developed By <a href="https://drewskysoftwares.app/" class="text-primary"><i class="fas fa-code me-1"></i>DrewSky Softwares LTD</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- WhatsApp Floating Chat -->
+    <div class="whatsapp-float">
+        <div class="whatsapp-text">Chat with us!</div>
+        <div class="whatsapp-bubble" onclick="toggleWhatsAppChat()">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-notification">1</span>
+        </div>
+    </div>
+
+    <!-- WhatsApp Chat Window -->
+    <div class="whatsapp-chat-window" id="whatsappChatWindow">
+        <div class="whatsapp-chat-header">
+            <img src="img/young.webp" alt="Awesome Tech" onerror="this.src='img/product-1.png'">
+            <div class="whatsapp-chat-header-info">
+                <h5>Awesome Tech</h5>
+                <p>Typically replies instantly</p>
+            </div>
+            <span class="whatsapp-chat-header-online"></span>
+            <button class="whatsapp-close-btn" onclick="toggleWhatsAppChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="whatsapp-chat-body" id="whatsappChatBody">
+            <div class="whatsapp-message dealer">
+                <div class="whatsapp-message-bubble">
+                    <p>👋 Hello! Welcome to Awesome Tech!</p>
+                    <p class="mt-2">How can we help you today? Please select what you're looking for:</p>
+                    <div class="whatsapp-questionnaire">
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('laptop')">
+                            <i class="fas fa-laptop"></i>
+                            <span>I need a Laptop</span>
+                        </button>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('phone')">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>I need a Phone</span>
+                        </button>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('accessory')">
+                            <i class="fas fa-headphones"></i>
+                            <span>I need Accessories</span>
+                        </button>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('other')">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Something Else</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="whatsapp-message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="whatsapp-chat-footer">
+            <button class="whatsapp-start-chat-btn" onclick="openWhatsApp()">
+                <i class="fab fa-whatsapp"></i>
+                <span>Start Chat on WhatsApp</span>
+            </button>
+        </div>
+    </div>iv>
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        
+        <!-- Google Sign-In -->
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+
+        <!-- Product Detail Modal -->
+        <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title pd-modal-header-title" id="productDetailModalLabel">Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4">
+                            <div class="col-md-6 text-center">
+                                <img src="img/product-1.png" class="img-fluid pd-image" alt="Product image" style="max-height:360px; object-fit:cover;" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2 text-muted small pd-category"></div>
+                                <h3 class="pd-title mb-2"></h3>
+                                <div class="mb-3">
+                                    <del class="text-muted pd-oldprice" style="display:none; margin-right:8px;"></del>
+                                    <span class="h4 text-primary pd-price">KSh 0</span>
+                                </div>
+                                <p class="pd-desc text-muted small mb-3"></p>
+                                <div class="pd-features-container" style="display:none;">
+                                    <h6>Features</h6>
+                                    <ul class="pd-features small text-muted mb-3"></ul>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-warning rounded-pill me-2 pd-add-to-cart-btn"><i class="fas fa-shopping-cart me-2"></i>Add To Cart</button>
+                                    <button class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Manager -->
+    <script src="js/auth-helper.js"></script>
+    <script src="js/cart-manager.js"></script>
+    <script src="js/my-account-handler.js"></script>        <!-- Login Redirect -->
+        <script src="js/login-redirect.js"></script>
+
+        <!-- User Activity Tracker -->
+        <script src="js/user-activity-tracker.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+
+
+        <script>
+            // Search functionality for index.html
+            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:5000/api'
+                : '/api';
+            let searchTimeout;
+            let cachedProducts = null; // Cache products for faster filtering
+
+            // Load and cache products on page load for faster search
+            async function loadCachedProducts() {
+                try {
+                    const response = await fetch(`${API_BASE}/products?limit=200`);
+                    const data = await response.json();
+                    cachedProducts = Array.isArray(data.data) ? data.data : 
+                                    Array.isArray(data.products) ? data.products : 
+                                    Array.isArray(data) ? data : [];
+                    console.log('Products cached for search:', cachedProducts.length);
+                } catch (error) {
+                    console.error('Error caching products:', error);
+                    cachedProducts = [];
+                }
+            }
+
+            // Initialize cache on load
+            document.addEventListener('DOMContentLoaded', loadCachedProducts);
+
+            // Handle search input with debouncing
+            function handleIndexSearch(event) {
+                clearTimeout(searchTimeout);
+                const query = event.target.value.trim();
+
+                if (query.length === 0) {
+                    document.getElementById('indexSearchDropdown').style.display = 'none';
+                    return;
+                }
+
+                if (event.key === 'Enter') {
+                    performIndexSearch();
+                    return;
+                }
+
+                searchTimeout = setTimeout(() => {
+                    performIndexSearch();
+                }, 200); // Faster debounce since we use cache
+            }
+
+            // Filter products by search query and category
+            function filterProducts(products, query, category) {
+                if (!products || !Array.isArray(products)) return [];
+                
+                const searchLower = query.toLowerCase();
+                const categoryLower = category ? category.toLowerCase() : '';
+                
+                return products.filter(product => {
+                    // Category filter
+                    if (categoryLower) {
+                        const productCategory = product.categories?.slug?.toLowerCase() || 
+                                               product.categories?.name?.toLowerCase() || 
+                                               product.category?.toLowerCase() || '';
+                        if (!productCategory.includes(categoryLower)) {
+                            return false;
+                        }
+                    }
+                    
+                    // Search filter - check name, description, brand
+                    if (searchLower) {
+                        const name = (product.name || '').toLowerCase();
+                        const description = (product.description || '').toLowerCase();
+                        const brand = (product.brand || '').toLowerCase();
+                        const categoryName = (product.categories?.name || '').toLowerCase();
+                        
+                        return name.includes(searchLower) || 
+                               description.includes(searchLower) || 
+                               brand.includes(searchLower) ||
+                               categoryName.includes(searchLower);
+                    }
+                    
+                    return true;
+                });
+            }
+
+            // Perform search - uses cache first, falls back to API
+            async function performIndexSearch() {
+                const query = document.getElementById('indexSearchInput').value.trim();
+                const category = document.getElementById('categoryFilter').value;
+                const dropdown = document.getElementById('indexSearchDropdown');
+
+                if (!query && !category) {
+                    dropdown.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    let products = [];
+                    
+                    // Use cached products for instant results
+                    if (cachedProducts && cachedProducts.length > 0) {
+                        products = filterProducts(cachedProducts, query, category).slice(0, 10);
+                    } else {
+                        // Fallback to API if cache not ready
+                        let url = `${API_BASE}/products?limit=10`;
+                        if (query) url += `&search=${encodeURIComponent(query)}`;
+                        if (category) url += `&category=${encodeURIComponent(category)}`;
+
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        products = Array.isArray(data.data) ? data.data : 
+                                    Array.isArray(data.products) ? data.products : 
+                                    Array.isArray(data) ? data : [];
+                    }
+
+                    if (!products || products.length === 0) {
+                        const searchDesc = query ? `"${query}"` : '';
+                        const categoryDesc = category ? ` in ${category}` : '';
+                        dropdown.innerHTML = `
+                            <div class="search-no-results">
+                                <i class="fas fa-search"></i>
+                                <p>No products found${searchDesc ? ' for ' + searchDesc : ''}${categoryDesc}</p>
+                            </div>
+                        `;
+                        dropdown.style.display = 'block';
+                        return;
+                    }
+
+                    let html = products.map(product => {
+                        let productImage = 'img/product-1.png';
+                        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                            productImage = product.images[0];
+                        } else if (product.image_url) {
+                            productImage = product.image_url;
+                        } else if (product.image) {
+                            productImage = product.image;
+                        }
+
+                        const categoryBadge = product.categories?.name ? 
+                            `<span class="badge bg-secondary search-result-category">${product.categories.name}</span>` : '';
+
+                        return `
+                        <div class="search-result-item" onclick="goToProduct(${product.id})">
+                            <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${highlightMatch(product.name, query)}</div>
+                                <div class="search-result-meta">
+                                    <span class="search-result-price">KSh ${Number(product.price).toLocaleString()}</span>
+                                    ${categoryBadge}
+                                </div>
+                            </div>
+                            ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                        </div>
+                    `;
+                    }).join('');
+
+                    // Build view all link with both search and category params
+                    let viewAllLink = 'shop.html?';
+                    const params = [];
+                    if (query) params.push(`search=${encodeURIComponent(query)}`);
+                    if (category) params.push(`category=${encodeURIComponent(category)}`);
+                    viewAllLink += params.join('&');
+
+                    html += `<a href="${viewAllLink}" class="search-view-all">
+                        View All Results <i class="fas fa-arrow-right ms-2"></i>
+                    </a>`;
+
+                    dropdown.innerHTML = html;
+                    dropdown.style.display = 'block';
+                } catch (error) {
+                    console.error('Search error:', error);
+                    dropdown.innerHTML = `
+                        <div class="search-no-results">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error performing search. Please try again.</p>
+                        </div>
+                    `;
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            // Trigger search when category changes
+            document.getElementById('categoryFilter').addEventListener('change', function() {
+                const query = document.getElementById('indexSearchInput').value.trim();
+                if (query || this.value) {
+                    performIndexSearch();
+                }
+            });
+
+            // Highlight matching text
+            function highlightMatch(text, query) {
+                if (!query) return text;
+                const regex = new RegExp(`(${query})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
+
+            // Go to product detail page
+            function goToProduct(productId) {
+                window.location.href = `product-detail.html?id=${productId}`;
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const dropdown = document.getElementById('indexSearchDropdown');
+                const searchInput = document.getElementById('indexSearchInput');
+                if (dropdown && searchInput && !dropdown.contains(e.target) && e.target !== searchInput) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+        <script>
+            // Mobile Search functionality for index.html
+            let mobileSearchTimeout;
+
+            function handleMobileIndexSearch(event) {
+                clearTimeout(mobileSearchTimeout);
+                const query = event.target.value.trim();
+
+                if (query.length === 0) {
+                    document.getElementById('mobileIndexSearchDropdown').style.display = 'none';
+                    return;
+                }
+
+                if (event.key === 'Enter') {
+                    performMobileIndexSearch();
+                    return;
+                }
+
+                mobileSearchTimeout = setTimeout(() => {
+                    performMobileIndexSearch();
+                }, 300);
+            }
+
+            async function performMobileIndexSearch() {
+                const query = document.getElementById('mobileIndexSearchInput').value.trim();
+                const dropdown = document.getElementById('mobileIndexSearchDropdown');
+
+                if (!query) {
+                    dropdown.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    let url = `${API_BASE}/products?search=${encodeURIComponent(query)}&limit=10`;
+
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    // Handle different API response formats
+                    const products = Array.isArray(data.data) ? data.data : 
+                                    Array.isArray(data.products) ? data.products : 
+                                    Array.isArray(data) ? data : [];
+
+                    if (!products || products.length === 0) {
+                        dropdown.innerHTML = `
+                            <div class="search-no-results">
+                                <i class="fas fa-search"></i>
+                                <p>No products found for "${query}"</p>
+                            </div>
+                        `;
+                        dropdown.style.display = 'block';
+                        return;
+                    }
+
+                    let html = products.map(product => {
+                        let productImage = 'img/product-1.png';
+                        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                            productImage = product.images[0];
+                        } else if (product.image_url) {
+                            productImage = product.image_url;
+                        } else if (product.image) {
+                            productImage = product.image;
+                        }
+
+                        return `
+                        <div class="search-result-item" onclick="goToProduct(${product.id})">
+                            <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${product.name}</div>
+                                <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
+                            </div>
+                            ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                        </div>
+                    `;
+                    }).join('');
+
+                    html += `<a href="shop.html?search=${encodeURIComponent(query)}" class="search-view-all">
+                        View All Results <i class="fas fa-arrow-right ms-2"></i>
+                    </a>`;
+
+                    dropdown.innerHTML = html;
+                    dropdown.style.display = 'block';
+                } catch (error) {
+                    console.error('Mobile search error:', error);
+                    dropdown.innerHTML = `
+                        <div class="search-no-results">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error performing search. Please try again.</p>
+                        </div>
+                    `;
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            // Close mobile dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const dropdown = document.getElementById('mobileIndexSearchDropdown');
+                const searchInput = document.getElementById('mobileIndexSearchInput');
+                if (dropdown && searchInput && !dropdown.contains(e.target) && e.target !== searchInput) {
+                    dropdown.style.display = 'none';
+                }
+            });
+
+            // Product Marquee Loader
+            // Ensure API_BASE_URL is available
+            const MARQUEE_API_URL = typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : 'http://localhost:5000/api';
+            
+            async function loadProductMarquee() {
+                console.log('Loading product marquee...');
+                try {
+                    const marquee = document.getElementById('productMarquee');
+                    if (!marquee) {
+                        console.error('Marquee element not found!');
+                        return;
+                    }
+                    
+                    console.log('Fetching products from:', `${MARQUEE_API_URL}/products`);
+                    const response = await fetch(`${MARQUEE_API_URL}/products?limit=10&sort=created_at&order=desc`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    let data = await response.json();
+                    console.log('Received data:', data);
+                    
+                    let products = Array.isArray(data) ? data : (data.products || data.data || []);
+                    console.log('Products array:', products, 'Length:', products.length);
+                    
+                    if (products.length === 0) {
+                        console.warn('No products found');
+                        marquee.innerHTML = '<div class="marquee-item"><p style="color: white; padding: 20px;">No products available</p></div>';
+                        return;
+                    }
+                    
+                    // Duplicate products for seamless loop
+                    const duplicatedProducts = [...products, ...products];
+                    
+                    const marqueeHTML = duplicatedProducts.map(product => {
+                        const image = Array.isArray(product.images) && product.images.length > 0 
+                            ? product.images[0] 
+                            : (product.image || 'img/product-1.png');
+                        
+                        const oldPrice = product.old_price || product.oldPrice;
+                        const hasDiscount = oldPrice && oldPrice > product.price;
+                        
+                        return `
+                            <div class="marquee-item" onclick="window.location.href='shop.html'">
+                                <img src="${image}" alt="${product.name}" class="marquee-item-image" onerror="this.src='img/product-1.png'">
+                                <div class="marquee-item-content">
+                                    <span class="marquee-item-badge">✨ NEW</span>
+                                    <h6 class="marquee-item-name">${product.name}</h6>
+                                    <div class="marquee-item-price-wrapper">
+                                        <span class="marquee-item-price">KSh ${product.price.toLocaleString()}</span>
+                                        ${hasDiscount ? `<span class="marquee-item-old-price">KSh ${oldPrice.toLocaleString()}</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="marquee-item-icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    console.log('Setting marquee HTML, items count:', duplicatedProducts.length);
+                    marquee.innerHTML = marqueeHTML;
+                    console.log('Marquee loaded successfully!');
+                } catch (error) {
+                    console.error('Error loading marquee products:', error);
+                    const marquee = document.getElementById('productMarquee');
+                    if (marquee) {
+                        marquee.innerHTML = '<div class="marquee-item"><p style="color: white; padding: 20px;">⚠️ Error loading products</p></div>';
+                    }
+                }
+            }
+            
+            // Load marquee when DOM is ready AND after a small delay to ensure cart-manager.js is loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    console.log('DOM loaded, waiting for scripts...');
+                    setTimeout(loadProductMarquee, 100);
+                });
+            } else {
+                console.log('DOM already loaded, loading marquee immediately...');
+                setTimeout(loadProductMarquee, 100);
+            }
+
+            // WhatsApp Chat Functionality
+            // WHATSAPP_NUMBER is already defined in cart-manager.js
+            let selectedCategory = '';
+            let chatMessages = [];
+
+            window.toggleWhatsAppChat = function() {
+                const chatWindow = document.getElementById('whatsappChatWindow');
+                const notification = document.querySelector('.whatsapp-notification');
+                
+                if (chatWindow.classList.contains('active')) {
+                    chatWindow.classList.remove('active');
+                } else {
+                    chatWindow.classList.add('active');
+                    // Remove notification badge when opened
+                    if (notification) {
+                        notification.style.display = 'none';
+                    }
+                }
+            }
+
+            window.selectQuestion = function(category) {
+                selectedCategory = category;
+                const chatBody = document.getElementById('whatsappChatBody');
+                
+                // Category-specific responses
+                const responses = {
+                    laptop: {
+                        icon: '💻',
+                        title: 'Great choice! Looking for a laptop.',
+                        questions: [
+                            { question: 'What\'s your budget range?', options: ['Under KSh 50,000', 'KSh 50,000 - 100,000', 'Above KSh 100,000'] },
+                            { question: 'What will you use it for?', options: ['Gaming', 'Work/Business', 'School/Study', 'General Use'] },
+                            { question: 'Preferred brand?', options: ['HP', 'Dell', 'Lenovo', 'Apple MacBook', 'Any Brand'] }
+                        ]
+                    },
+                    phone: {
+                        icon: '📱',
+                        title: 'Perfect! Let\'s find you a phone.',
+                        questions: [
+                            { question: 'What\'s your budget?', options: ['Under KSh 20,000', 'KSh 20,000 - 50,000', 'Above KSh 50,000'] },
+                            { question: 'Preferred brand?', options: ['Samsung', 'iPhone', 'Xiaomi', 'Tecno/Infinix', 'Any Brand'] },
+                            { question: 'Main use?', options: ['Photography', 'Gaming', 'Business', 'General Use'] }
+                        ]
+                    },
+                    accessory: {
+                        icon: '🎧',
+                        title: 'Looking for accessories!',
+                        questions: [
+                            { question: 'What accessory do you need?', options: ['Headphones/Earbuds', 'Charger/Cable', 'Case/Cover', 'Mouse/Keyboard', 'Other'] },
+                            { question: 'For which device?', options: ['Phone', 'Laptop', 'Tablet', 'General'] }
+                        ]
+                    },
+                    other: {
+                        icon: '🛒',
+                        title: 'How can we assist you?',
+                        questions: [
+                            { question: 'What are you interested in?', options: ['Price Inquiry', 'Product Availability', 'Warranty Info', 'Delivery', 'General Question'] }
+                        ]
+                    }
+                };
+
+                const response = responses[category];
+                chatMessages = [category];
+
+                // Add user selection message
+                const userMessage = `
+                    <div class="whatsapp-message" style="align-self: flex-end; max-width: 75%;">
+                        <div class="whatsapp-message-bubble" style="background: #dcf8c6;">
+                            <p>${response.icon} ${response.title.replace('Great choice! ', '').replace('Perfect! ', '').replace('Looking for ', '').replace('!', '').replace('How can we assist you?', 'I need help')}</p>
+                        </div>
+                        <div class="whatsapp-message-time">Just now</div>
+                    </div>
+                `;
+
+                chatBody.insertAdjacentHTML('beforeend', userMessage);
+
+                // Add first question
+                setTimeout(() => {
+                    const firstQuestion = response.questions[0];
+                    addDealerQuestion(firstQuestion, 0, response);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 500);
+            }
+
+            window.addDealerQuestion = function(questionData, index, categoryData) {
+                const chatBody = document.getElementById('whatsappChatBody');
+                
+                const questionHTML = `
+                    <div class="whatsapp-message dealer">
+                        <div class="whatsapp-message-bubble">
+                            <p>${questionData.question}</p>
+                            <div class="whatsapp-questionnaire">
+                                ${questionData.options.map((option, i) => `
+                                    <button class="whatsapp-question-btn" onclick="answerQuestion('${option}', ${index}, '${selectedCategory}')">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>${option}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="whatsapp-message-time">Just now</div>
+                    </div>
+                `;
+
+                chatBody.insertAdjacentHTML('beforeend', questionHTML);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            window.answerQuestion = function(answer, questionIndex, category) {
+                const chatBody = document.getElementById('whatsappChatBody');
+                chatMessages.push(answer);
+
+                // Add user answer
+                const userAnswer = `
+                    <div class="whatsapp-message" style="align-self: flex-end; max-width: 75%;">
+                        <div class="whatsapp-message-bubble" style="background: #dcf8c6;">
+                            <p>${answer}</p>
+                        </div>
+                        <div class="whatsapp-message-time">Just now</div>
+                    </div>
+                `;
+
+                chatBody.insertAdjacentHTML('beforeend', userAnswer);
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                const responses = {
+                    laptop: [
+                        { question: 'What will you use it for?', options: ['Gaming', 'Work/Business', 'School/Study', 'General Use'] },
+                        { question: 'Preferred brand?', options: ['HP', 'Dell', 'Lenovo', 'Apple MacBook', 'Any Brand'] }
+                    ],
+                    phone: [
+                        { question: 'Preferred brand?', options: ['Samsung', 'iPhone', 'Xiaomi', 'Tecno/Infinix', 'Any Brand'] },
+                        { question: 'Main use?', options: ['Photography', 'Gaming', 'Business', 'General Use'] }
+                    ],
+                    accessory: [
+                        { question: 'For which device?', options: ['Phone', 'Laptop', 'Tablet', 'General'] }
+                    ],
+                    other: []
+                };
+
+                const categoryQuestions = responses[category];
+                
+                if (questionIndex < categoryQuestions.length) {
+                    setTimeout(() => {
+                        addDealerQuestion(categoryQuestions[questionIndex], questionIndex + 1, null);
+                    }, 600);
+                } else {
+                    // All questions answered, show final message
+                    setTimeout(() => {
+                        const finalMessage = `
+                            <div class="whatsapp-message dealer">
+                                <div class="whatsapp-message-bubble">
+                                    <p>✅ Perfect! I have all the information.</p>
+                                    <p class="mt-2">Click below to continue on WhatsApp and we'll find the best options for you!</p>
+                                </div>
+                                <div class="whatsapp-message-time">Just now</div>
+                            </div>
+                        `;
+                        chatBody.insertAdjacentHTML('beforeend', finalMessage);
+                        chatBody.scrollTop = chatBody.scrollHeight;
+                    }, 600);
+                }
+            }
+
+            window.openWhatsApp = function() {
+                let message = "Hello Awesome Tech! 👋\n\n";
+                
+                if (chatMessages.length > 0) {
+                    message += "I'm interested in:\n";
+                    chatMessages.forEach((msg, index) => {
+                        message += `${index + 1}. ${msg}\n`;
+                    });
+                    message += "\nCan you help me find the best options?";
+                } else {
+                    message += "I'm interested in your products. Can you help me?";
+                }
+
+                const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappURL, '_blank');
+            }
+
+            // Close chat when clicking outside
+            document.addEventListener('click', function(e) {
+                const chatWindow = document.getElementById('whatsappChatWindow');
+                const whatsappFloat = document.querySelector('.whatsapp-float');
+                
+                if (chatWindow && chatWindow.classList.contains('active') && 
+                    !chatWindow.contains(e.target) && 
+                    !whatsappFloat.contains(e.target)) {
+                    chatWindow.classList.remove('active');
+                }
+            });
+        </script>
+        <script src="js/load-products.js"></script>
+</body>
+
+</html>

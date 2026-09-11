@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Debug Tool</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Login Debug Tool</h1>
+        <p>This tool helps diagnose login issues by showing detailed information about the login process.</p>
+        
+        <div class="form-group">
+            <label for="identifier">Email or Username:</label>
+            <input type="text" id="identifier" placeholder="Enter your email or username">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        
+        <button onclick="debugLogin()">Debug Login</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Detect API URL based on current environment
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? `http://${window.location.hostname}:${window.location.port}/api`
+            : '/api';
+
+        async function debugLogin() {
+            const identifier = document.getElementById('identifier').value.trim();
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!identifier || !password) {
+                resultDiv.className = 'error';
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<strong>Error:</strong> Please enter both email/username and password';
+                return;
+            }
+
+            try {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'info';
+                resultDiv.innerHTML = '<strong>Testing...</strong> Please wait...';
+
+                const response = await fetch(`${API_URL}/auth/debug-login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: identifier,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                resultDiv.className = data.userFound ? 'info' : 'error';
+                
+                let html = '<h3>Debug Results:</h3>';
+                
+                if (!data.userFound) {
+                    html += '<p><strong>❌ User Not Found</strong></p>';
+                    html += `<p>Searched for: <code>${data.searchedFor}</code></p>`;
+                    html += '<p>Please check that:</p>';
+                    html += '<ul>';
+                    html += '<li>The email/username is correct</li>';
+                    html += '<li>The user exists in the MySQL database</li>';
+                    html += '<li>The username field is populated (not just name)</li>';
+                    html += '</ul>';
+                } else {
+                    html += '<p><strong>✅ User Found</strong></p>';
+                    html += `<p>User ID: <code>${data.userId}</code></p>`;
+                    html += `<p>Email: <code>${data.userEmail}</code></p>`;
+                    html += `<p>Username: <code>${data.userName || 'Not set'}</code></p>`;
+                    html += `<p>Role: <code>${data.userRole}</code></p>`;
+                    html += '<hr>';
+                    html += '<h4>Password Check:</h4>';
+                    html += `<p>Stored password length: ${data.passwordInfo.storedPasswordLength}</p>`;
+                    html += `<p>Is bcrypt format: ${data.passwordInfo.isBcryptFormat ? '✅ Yes' : '❌ No'}</p>`;
+                    
+                    if (!data.passwordInfo.isBcryptFormat) {
+                        html += '<p style="color: red;"><strong>⚠️ WARNING:</strong> Password is not in bcrypt format! It needs to be re-hashed.</p>';
+                    }
+                    
+                    if (data.passwordError) {
+                        html += `<p style="color: red;">Password comparison error: ${data.passwordError}</p>`;
+                    } else {
+                        html += `<p>Password valid: ${data.passwordValid ? '✅ Correct' : '❌ Incorrect'}</p>`;
+                    }
+                }
+                
+                html += '<hr>';
+                html += '<h4>Environment Variables:</h4>';
+                html += `<p>JWT_SECRET: ${data.envCheck.hasJwtSecret ? '✅ Set' : '❌ Missing'}</p>`;
+                html += `<p>DB_NAME: ${data.envCheck?.dbName || 'denla'}</p>`;
+                html += `<p>DB_HOST: ${data.envCheck?.dbHost || 'localhost'}</p>`;
+                
+                html += '<hr>';
+                html += '<h4>Full Response:</h4>';
+                html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                
+                resultDiv.innerHTML = html;
+
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}<br><br>Make sure the server is running.`;
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                debugLogin();
+            }
+        });
+    </script>
+</body>
+</html>

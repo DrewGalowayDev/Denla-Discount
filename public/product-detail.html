@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Product Details - Awesome Technologies</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="product details, electronics, specifications" name="keywords">
+    <meta content="View product details at Awesome Technologies" name="description">
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid px-5 border-bottom">
+        <div class="row gx-0 align-items-center py-2">
+            <div class="col-lg-4 text-center text-lg-start mb-2 mb-lg-0 d-none d-lg-block">
+                <div class="d-flex flex-wrap">
+                    <a href="#" class="text-muted me-4"><i class="fas fa-question-circle me-2"></i>Help</a>
+                    <a href="#" class="text-muted me-4"><i class="fas fa-headset me-2"></i>Support</a>
+                    <a href="contact.html" class="text-muted me-0"><i class="fas fa-phone-alt me-2"></i>Contact</a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mb-2 mb-lg-0 d-none d-lg-block">
+                <a href="index.html" class="text-decoration-none">
+                    <span class="h4 text-uppercase text-primary bg-dark px-2">Awesome</span>
+                    <span class="h4 text-uppercase text-dark bg-primary px-2 ml-n1">Technologies</span>
+                </a>
+            </div>
+            <div class="col-12 col-lg-4 text-center text-lg-end">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-end">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>KSh</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item">KSh - Kenyan Shilling</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>English</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item">English</a>
+                            <a href="#" class="dropdown-item">Kiswahili</a>
+                        </div>
+                    </div>
+                    <div class="dropdown" id="authDropdown">
+                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><i class="fas fa-user-cog me-2"></i>My Dashboard</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" id="loginDropdownItem" href="login.html"><i class="fas fa-sign-in-alt me-2"></i> Login</a></li>
+                            <li><a class="dropdown-item" id="signupDropdownItem" href="login.html?tab=signup"><i class="fas fa-user-plus me-2"></i> Sign Up</a></li>
+                            <li><a class="dropdown-item" id="dashboardDropdownItem" href="dashboard.html" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                            <li><hr class="dropdown-divider" id="authDivider"></li>
+                            <li><a class="dropdown-item text-danger" id="logoutDropdownItem" href="#" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Header Start -->
+    <div class="container-fluid px-5 py-4 d-none d-lg-block">
+        <div class="row gx-0 align-items-center">
+            <div class="col-lg-3">
+                <a href="index.html" class="text-decoration-none d-flex align-items-center">
+                    <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-laptop me-2"></i>AWESOME</h1>
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative w-100" style="max-width: 700px;">
+                    <input class="form-control w-100 py-3 ps-4 pe-5" type="text" id="productSearchInput" placeholder="Search for products...">
+                    <button type="button" class="btn btn-primary py-3 px-4 position-absolute top-0 end-0" id="searchBtn">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-end">
+                <a href="cart-new.html" class="btn btn-outline-primary btn-lg position-relative">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="headerCartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Navbar Start -->
+    <div class="container-fluid nav-bar p-0">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 px-5">
+            <a href="index.html" class="navbar-brand d-block d-lg-none">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-laptop me-2"></i>AWESOME</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-th-large me-2"></i>Categories
+                        </a>
+                        <div class="dropdown-menu" id="categoriesDropdown">
+                            <a href="shop-new.html" class="dropdown-item">All Products</a>
+                            <hr class="dropdown-divider">
+                            <!-- Dynamic categories loaded here -->
+                        </div>
+                    </div>
+                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="shop-new.html" class="nav-item nav-link">Shop</a>
+                    <a href="cart-new.html" class="nav-item nav-link">Cart</a>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                </div>
+                <div class="navbar-nav ml-auto d-none d-lg-flex">
+                    <a href="#" class="nav-item nav-link"><i class="fas fa-heart me-2"></i>Wishlist</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Mobile Search Bar Start -->
+    <div class="container-fluid d-lg-none bg-light py-3">
+        <div class="container">
+            <div class="position-relative">
+                <div class="d-flex border rounded-pill bg-white">
+                    <input class="form-control border-0 rounded-pill w-100 py-3 ps-4" type="text" id="mobileProductSearchInput" onkeyup="handleMobileProductSearch(event)" placeholder="Search for products...">
+                    <button type="button" class="btn btn-primary rounded-pill py-2 px-4" onclick="performMobileProductSearch()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="search-results-dropdown" id="mobileProductSearchDropdown"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Search Bar End -->
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+        <h1 class="text-center text-white display-6" id="pageTitle">Product Details</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="index.html" class="text-white">Home</a></li>
+            <li class="breadcrumb-item"><a href="shop-new.html" class="text-white">Shop</a></li>
+            <li class="breadcrumb-item active text-white-50" id="breadcrumbProductName">Product Details</li>
+        </ol>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Product Detail Section -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="row g-4">
+                <div class="col-lg-6">
+                    <div class="skeleton skeleton-image"></div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="skeleton skeleton-text" style="width: 100px;"></div>
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text" style="width: 60%;"></div>
+                    <div class="skeleton skeleton-price"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="product-not-found" style="display: none;">
+                <i class="fas fa-box-open"></i>
+                <h2>Product Not Found</h2>
+                <p>Sorry, the product you're looking for doesn't exist or has been removed.</p>
+                <a href="shop.html" class="btn btn-primary btn-lg"><i class="fas fa-shopping-bag me-2"></i>Browse Products</a>
+            </div>
+
+            <!-- Product Content (Hidden until loaded) -->
+            <div id="productContent" style="display: none;">
+                <div class="row g-4">
+                    <!-- Product Gallery -->
+                    <div class="col-lg-6">
+                        <div class="product-gallery">
+                            <div class="main-image" id="mainImage">
+                                <img src="img/product-1.png" alt="Product" id="mainImg" onerror="this.onerror=null; this.src='img/product-1.png';">
+                            </div>
+                            <div class="thumbnail-gallery" id="thumbnailGallery">
+                                <!-- Thumbnails generated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="col-lg-6">
+                        <div class="condition-badge" id="conditionBadge">
+                            <i class="fas fa-check-circle me-2"></i><span id="conditionText">Brand New</span>
+                        </div>
+
+                        <h1 class="product-title" id="productName">Loading...</h1>
+
+                        <div class="product-rating">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-muted">(4.5) Customer Reviews</span>
+                        </div>
+
+                        <div class="stock-status" id="stockStatus">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="stockText">Checking availability...</span>
+                        </div>
+
+                        <div class="price-section">
+                            <div class="d-flex align-items-center">
+                                <div class="current-price" id="currentPrice">KSh 0</div>
+                                <div class="old-price" id="oldPrice" style="display: none;">KSh 0</div>
+                            </div>
+                            <div class="discount-badge" id="discountBadge" style="display: none;"></div>
+                        </div>
+
+                        <!-- Brand & Info -->
+                        <div class="mb-4">
+                            <p class="mb-2"><strong>Brand:</strong> <span id="productBrand">-</span></p>
+                            <p class="mb-2"><strong>SKU:</strong> <span id="productSku">-</span></p>
+                            <p class="mb-0"><strong>Category:</strong> <span id="productCategory">-</span></p>
+                        </div>
+
+                        <!-- Description Preview -->
+                        <div class="mb-4" id="descriptionPreview">
+                            <p class="text-muted" id="shortDescription">-</p>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="quantity-selector">
+                            <strong>Quantity:</strong>
+                            <div class="quantity-input">
+                                <button class="quantity-btn" onclick="decreaseQuantity()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="quantity-value" id="quantity" value="1" min="1" readonly>
+                                <button class="quantity-btn" onclick="increaseQuantity()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-add-cart" onclick="addToCart()">
+                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn-whatsapp" onclick="chatWhatsApp()">
+                                <i class="fab fa-whatsapp fa-lg"></i>
+                                Chat on WhatsApp
+                            </button>
+                        </div>
+
+                        <!-- Additional Actions -->
+                        <div class="d-flex gap-3 mt-3">
+                            <button class="btn btn-outline-danger flex-fill" onclick="addToWishlist()">
+                                <i class="fas fa-heart me-2"></i>Add to Wishlist
+                            </button>
+                            <button class="btn btn-outline-secondary flex-fill" onclick="compareProduct()">
+                                <i class="fas fa-exchange-alt me-2"></i>Compare
+                            </button>
+                        </div>
+
+                        <!-- Quick Info -->
+                        <div class="mt-4 p-3 bg-light rounded">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <i class="fas fa-truck text-primary me-2"></i>
+                                    <small>Free Delivery</small>
+                                </div>
+                                <div class="col-6">
+                                    <i class="fas fa-undo text-primary me-2"></i>
+                                    <small>30-Day Returns</small>
+                                </div>
+                                <div class="col-6">
+                                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                                    <small>1 Year Warranty</small>
+                                </div>
+                                <div class="col-6">
+                                    <i class="fas fa-headset text-primary me-2"></i>
+                                    <small>24/7 Support</small>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!-- End Product Content row -->
+
+            <!-- Product Tabs -->
+            <div class="product-tabs mt-5">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#description">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#specifications">Specifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#reviews">Reviews (124)</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content bg-white p-4 border border-top-0 rounded-bottom">
+                    <!-- Description Tab -->
+                    <div id="description" class="tab-pane fade show active">
+                        <h4 class="mb-3">Product Description</h4>
+                        <p>Experience unparalleled performance with the HP Pavilion 15 Laptop. Designed for professionals and students alike, this laptop combines power, style, and portability in one sleek package.</p>
+                        
+                        <h5 class="mt-4 mb-3">Key Features:</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>15.6" Full HD IPS Display (1920 x 1080)</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Intel Core i7 11th Gen Processor</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>16GB DDR4 RAM for seamless multitasking</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>512GB NVMe SSD for lightning-fast storage</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>NVIDIA GeForce MX450 Graphics</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Backlit Keyboard for comfortable typing</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Up to 8 hours battery life</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Windows 11 Pro</li>
+                        </ul>
+
+                        <p class="mt-4">Whether you're working on complex projects, streaming your favorite shows, or gaming in your free time, the HP Pavilion 15 delivers exceptional performance every time.</p>
+                    </div>
+
+                    <!-- Specifications Tab -->
+                    <div id="specifications" class="tab-pane fade">
+                        <h4 class="mb-3">Technical Specifications</h4>
+                        <table class="specs-table">
+                            <tbody>
+                                <tr>
+                                    <td><i class="fas fa-microchip text-primary me-2"></i>Processor</td>
+                                    <td>Intel Core i7-1165G7 (11th Gen), 2.8GHz Base, 4.7GHz Turbo</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-memory text-primary me-2"></i>RAM</td>
+                                    <td>16GB DDR4 3200MHz (Upgradeable to 32GB)</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-hdd text-primary me-2"></i>Storage</td>
+                                    <td>512GB PCIe NVMe M.2 SSD</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-desktop text-primary me-2"></i>Display</td>
+                                    <td>15.6" FHD (1920 x 1080) IPS, Anti-glare, 250 nits</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-photo-video text-primary me-2"></i>Graphics</td>
+                                    <td>NVIDIA GeForce MX450 2GB GDDR6 + Intel Iris Xe</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fab fa-windows text-primary me-2"></i>Operating System</td>
+                                    <td>Windows 11 Pro (64-bit)</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-battery-full text-primary me-2"></i>Battery</td>
+                                    <td>3-cell, 41Wh Li-ion, Up to 8 hours</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-wifi text-primary me-2"></i>Connectivity</td>
+                                    <td>Wi-Fi 6 (802.11ax), Bluetooth 5.0</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-plug text-primary me-2"></i>Ports</td>
+                                    <td>2x USB 3.2 Gen 1, 1x USB Type-C, HDMI 2.0, Audio Jack, SD Card Reader</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-weight text-primary me-2"></i>Weight</td>
+                                    <td>1.75 kg (3.86 lbs)</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-ruler text-primary me-2"></i>Dimensions</td>
+                                    <td>358 x 242 x 18.9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-palette text-primary me-2"></i>Color</td>
+                                    <td>Natural Silver</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-shield-alt text-primary me-2"></i>Warranty</td>
+                                    <td>1 Year International Warranty</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div id="reviews" class="tab-pane fade">
+                        <h4 class="mb-4">Customer Reviews</h4>
+                        
+                        <!-- Review Summary -->
+                        <div class="row mb-4">
+                            <div class="col-md-4 text-center">
+                                <h2 class="display-4 fw-bold text-primary">4.5</h2>
+                                <div class="rating-stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p class="text-muted">Based on 124 reviews</p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="me-2">5 <i class="fas fa-star text-warning"></i></span>
+                                    <div class="progress flex-fill" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: 70%"></div>
+                                    </div>
+                                    <span class="ms-2 text-muted">87</span>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="me-2">4 <i class="fas fa-star text-warning"></i></span>
+                                    <div class="progress flex-fill" style="height: 8px;">
+                                        <div class="progress-bar bg-info" style="width: 20%"></div>
+                                    </div>
+                                    <span class="ms-2 text-muted">25</span>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="me-2">3 <i class="fas fa-star text-warning"></i></span>
+                                    <div class="progress flex-fill" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 6%"></div>
+                                    </div>
+                                    <span class="ms-2 text-muted">8</span>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="me-2">2 <i class="fas fa-star text-warning"></i></span>
+                                    <div class="progress flex-fill" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" style="width: 3%"></div>
+                                    </div>
+                                    <span class="ms-2 text-muted">3</span>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="me-2">1 <i class="fas fa-star text-warning"></i></span>
+                                    <div class="progress flex-fill" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" style="width: 1%"></div>
+                                    </div>
+                                    <span class="ms-2 text-muted">1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="border-top pt-4">
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>John K.</strong>
+                                        <div class="rating-stars small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted small">November 20, 2025</span>
+                                </div>
+                                <p class="mb-0">Excellent laptop! Fast performance, great build quality. Perfect for my work and entertainment needs.</p>
+                            </div>
+
+                            <div class="mb-4 border-top pt-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>Sarah M.</strong>
+                                        <div class="rating-stars small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted small">November 18, 2025</span>
+                                </div>
+                                <p class="mb-0">Good laptop for the price. Battery life could be better, but overall very satisfied with the purchase.</p>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button class="btn btn-outline-primary rounded-pill">Load More Reviews</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div class="mt-5" id="relatedProductsSection">
+                <h3 class="mb-4">Related Products</h3>
+                <div class="row g-4" id="relatedProductsGrid">
+                    <!-- Related product cards will be loaded here via JavaScript -->
+                </div>
+            </div>
+        </div>
+        <!-- End productContent -->
+    </div>
+</div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="js/auth-helper.js"></script>
+    <script src="js/cart-manager.js"></script>
+    <script src="js/my-account-handler.js"></script>
+
+    <script>
+        // Global product data
+        let currentProduct = null;
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+            : '/api';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+            loadProduct();
+            updateCartCount();
+            initSearch();
+        });
+
+        // Load categories for navbar
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/categories`);
+                const categories = await response.json();
+                
+                const dropdown = document.getElementById('categoriesDropdown');
+                const existingDivider = dropdown.querySelector('.dropdown-divider');
+                
+                categories.forEach(cat => {
+                    const item = document.createElement('a');
+                    item.className = 'dropdown-item';
+                    item.href = `shop-new.html?category=${cat.id}`;
+                    item.textContent = cat.name;
+                    dropdown.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('headerCartCount').textContent = count;
+        }
+
+        // Load product from API
+        async function loadProduct() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                showError();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/products/${productId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Product not found');
+                }
+
+                const product = await response.json();
+                currentProduct = product;
+                displayProduct(product);
+                loadRelatedProducts(product.category_id);
+
+            } catch (error) {
+                console.error('Error loading product:', error);
+                showError();
+            }
+        }
+
+        // Show error state
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('productContent').style.display = 'none';
+        }
+
+        // Display product data
+        function displayProduct(product) {
+            // Hide loading, show content
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('productContent').style.display = 'block';
+
+            // Update page title and breadcrumb
+            document.title = `${product.name} - Awesome Technologies`;
+            document.getElementById('breadcrumbProductName').textContent = product.name;
+
+            // Product name
+            document.getElementById('productName').textContent = product.name;
+
+            // Condition badge
+            const conditionBadge = document.getElementById('conditionBadge');
+            const conditionText = document.getElementById('conditionText');
+            const condition = (product.condition || 'new').toLowerCase();
+            
+            conditionBadge.className = 'condition-badge';
+            if (condition === 'new' || condition === 'brand new') {
+                conditionBadge.classList.add('condition-new');
+                conditionText.textContent = 'Brand New';
+            } else if (condition === 'refurbished') {
+                conditionBadge.classList.add('condition-refurbished');
+                conditionText.textContent = 'Refurbished';
+            } else {
+                conditionBadge.classList.add('condition-used');
+                conditionText.textContent = condition.charAt(0).toUpperCase() + condition.slice(1);
+            }
+
+            // Stock status
+            const stockStatus = document.getElementById('stockStatus');
+            const stockText = document.getElementById('stockText');
+            const stockQty = product.stock_quantity || 0;
+            
+            if (stockQty > 10) {
+                stockStatus.className = 'stock-status in-stock';
+                stockText.innerHTML = `<i class="fas fa-check-circle me-2"></i>In Stock (${stockQty} available) - Ships within 24 hours`;
+            } else if (stockQty > 0) {
+                stockStatus.className = 'stock-status low-stock';
+                stockText.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>Low Stock - Only ${stockQty} left!`;
+            } else {
+                stockStatus.className = 'stock-status out-of-stock';
+                stockText.innerHTML = `<i class="fas fa-times-circle me-2"></i>Out of Stock`;
+            }
+
+            // Set max quantity
+            document.getElementById('quantity').max = stockQty > 0 ? Math.min(stockQty, 10) : 0;
+
+            // Prices
+            const price = product.price || 0;
+            const oldPrice = product.old_price || null;
+            
+            document.getElementById('currentPrice').textContent = `KSh ${price.toLocaleString()}`;
+            
+            if (oldPrice && oldPrice > price) {
+                document.getElementById('oldPrice').textContent = `KSh ${oldPrice.toLocaleString()}`;
+                document.getElementById('oldPrice').style.display = 'block';
+                
+                const savings = oldPrice - price;
+                const discount = Math.round((savings / oldPrice) * 100);
+                document.getElementById('discountBadge').textContent = `Save KSh ${savings.toLocaleString()} (${discount}% OFF)`;
+                document.getElementById('discountBadge').style.display = 'inline-block';
+            }
+
+            // Brand, SKU, Category
+            document.getElementById('productBrand').textContent = product.brand || '-';
+            document.getElementById('productSku').textContent = product.sku || product.id.substring(0, 12).toUpperCase();
+            document.getElementById('productCategory').textContent = product.category?.name || '-';
+
+            // Short description
+            const desc = product.description || '';
+            const shortDesc = desc.length > 200 ? desc.substring(0, 200) + '...' : desc;
+            document.getElementById('shortDescription').textContent = shortDesc || 'No description available.';
+
+            // Image gallery
+            setupImageGallery(product.images);
+
+            // Update tabs
+            updateDescriptionTab(product);
+            updateSpecificationsTab(product);
+        }
+
+        // Setup image gallery
+        function setupImageGallery(images) {
+            const gallery = document.getElementById('thumbnailGallery');
+            const mainImg = document.getElementById('mainImg');
+            
+            gallery.innerHTML = '';
+            
+            // Ensure images is an array
+            let imageArray = [];
+            if (Array.isArray(images) && images.length > 0) {
+                imageArray = images;
+            } else if (typeof images === 'string') {
+                imageArray = [images];
+            } else {
+                imageArray = ['img/product-1.png'];
+            }
+
+            // Set main image
+            mainImg.src = imageArray[0];
+            mainImg.onerror = function() { 
+                this.onerror = null; 
+                this.src = 'img/product-1.png'; 
+            };
+
+            // Create thumbnails
+            imageArray.forEach((img, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                thumb.onclick = function() { changeImage(img, this); };
+                
+                const thumbImg = document.createElement('img');
+                thumbImg.src = img;
+                thumbImg.alt = `Thumbnail ${index + 1}`;
+                thumbImg.onerror = function() { 
+                    this.onerror = null; 
+                    this.src = 'img/product-1.png'; 
+                };
+                
+                thumb.appendChild(thumbImg);
+                gallery.appendChild(thumb);
+            });
+        }
+
+        // Update description tab
+        function updateDescriptionTab(product) {
+            const descTab = document.getElementById('description');
+            const description = product.description || 'No detailed description available for this product.';
+            
+            let featuresHtml = '';
+            if (product.specs) {
+                const specs = typeof product.specs === 'string' ? JSON.parse(product.specs) : product.specs;
+                const specKeys = Object.keys(specs);
+                if (specKeys.length > 0) {
+                    featuresHtml = `
+                        <h5 class="mt-4 mb-3">Key Features:</h5>
+                        <ul class="list-unstyled">
+                            ${specKeys.map(key => `
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>${key}: ${specs[key]}</li>
+                            `).join('')}
+                        </ul>
+                    `;
+                }
+            }
+
+            descTab.innerHTML = `
+                <h4 class="mb-3">Product Description</h4>
+                <div class="product-description">
+                    ${description.split('\n').map(p => `<p>${p}</p>`).join('')}
+                </div>
+                ${featuresHtml}
+            `;
+        }
+
+        // Update specifications tab
+        function updateSpecificationsTab(product) {
+            const specsTab = document.getElementById('specifications');
+            
+            let specs = {};
+            if (product.specs) {
+                specs = typeof product.specs === 'string' ? JSON.parse(product.specs) : product.specs;
+            }
+
+            // Add basic info
+            const allSpecs = {
+                'Brand': product.brand || '-',
+                'Condition': product.condition || 'New',
+                'SKU': product.sku || product.id.substring(0, 12).toUpperCase(),
+                ...specs
+            };
+
+            const getIcon = (key) => {
+                const icons = {
+                    'processor': 'fa-microchip',
+                    'cpu': 'fa-microchip',
+                    'ram': 'fa-memory',
+                    'memory': 'fa-memory',
+                    'storage': 'fa-hdd',
+                    'display': 'fa-desktop',
+                    'screen': 'fa-desktop',
+                    'graphics': 'fa-photo-video',
+                    'gpu': 'fa-photo-video',
+                    'battery': 'fa-battery-full',
+                    'os': 'fa-windows',
+                    'operating': 'fa-windows',
+                    'brand': 'fa-tag',
+                    'condition': 'fa-check-circle',
+                    'sku': 'fa-barcode',
+                    'weight': 'fa-weight',
+                    'color': 'fa-palette',
+                    'warranty': 'fa-shield-alt'
+                };
+                const lowerKey = key.toLowerCase();
+                for (const [match, icon] of Object.entries(icons)) {
+                    if (lowerKey.includes(match)) return icon;
+                }
+                return 'fa-info-circle';
+            };
+
+            specsTab.innerHTML = `
+                <h4 class="mb-3">Technical Specifications</h4>
+                <table class="specs-table">
+                    <tbody>
+                        ${Object.entries(allSpecs).map(([key, value]) => `
+                            <tr>
+                                <td><i class="fas ${getIcon(key)} text-primary me-2"></i>${key}</td>
+                                <td>${value}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Load related products
+        async function loadRelatedProducts(categoryId) {
+            if (!categoryId) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/products?category=${categoryId}&limit=10`);
+                const data = await response.json();
+                let products = data.products || data.data || data;
+
+                const container = document.getElementById('relatedProductsGrid');
+                if (!container) return;
+
+                // Filter out current product and remove duplicates
+                const seenNamePrice = new Set();
+                const related = products.filter(p => {
+                    if (p.id === currentProduct.id) return false;
+                    const nameKey = `${(p.name || '').toLowerCase().trim()}_${p.price}`;
+                    if (seenNamePrice.has(nameKey)) return false;
+                    seenNamePrice.add(nameKey);
+                    return true;
+                }).slice(0, 4);
+
+                if (related.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center text-muted">No related products found.</div>';
+                    return;
+                }
+
+                container.innerHTML = related.map(product => {
+                    const img = Array.isArray(product.images) && product.images.length > 0 
+                        ? product.images[0] 
+                        : 'img/product-1.png';
+                    
+                    return `
+                        <div class="col-lg-3 col-md-6">
+                            <div class="product-card h-100 border rounded overflow-hidden">
+                                <div class="position-relative" style="height: 200px;">
+                                    <img src="${img}" alt="${product.name}" 
+                                        class="w-100 h-100" style="object-fit: cover;"
+                                        onerror="this.onerror=null; this.src='img/product-1.png';">
+                                </div>
+                                <div class="p-3">
+                                    <h6 class="mb-2">${product.name}</h6>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-primary fw-bold">KSh ${(product.price || 0).toLocaleString()}</span>
+                                        <a href="product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-primary">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading related products:', error);
+            }
+        }
+
+        // Image Gallery Functions
+        function changeImage(imageSrc, thumbElement) {
+            document.getElementById('mainImg').src = imageSrc;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            if (thumbElement) {
+                thumbElement.classList.add('active');
+            }
+        }
+
+        // Quantity Functions
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+            const max = parseInt(input.max) || 10;
+            const current = parseInt(input.value);
+            if (current < max) {
+                input.value = current + 1;
+            }
+        }
+
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+            const min = parseInt(input.min) || 1;
+            const current = parseInt(input.value);
+            if (current > min) {
+                input.value = current - 1;
+            }
+        }
+
+        // Add to Cart
+        function addToCart() {
+            if (!currentProduct) {
+                showNotification('Product not loaded', 'error');
+                return;
+            }
+
+            const quantity = parseInt(document.getElementById('quantity').value);
+            
+            // Add to cart using cart manager with the product object
+            window.cartManager.addItem(currentProduct, quantity);
+        }
+
+        // WhatsApp Chat
+        function chatWhatsApp() {
+            if (!currentProduct) {
+                showNotification('Product not loaded', 'error');
+                return;
+            }
+
+            const whatsappNumber = '+254704546916';
+            
+            let message = `Hello! I'm interested in this product:\n\n`;
+            message += `📱 *${currentProduct.name}*\n`;
+            message += `🏷️ Brand: ${currentProduct.brand || 'N/A'}\n`;
+            message += `💰 Price: KSh ${(currentProduct.price || 0).toLocaleString()}\n`;
+            message += `📦 Condition: ${currentProduct.condition || 'New'}\n\n`;
+            message += `Could you please provide more information about:\n`;
+            message += `• Availability and stock status\n`;
+            message += `• Warranty details\n`;
+            message += `• Delivery options and timeline\n\n`;
+            message += `Product Link: ${window.location.href}\n\n`;
+            message += `Thank you!`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Add to Wishlist
+        function addToWishlist() {
+            if (!currentProduct) {
+                showNotification('Product not loaded', 'error');
+                return;
+            }
+            window.wishlistManager.addItem(currentProduct);
+        }
+
+        // Compare Product
+        function compareProduct() {
+            showNotification('Added to comparison list!', 'info');
+        }
+
+        // Notification Function
+        function showNotification(message, type) {
+            const colors = {
+                success: '#28a745',
+                info: '#17a2b8',
+                warning: '#ffc107',
+                error: '#dc3545'
+            };
+
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type]};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Search Functionality
+        function initSearch() {
+            const searchInput = document.getElementById('productSearchInput');
+            const searchDropdown = document.getElementById('searchResultsDropdown');
+            let searchTimeout;
+
+            if (!searchInput || !searchDropdown) return;
+
+            searchInput.addEventListener('keyup', function(e) {
+                clearTimeout(searchTimeout);
+                const query = this.value.trim();
+
+                if (query.length === 0) {
+                    searchDropdown.style.display = 'none';
+                    return;
+                }
+
+                if (e.key === 'Enter') {
+                    performProductSearch();
+                    return;
+                }
+
+                searchTimeout = setTimeout(() => {
+                    performProductSearch();
+                }, 300);
+            });
+
+            document.getElementById('searchBtn')?.addEventListener('click', performProductSearch);
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (searchDropdown && searchInput && !searchDropdown.contains(e.target) && e.target !== searchInput && e.target.id !== 'searchBtn') {
+                    searchDropdown.style.display = 'none';
+                }
+            });
+
+            // Mobile Search functionality for product-detail.html
+            let mobileProductSearchTimeout;
+
+            function handleMobileProductSearch(event) {
+                clearTimeout(mobileProductSearchTimeout);
+                const query = event.target.value.trim();
+
+                if (query.length === 0) {
+                    document.getElementById('mobileProductSearchDropdown').style.display = 'none';
+                    return;
+                }
+
+                if (event.key === 'Enter') {
+                    performMobileProductSearch();
+                    return;
+                }
+
+                mobileProductSearchTimeout = setTimeout(() => {
+                    performMobileProductSearch();
+                }, 300);
+            }
+
+            async function performMobileProductSearch() {
+                const query = document.getElementById('mobileProductSearchInput').value.trim();
+                const dropdown = document.getElementById('mobileProductSearchDropdown');
+
+                if (!query) {
+                    dropdown.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`http://localhost:5000/api/products?search=${encodeURIComponent(query)}&limit=10`);
+                    const data = await response.json();
+                    const products = Array.isArray(data.data) ? data.data : Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
+
+                    if (!products || products.length === 0) {
+                        dropdown.innerHTML = `
+                            <div class="search-no-results">
+                                <i class="fas fa-search"></i>
+                                <p>No products found for "${query}"</p>
+                            </div>
+                        `;
+                        dropdown.style.display = 'block';
+                        return;
+                    }
+
+                    let html = products.map(product => {
+                        let productImage = 'img/product-1.png';
+                        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                            productImage = product.images[0];
+                        } else if (product.image_url) {
+                            productImage = product.image_url;
+                        } else if (product.image) {
+                            productImage = product.image;
+                        }
+
+                        return `
+                        <div class="search-result-item" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                            <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${product.name}</div>
+                                <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
+                            </div>
+                            ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                        </div>
+                    `;
+                    }).join('');
+
+                    html += `<a href="shop.html?search=${encodeURIComponent(query)}" class="search-view-all">
+                        View All Results <i class="fas fa-arrow-right ms-2"></i>
+                    </a>`;
+
+                    dropdown.innerHTML = html;
+                    dropdown.style.display = 'block';
+                } catch (error) {
+                    console.error('Mobile product search error:', error);
+                    dropdown.innerHTML = `
+                        <div class="search-no-results">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error performing search. Please try again.</p>
+                        </div>
+                    `;
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            // Close mobile dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const mobileDropdown = document.getElementById('mobileProductSearchDropdown');
+                const mobileSearchInput = document.getElementById('mobileProductSearchInput');
+                if (mobileDropdown && mobileSearchInput && !mobileDropdown.contains(e.target) && e.target !== mobileSearchInput) {
+                    mobileDropdown.style.display = 'none';
+                }
+            });
+        }
+
+        async function performProductSearch() {
+            const query = document.getElementById('productSearchInput').value.trim();
+            const dropdown = document.getElementById('searchResultsDropdown');
+
+            if (!query) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/products?search=${encodeURIComponent(query)}&limit=10`);
+                const data = await response.json();
+                const products = data.products || data || [];
+
+                if (!products || products.length === 0) {
+                    dropdown.innerHTML = `
+                        <div class="search-no-results">
+                            <i class="fas fa-search"></i>
+                            <p>No products found for "${highlightMatch(query, query)}"</p>
+                        </div>
+                    `;
+                    dropdown.style.display = 'block';
+                    return;
+                }
+
+                let html = products.map(product => {
+                    let productImage = 'img/product-1.png';
+                    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                        productImage = product.images[0];
+                    } else if (product.image_url) {
+                        productImage = product.image_url;
+                    } else if (product.image) {
+                        productImage = product.image;
+                    }
+
+                    return `
+                        <div class="search-result-item" onclick="goToProduct(${product.id})">
+                            <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${highlightMatch(product.name, query)}</div>
+                                <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
+                            </div>
+                            ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                        </div>
+                    `;
+                }).join('');
+
+                dropdown.innerHTML = html;
+                dropdown.style.display = 'block';
+            } catch (error) {
+                console.error('Search error:', error);
+                dropdown.innerHTML = `
+                    <div class="search-no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error performing search. Please try again.</p>
+                    </div>
+                `;
+                dropdown.style.display = 'block';
+            }
+        }
+
+        function goToProduct(productId) {
+            window.location.href = `product-detail.html?id=${productId}`;
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+    </script>
+
+    
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Kisii Branch</h4>
+                            <p class="mb-2">Kisii Town, Kisii County, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Nairobi Branch</h4>
+                            <p class="mb-2">Nairobi CBD, Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fas fa-envelope fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Email Us</h4>
+                            <p class="mb-2">info@awesometech.co.ke</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="rounded p-4">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="fa fa-phone-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white">Call Us</h4>
+                            <p class="mb-2">+254 704 546 916</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <div class="footer-item">
+                            <h4 class="text-primary mb-4">Awesome Technologies</h4>
+                            <p class="mb-3">Your trusted partner for quality laptops, phones, accessories, and tech solutions in Kenya. We deliver excellence with every purchase.</p>
+                            <div class="position-relative mx-auto rounded-pill">
+                                <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
+                                    placeholder="Enter your email">
+                                <button type="button"
+                                    class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Customer Service</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Returns</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
+                        <a href="#" class="" id="myAccountLinkFooter"><i class="fas fa-angle-right me-2"></i> My Account</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe Notification</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Information</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Seller Login</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-primary mb-4">Extras</h4>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Wishlist</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-md-0">
+                    <span class="text-white"><a href="#" class="border-bottom text-white"><i
+                                class="fas fa-copyright text-light me-2"></i>Awesome Technologies</a>, All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end text-white">
+
+                    <!--/*** The author's attribution link must remain intact in the template. ***/-->
+                    <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/-->
+                    Designed & Developed By <i class="fas  text-danger"><a href="https://drewsky-ltd.vercel.app/"><i class="fas fa-code text-white">DrewSky Softwares LTD</i></a></i> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+</body>
+
+</html>

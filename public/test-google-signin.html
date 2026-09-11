@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Google Sign-In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="test-container">
+        <h2 class="mb-4">🔍 Google Sign-In Diagnostic Tool</h2>
+        
+        <div class="mb-3">
+            <h5>Status:</h5>
+            <div id="status" class="status info">Initializing...</div>
+        </div>
+        
+        <div class="mb-3">
+            <h5>Client ID:</h5>
+            <div class="status info">
+                <small>1083006227259-6l11q7a42k0ml1k17gkr7r14tqqfo2da.apps.googleusercontent.com</small>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <button id="testButton" class="btn btn-primary w-100" disabled>
+                <i class="fab fa-google me-2"></i>Test Google Sign-In
+            </button>
+        </div>
+        
+        <div class="mb-3">
+            <h5>Diagnostic Log:</h5>
+            <div id="log" class="log"></div>
+        </div>
+        
+        <div class="mt-3">
+            <button id="clearLog" class="btn btn-sm btn-secondary">Clear Log</button>
+            <button id="refreshPage" class="btn btn-sm btn-warning">Refresh Page</button>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        const GOOGLE_CLIENT_ID = '1083006227259-6l11q7a42k0ml1k17gkr7r14tqqfo2da.apps.googleusercontent.com';
+        let logEntries = [];
+        
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = `[${timestamp}] ${message}`;
+            logEntries.push(entry);
+            
+            const logDiv = document.getElementById('log');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = entry;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            
+            console.log(entry);
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+        }
+        
+        // Check if Google library is loaded
+        function checkGoogleLibrary() {
+            addLog('Checking if Google library is loaded...');
+            
+            if (typeof google === 'undefined') {
+                addLog('❌ Google library not found', 'error');
+                updateStatus('Google library not loaded', 'error');
+                return false;
+            }
+            
+            if (!google.accounts) {
+                addLog('❌ google.accounts not found', 'error');
+                updateStatus('Google accounts API not available', 'error');
+                return false;
+            }
+            
+            if (!google.accounts.id) {
+                addLog('❌ google.accounts.id not found', 'error');
+                updateStatus('Google accounts ID not available', 'error');
+                return false;
+            }
+            
+            addLog('✅ Google library loaded successfully', 'success');
+            return true;
+        }
+        
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            addLog('Initializing Google Sign-In...');
+            
+            try {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleSignIn,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                
+                addLog('✅ Google Sign-In initialized', 'success');
+                updateStatus('Ready to test!', 'success');
+                
+                // Enable test button
+                document.getElementById('testButton').disabled = false;
+                
+            } catch (error) {
+                addLog(`❌ Initialization error: ${error.message}`, 'error');
+                updateStatus('Initialization failed', 'error');
+            }
+        }
+        
+        // Handle Google Sign-In callback
+        function handleGoogleSignIn(response) {
+            addLog('📩 Google Sign-In callback received');
+            
+            try {
+                // Decode JWT token
+                const base64Url = response.credential.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                
+                const profile = JSON.parse(jsonPayload);
+                
+                addLog(`✅ User authenticated: ${profile.email}`, 'success');
+                addLog(`   Name: ${profile.name}`);
+                addLog(`   Picture: ${profile.picture}`);
+                addLog(`   Email verified: ${profile.email_verified}`);
+                
+                updateStatus(`✅ Success! Signed in as ${profile.email}`, 'success');
+                
+                // Test API call
+                testAPICall(response.credential, profile);
+                
+            } catch (error) {
+                addLog(`❌ Error processing response: ${error.message}`, 'error');
+                updateStatus('Error processing sign-in', 'error');
+            }
+        }
+        
+        // Test API call
+        async function testAPICall(googleToken, profile) {
+            addLog('🌐 Testing API call...');
+            
+            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:5000/api'
+                : '/api';
+                
+            addLog(`   API URL: ${API_URL}/auth/google`);
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/google`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        googleToken: googleToken,
+                        profile: profile
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addLog('✅ API call successful', 'success');
+                    addLog(`   User ID: ${data.user.id}`);
+                    addLog(`   Token received: ${data.token.substring(0, 20)}...`);
+                } else {
+                    addLog(`❌ API call failed: ${data.message}`, 'error');
+                }
+                
+            } catch (error) {
+                addLog(`❌ API call error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Test button click handler
+        document.getElementById('testButton').addEventListener('click', function() {
+            addLog('🖱️ Test button clicked');
+            
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                addLog('Showing Google Sign-In prompt...');
+                google.accounts.id.prompt();
+            } else {
+                addLog('❌ Google library not available', 'error');
+                updateStatus('Google library not loaded', 'error');
+            }
+        });
+        
+        // Clear log button
+        document.getElementById('clearLog').addEventListener('click', function() {
+            document.getElementById('log').innerHTML = '';
+            logEntries = [];
+            addLog('Log cleared');
+        });
+        
+        // Refresh page button
+        document.getElementById('refreshPage').addEventListener('click', function() {
+            window.location.reload();
+        });
+        
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            addLog('🚀 Page loaded');
+            addLog('Waiting 2 seconds for Google library...');
+            
+            updateStatus('Loading Google library...', 'info');
+            
+            setTimeout(function() {
+                if (checkGoogleLibrary()) {
+                    initializeGoogleSignIn();
+                } else {
+                    addLog('⏳ Retrying in 2 seconds...');
+                    setTimeout(function() {
+                        if (checkGoogleLibrary()) {
+                            initializeGoogleSignIn();
+                        } else {
+                            updateStatus('Failed to load Google library', 'error');
+                            addLog('❌ Failed to load Google library after retries', 'error');
+                            addLog('💡 Check your internet connection');
+                            addLog('💡 Check browser console for CORS errors');
+                        }
+                    }, 2000);
+                }
+            }, 2000);
+        });
+        
+        // Log browser info
+        addLog(`Browser: ${navigator.userAgent}`);
+        addLog(`URL: ${window.location.href}`);
+    </script>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qonnect Billing - Documentation</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">⚡ Qonnect Billing</div>
+        <nav class="header-nav">
+            <a href="#overview">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#api">API</a>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Getting Started</div>
+            <a href="#overview" class="sidebar-link">Overview</a>
+            <a href="#how-it-works" class="sidebar-link">How It Works</a>
+            <a href="#key-benefits" class="sidebar-link">Key Benefits</a>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Features</div>
+            <a href="#features" class="sidebar-link">Core Features</a>
+            <a href="#mpesa-integration" class="sidebar-link">M-Pesa Integration</a>
+            <a href="#mikrotik-setup" class="sidebar-link">MikroTik Setup</a>
+            <a href="#customer-management" class="sidebar-link">Customer Management</a>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Setup Guide</div>
+            <a href="#quick-start" class="sidebar-link">Quick Start</a>
+            <a href="#account-setup" class="sidebar-link">Account Setup</a>
+            <a href="#configuration" class="sidebar-link">Configuration</a>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Pricing</div>
+            <a href="#pricing" class="sidebar-link">Plans & Pricing</a>
+            <a href="#payment-terms" class="sidebar-link">Payment Terms</a>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Technical</div>
+            <a href="#api" class="sidebar-link">API Documentation</a>
+            <a href="#security" class="sidebar-link">Security</a>
+            <a href="#support" class="sidebar-link">Support</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Qonnect Billing</h1>
+            <p class="hero-subtitle">The complete WiFi billing and management platform designed for Kenyan ISPs. Automated M-Pesa payments, MikroTik integration, and seamless customer management—all in one place.</p>
+            <a href="#quick-start" class="cta-button">Get Started Now →</a>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overview" class="content-section">
+            <div class="section-card">
+                <h2>Overview</h2>
+                <p>Qonnect Billing is a revolutionary SaaS platform built specifically for WiFi service providers in Kenya. We understand the unique challenges of running an ISP business—from collecting payments via M-Pesa to managing MikroTik routers and tracking customer subscriptions.</p>
+                
+                <p>With Qonnect Billing, you get a fully automated system that handles everything from customer sign-ups to payment processing, bandwidth management, and detailed analytics. Focus on growing your business while we handle the technical complexity.</p>
+
+                <div class="highlight-box">
+                    <strong>🎯 Built for Kenya:</strong> Native M-Pesa integration, local support, and pricing designed for the East African market.
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="content-section">
+            <div class="section-card">
+                <h2>How It Works</h2>
+                <p>Setting up your WiFi business with Qonnect Billing is incredibly simple. Here's the complete workflow:</p>
+
+                <ol class="step-list">
+                    <li><strong>Create Your Account</strong> - Sign up in minutes with just your email and business details. No credit card required to start.</li>
+                    
+                    <li><strong>Choose Your Package</strong> - Select a subscription plan that matches your customer base size and feature requirements.</li>
+                    
+                    <li><strong>Configure M-Pesa</strong> - Add your M-Pesa Paybill or Till number. All customer payments go directly to YOUR account—we never touch your money.</li>
+                    
+                    <li><strong>Connect MikroTik</strong> - Auto-configure your MikroTik router with our simple setup wizard. Supports Hotspot, PPPoE, and static IP configurations.</li>
+                    
+                    <li><strong>Set Up Plans</strong> - Create your WiFi packages (daily, weekly, monthly) with custom pricing and bandwidth limits.</li>
+                    
+                    <li><strong>Go Live</strong> - Share your customer portal link. Customers can purchase packages, and everything is automated from there!</li>
+                </ol>
+
+                <div class="highlight-box">
+                    <strong>⚡ Launch Time:</strong> Most ISPs go live within 30 minutes of signing up.
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Benefits Section -->
+        <section id="key-benefits" class="content-section">
+            <div class="section-card">
+                <h2>Key Benefits</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">💰</span>
+                        <h3>Direct Payments</h3>
+                        <p>Money flows straight to your M-Pesa account. We never hold or process your revenue.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">⚙️</span>
+                        <h3>Full Automation</h3>
+                        <p>From payment verification to bandwidth activation—everything happens automatically.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">📱</span>
+                        <h3>Mobile First</h3>
+                        <p>Manage your entire business from your phone. Customer portal optimized for mobile.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">🔧</span>
+                        <h3>Zero Technical Hassle</h3>
+                        <p>No coding required. Our platform handles all the technical complexity.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <h3>Real-Time Analytics</h3>
+                        <p>Track revenue, active users, popular packages, and more with live dashboards.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">🛡️</span>
+                        <h3>Secure & Reliable</h3>
+                        <p>Enterprise-grade security with 99.9% uptime guarantee.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="content-section">
+            <div class="section-card">
+                <h2>Core Features</h2>
+                
+                <h3>🎯 Customer Management</h3>
+                <p>Complete customer lifecycle management with automated onboarding, renewal reminders via SMS, detailed usage analytics per customer, and customer grouping and segmentation tools.</p>
+
+                <h3>💳 Payment Processing</h3>
+                <p>Real-time M-Pesa payment verification, automatic payment reconciliation, support for multiple paybills (for multi-location businesses), refund management, and detailed payment reports.</p>
+
+                <h3>🌐 Network Management</h3>
+                <p>Automatic bandwidth allocation and throttling, real-time user session monitoring, hotspot voucher generation, PPPoE account creation, and network usage statistics.</p>
+
+                <h3>📈 Business Intelligence</h3>
+                <p>Revenue tracking and forecasting, customer churn analysis, package performance metrics, peak usage time identification, and exportable reports (PDF, Excel).</p>
+
+                <h3>🔔 Notifications</h3>
+                <p>Automated SMS for expiry warnings, payment confirmations, and system alerts. Email notifications for important events and custom notification templates.</p>
+            </div>
+        </section>
+
+        <!-- M-Pesa Integration Section -->
+        <section id="mpesa-integration" class="content-section">
+            <div class="section-card">
+                <h2>M-Pesa Integration</h2>
+                <p>Our M-Pesa integration is the heart of Qonnect Billing. Here's what makes it special:</p>
+
+                <h3>How Payment Flow Works</h3>
+                <ol class="step-list">
+                    <li>Customer selects a WiFi package on your branded portal</li>
+                    <li>They receive M-Pesa STK push or use your paybill number</li>
+                    <li>Payment goes directly to YOUR M-Pesa business account</li>
+                    <li>Our system receives instant callback notification</li>
+                    <li>Customer account is activated within 5 seconds</li>
+                    <li>MikroTik router automatically grants network access</li>
+                </ol>
+
+                <h3>Setup Requirements</h3>
+                <p>You'll need:</p>
+                <div class="info-box">
+                    <p style="margin: 0;"><strong>✓</strong> M-Pesa Paybill or Till Number (we help you get one if needed)</p>
+                    <p style="margin: 10px 0 0 0;"><strong>✓</strong> Safaricom API credentials (generated through Daraja Portal)</p>
+                    <p style="margin: 10px 0 0 0;"><strong>✓</strong> Your business registration details</p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🔐 Security Note:</strong> Your M-Pesa credentials are encrypted and stored securely. We use bank-level security standards.
+                </div>
+            </div>
+        </section>
+
+        <!-- MikroTik Setup Section -->
+        <section id="mikrotik-setup" class="content-section">
+            <div class="section-card">
+                <h2>MikroTik Setup</h2>
+                <p>Qonnect Billing works seamlessly with MikroTik routers using the RouterOS API. We support all major configurations:</p>
+
+                <h3>Supported Configurations</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🌐</span>
+                        <h3>Hotspot Mode</h3>
+                        <p>Perfect for cafes, hotels, and public WiFi. Users see a captive portal before access.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">🔌</span>
+                        <h3>PPPoE Mode</h3>
+                        <p>Ideal for home internet services. Customers connect with username and password.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">📡</span>
+                        <h3>Static IP Mode</h3>
+                        <p>For business clients needing dedicated connections and fixed IP addresses.</p>
+                    </div>
+                </div>
+
+                <h3>Auto-Configuration Process</h3>
+                <div class="code-block">
+# You provide these details in our dashboard:
+- Router IP Address: 192.168.88.1
+- API Port: 8728 (default)
+- Admin Username
+- Admin Password
+
+# Our system automatically:
+✓ Tests connection to your router
+✓ Creates customer profiles
+✓ Sets up bandwidth queues
+✓ Configures user manager
+✓ Enables API access
+                </div>
+
+                <p>No manual RouterOS scripting needed! Our system handles all the technical configuration.</p>
+            </div>
+        </section>
+
+        <!-- Customer Management Section -->
+        <section id="customer-management" class="content-section">
+            <div class="section-card">
+                <h2>Customer Management</h2>
+                <p>Your customers get a beautiful self-service portal where they can:</p>
+
+                <h3>Customer Portal Features</h3>
+                <div class="info-box">
+                    <p><strong>📱</strong> Register and create accounts</p>
+                    <p><strong>💳</strong> Purchase WiFi packages via M-Pesa</p>
+                    <p><strong>📊</strong> View data usage and remaining time</p>
+                    <p><strong>🔄</strong> Auto-renew subscriptions</p>
+                    <p><strong>🧾</strong> Download invoices and receipts</p>
+                    <p><strong>🎫</strong> Manage multiple devices</p>
+                    <p style="margin-bottom: 0;"><strong>📞</strong> Contact support directly</p>
+                </div>
+
+                <h3>Admin Dashboard</h3>
+                <p>As the ISP owner, you get powerful tools to:</p>
+                <div class="info-box">
+                    <p><strong>👥</strong> View all customers at a glance</p>
+                    <p><strong>🔍</strong> Search and filter by status, package, location</p>
+                    <p><strong>⚡</strong> Manually activate/deactivate users</p>
+                    <p><strong>💰</strong> Issue refunds or credits</p>
+                    <p><strong>📨</strong> Send bulk SMS notifications</p>
+                    <p><strong>📈</strong> Generate detailed reports</p>
+                    <p style="margin-bottom: 0;"><strong>⚙️</strong> Create custom packages on the fly</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section id="quick-start" class="content-section">
+            <div class="section-card">
+                <h2>Quick Start Guide</h2>
+                <p>Get your WiFi business online in under 30 minutes:</p>
+
+                <h3>Step 1: Create Account</h3>
+                <p>Visit app.qonnectbilling.co.ke and click "Start Free Trial". Provide:</p>
+                <div class="info-box">
+                    <p>• Business name</p>
+                    <p>• Email address</p>
+                    <p>• Phone number</p>
+                    <p style="margin-bottom: 0;">• Location (county/town)</p>
+                </div>
+
+                <h3>Step 2: Choose Package</h3>
+                <p>Select a plan based on your expected customer count. You can upgrade anytime as you grow.</p>
+
+                <h3>Step 3: Configure M-Pesa</h3>
+                <div class="code-block">
+Required Information:
+- Paybill/Till Number: 123456
+- Passkey: (from Safaricom Daraja)
+- Consumer Key: xxxxxxxxxxx
+- Consumer Secret: xxxxxxxxxxx
+
+We'll guide you through getting these if you don't have them yet!
+                </div>
+
+                <h3>Step 4: Connect MikroTik</h3>
+                <p>Enter your router details and test the connection. Our wizard validates everything automatically.</p>
+
+                <h3>Step 5: Create WiFi Packages</h3>
+                <p>Example packages you might create:</p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h3>Daily Pass</h3>
+                        <p><strong>KSh 50</strong><br>1GB data<br>24 hours<br>5 Mbps speed</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Weekly Pass</h3>
+                        <p><strong>KSh 300</strong><br>10GB data<br>7 days<br>10 Mbps speed</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Monthly Pass</h3>
+                        <p><strong>KSh 1,000</strong><br>Unlimited data<br>30 days<br>20 Mbps speed</p>
+                    </div>
+                </div>
+
+                <h3>Step 6: Go Live! 🚀</h3>
+                <p>Share your customer portal link and start accepting payments. Everything else is automated!</p>
+            </div>
+        </section>
+
+        <!-- Account Setup Section -->
+        <section id="account-setup" class="content-section">
+            <div class="section-card">
+                <h2>Account Setup</h2>
+                <p>Once you've created your account, here's how to configure everything:</p>
+
+                <h3>Business Profile</h3>
+                <p>Complete your business profile with accurate information. This appears on customer invoices and receipts:</p>
+                <div class="info-box">
+                    <p><strong>•</strong> Business name and trading name</p>
+                    <p><strong>•</strong> Physical address and location</p>
+                    <p><strong>•</strong> Contact phone and email</p>
+                    <p><strong>•</strong> Business registration number (optional)</p>
+                    <p style="margin-bottom: 0;"><strong>•</strong> Logo upload (appears on customer portal)</p>
+                </div>
+
+                <h3>Branding Customization</h3>
+                <p>Make the customer portal yours:</p>
+                <div class="info-box">
+                    <p><strong>•</strong> Upload your company logo</p>
+                    <p><strong>•</strong> Choose brand colors (primary and secondary)</p>
+                    <p><strong>•</strong> Customize welcome message</p>
+                    <p><strong>•</strong> Add custom footer text</p>
+                    <p style="margin-bottom: 0;"><strong>•</strong> Set custom domain (e.g., wifi.yourbusiness.com)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration Section -->
+        <section id="configuration" class="content-section">
+            <div class="section-card">
+                <h2>Configuration</h2>
+                
+                <h3>Network Settings</h3>
+                <p>Configure how your network operates:</p>
+                <div class="info-box">
+                    <p><strong>•</strong> Default bandwidth limits (upload/download)</p>
+                    <p><strong>•</strong> Session timeout rules</p>
+                    <p><strong>•</strong> Concurrent device limits per user</p>
+                    <p><strong>•</strong> Grace period after expiry (e.g., 24 hours)</p>
+                    <p style="margin-bottom: 0;"><strong>•</strong> Fair usage policy thresholds</p>
+                </div>
+
+                <h3>Notification Settings</h3>
+                <p>Control when and how customers are notified:</p>
+                <div class="info-box">
+                    <p><strong>•</strong> Expiry warnings (3 days, 1 day, 1 hour before)</p>
+                    <p><strong>•</strong> Payment confirmation messages</p>
+                    <p><strong>•</strong> Welcome messages for new customers</p>
+                    <p><strong>•</strong> Promotional SMS campaigns</p>
+                    <p style="margin-bottom: 0;"><strong>•</strong> Custom SMS templates</p>
+                </div>
+
+                <h3>Payment Settings</h3>
+                <div class="highlight-box">
+                    <strong>Important:</strong> Configure your M-Pesa details carefully. Test with small amounts before going live.
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="content-section">
+            <div class="section-card">
+                <h2>Plans & Pricing</h2>
+                <p>Simple, transparent pricing with no hidden fees. Pay monthly, cancel anytime.</p>
+
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Starter</h3>
+                        <div class="price">KSh 2,999</div>
+                        <p style="color: #112240; margin-bottom: 20px;">per month</p>
+                        <ul>
+                            <li>✓ Up to 100 customers</li>
+                            <li>✓ 1 MikroTik router</li>
+                            <li>✓ M-Pesa integration</li>
+                            <li>✓ Customer portal</li>
+                            <li>✓ Basic analytics</li>
+                            <li>✓ SMS notifications (500/month)</li>
+                            <li>✓ Email support</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <h3>Professional</h3>
+                        <div class="price">KSh 5,999</div>
+                        <p style="color: #112240; margin-bottom: 20px;">per month</p>
+                        <ul>
+                            <li>✓ Up to 500 customers</li>
+                            <li>✓ 3 MikroTik routers</li>
+                            <li>✓ Advanced M-Pesa features</li>
+                            <li>✓ White-label portal</li>
+                            <li>✓ Advanced analytics</li>
+                            <li>✓ SMS notifications (2,000/month)</li>
+                            <li>✓ Custom domain support</li>
+                            <li>✓ Priority support</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Enterprise</h3>
+                        <div class="price">KSh 12,999</div>
+                        <p style="color: #112240; margin-bottom: 20px;">per month</p>
+                        <ul>
+                            <li>✓ Unlimited customers</li>
+                            <li>✓ Unlimited routers</li>
+                            <li>✓ Multi-location support</li>
+                            <li>✓ API access</li>
+                            <li>✓ Premium analytics & reports</li>
+                            <li>✓ Unlimited SMS</li>
+                            <li>✓ Dedicated account manager</li>
+                            <li>✓ 24/7 phone support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎉 Special Launch Offer:</strong> Get 2 months free when you pay annually! Use code LAUNCH2024
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Terms Section -->
+        <section id="payment-terms" class="content-section">
+            <div class="section-card">
+                <h2>Payment Terms</h2>
+                
+                <h3>How Billing Works</h3>
+                <p>Your subscription to Qonnect Billing is separate from your customer payments:</p>
+                
+                <div class="info-box">
+                    <p><strong>Your Subscription Fee:</strong> You pay us monthly for using the platform (KSh 2,999 - 12,999 depending on your plan). This is paid via M-Pesa to our paybill.</p>
+                    <p style="margin-bottom: 0;"><strong>Customer Payments:</strong> Your customers pay YOU directly to YOUR M-Pesa paybill. We never touch this money—it's 100% yours.</p>
+                </div>
+
+                <h3>Billing Cycle</h3>
+                <p>Subscription fees are charged monthly on your sign-up date. For example, if you sign up on January 15th, you'll be billed on the 15th of each month.</p>
+
+                <h3>Free Trial</h3>
+                <p>All new accounts get a 14-day free trial with full access to all features. No credit card required. Cancel anytime during trial with no charges.</p>
+
+                <h3>Refund Policy</h3>
+                <p>If you're not satisfied within the first 7 days of your paid subscription, we offer a full refund—no questions asked.</p>
+
+                <div class="highlight-box">
+                    <strong>📝 Note:</strong> Failed payments result in account suspension after 3 days grace period. Reactivation is instant upon payment.
+                </div>
+            </div>
+        </section>
+
+        <!-- API Documentation Section -->
+        <section id="api" class="content-section">
+            <div class="section-card">
+                <h2>API Documentation</h2>
+                <p>For developers who want to integrate Qonnect Billing with their own systems, we provide a comprehensive REST API.</p>
+
+                <h3>Getting Started with API</h3>
+                <p>Available on Professional and Enterprise plans only. Generate your API keys from the dashboard under Settings → API Keys.</p>
+
+                <h3>Base URL</h3>
+                <div class="code-block">
+https://api.qonnectbilling.co.ke/v1
+                </div>
+
+                <h3>Authentication</h3>
+                <p>All API requests require Bearer token authentication:</p>
+                <div class="code-block">
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     https://api.qonnectbilling.co.ke/v1/customers
+                </div>
+
+                <h3>Common Endpoints</h3>
+                <div class="info-box">
+                    <p><strong>GET /customers</strong> - List all customers</p>
+                    <p><strong>POST /customers</strong> - Create new customer</p>
+                    <p><strong>GET /packages</strong> - List WiFi packages</p>
+                    <p><strong>POST /payments</strong> - Record payment manually</p>
+                    <p><strong>GET /sessions</strong> - List active sessions</p>
+                    <p style="margin-bottom: 0;"><strong>GET /analytics</strong> - Retrieve analytics data</p>
+                </div>
+
+                <h3>Webhooks</h3>
+                <p>Receive real-time notifications for events like new payments, customer expiries, and network events. Configure webhook URLs in your dashboard.</p>
+
+                <div class="highlight-box">
+                    <strong>📚 Full Documentation:</strong> Visit docs.qonnectbilling.co.ke for complete API reference with code examples in multiple languages.
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section id="security" class="content-section">
+            <div class="section-card">
+                <h2>Security</h2>
+                <p>We take security seriously. Your data and your customers' data are protected with industry-leading security measures.</p>
+
+                <h3>Data Protection</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <h3>Encryption</h3>
+                        <p>All data is encrypted in transit (TLS 1.3) and at rest (AES-256).</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">🛡️</span>
+                        <h3>Compliance</h3>
+                        <p>GDPR compliant and follows Kenya Data Protection Act requirements.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">🔐</span>
+                        <h3>Access Control</h3>
+                        <p>Role-based access control with audit logs for all actions.</p>
+                    </div>
+                </div>
+
+                <h3>Infrastructure Security</h3>
+                <p>Our platform is hosted on secure cloud infrastructure with:</p>
+                <div class="info-box">
+                    <p><strong>•</strong> Daily automated backups (retained for 30 days)</p>
+                    <p><strong>•</strong> DDoS protection and firewall rules</p>
+                    <p><strong>•</strong> 24/7 security monitoring</p>
+                    <p><strong>•</strong> Regular security audits and penetration testing</p>
+                    <p style="margin-bottom: 0;"><strong>•</strong> 99.9% uptime SLA</p>
+                </div>
+
+                <h3>M-Pesa Credential Security</h3>
+                <p>Your M-Pesa API credentials are encrypted using bank-grade encryption and stored in secure vaults. We use AWS KMS for key management and never log sensitive credentials.</p>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support" class="content-section">
+            <div class="section-card">
+                <h2>Support</h2>
+                <p>We're here to help you succeed. Get support through multiple channels based on your plan.</p>
+
+                <h3>Support Channels</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">📧</span>
+                        <h3>Email Support</h3>
+                        <p>support@qonnectbilling.co.ke<br>Response within 24 hours</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">💬</span>
+                        <h3>Live Chat</h3>
+                        <p>Available in dashboard<br>Monday-Friday, 8am-6pm EAT</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">📞</span>
+                        <h3>Phone Support</h3>
+                        <p>+254 700 000 000<br>Enterprise plan only</p>
+                    </div>
+                </div>
+
+                <h3>Self-Service Resources</h3>
+                <div class="info-box">
+                    <p><strong>📖</strong> Knowledge Base - Comprehensive guides and tutorials</p>
+                    <p><strong>🎥</strong> Video Tutorials - Step-by-step setup videos</p>
+                    <p><strong>💡</strong> FAQs - Answers to common questions</p>
+                    <p style="margin-bottom: 0;"><strong>🤝</strong> Community Forum - Connect with other ISPs</p>
+                </div>
+
+                <h3>Onboarding Assistance</h3>
+                <p>All new customers receive free onboarding assistance. We'll help you:</p>
+                <div class="info-box">
+                    <p>• Set up your M-Pesa integration</p>
+                    <p>• Configure your MikroTik router</p>
+                    <p>• Create your first WiFi packages</p>
+                    <p>• Customize your customer portal</p>
+                    <p style="margin-bottom: 0;">• Train your team on using the platform</p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🚀 Need Help?</strong> Book a free 30-minute onboarding call: calendly.com/qonnectbilling/onboarding
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer CTA -->
+        <section class="content-section">
+            <div class="section-card" style="text-align: center; background: rgba(0, 188, 212, 0.1); border-color: #00bcd4;">
+                <h2 style="margin-bottom: 20px;">Ready to Transform Your WiFi Business?</h2>
+                <p style="font-size: 18px; max-width: 600px; margin: 0 auto 30px;">Join hundreds of ISPs across Kenya who are automating their billing and growing their revenue with Qonnect Billing.</p>
+                <a href="#quick-start" class="cta-button" style="margin-right: 15px;">Start Free Trial</a>
+                <a href="#pricing" class="cta-button" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">View Pricing</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar-link, .header-nav a, .cta-button').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Active link highlighting on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

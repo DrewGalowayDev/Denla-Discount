@@ -1,0 +1,32 @@
+{
+  "name": "awesome-technologies",
+  "version": "1.0.0",
+  "description": "E-commerce platform for electronics - Vercel Deployment",
+  "main": "api/index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "ecommerce",
+    "electronics",
+    "vercel",
+    "serverless",
+    "mpesa"
+  ],
+  "author": "Awesome Technologies",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^3.6.5",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

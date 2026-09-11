@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Customer Dashboard - Awesome Technologies</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="dashboard, account, orders, cart, wishlist, electronics" name="keywords">
+    <meta content="Manage your account, view your orders, cart, and wishlist at Awesome Technologies" name="description">
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Instant Theme Initializer (Prevents Flash) -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('dash_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Dashboard Sidebar -->
+    <aside class="dashboard-sidebar" id="sidebar">
+        <!-- Sidebar Brand Header -->
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-brand-link">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div>
+                    <div class="sidebar-brand-text">Awesome Tech</div>
+                    <div class="sidebar-brand-sub">Customer Portal</div>
+                </div>
+            </a>
+            <button class="sidebar-close-btn d-lg-none" id="sidebarCloseBtn" aria-label="Close sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- User Profile Card -->
+        <div class="user-profile">
+            <div class="user-avatar" id="userAvatar">SA</div>
+            <div class="user-name" id="userName">Loading...</div>
+            <div class="user-email" id="userEmail">Loading...</div>
+            <span class="user-badge"><i class="fas fa-check-circle"></i> Verified Member</span>
+        </div>
+
+        <!-- Sidebar Navigation Card (Styled as Reference Image) -->
+        <div class="sidebar-nav-card">
+            <div class="sidebar-nav-header">
+                <span>MAIN PORTAL</span>
+                <i class="fas fa-sliders-h" style="font-size: 0.8rem; opacity: 0.85;"></i>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" data-section="overview" class="menu-link active" id="navOverview">
+                        <i class="fas fa-th-large icon-dash-overview"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="cart" class="menu-link" id="navCart">
+                        <i class="fas fa-shopping-cart icon-dash-cart"></i>
+                        <span>My Cart</span>
+                        <span class="badge" id="cartBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="orders" class="menu-link" id="navOrders">
+                        <i class="fas fa-box-open icon-dash-orders"></i>
+                        <span>My Orders</span>
+                        <span class="badge" id="ordersBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="wishlist" class="menu-link" id="navWishlist">
+                        <i class="fas fa-heart icon-dash-wishlist"></i>
+                        <span>My Wishlist</span>
+                        <span class="badge" id="wishlistBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="shop.html">
+                        <i class="fas fa-store icon-dash-shop"></i>
+                        <span>Explore Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html">
+                        <i class="fas fa-headset icon-dash-support"></i>
+                        <span>Help & Support</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sidebar Footer & Logout -->
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="dashboard-content" id="dashboardContent">
+        <!-- Modern Sticky Top Navbar -->
+        <header class="dashboard-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h1 class="dash-nav-title" id="welcomeMessage">Welcome Back! 👋</h1>
+                </div>
+            </div>
+
+            <!-- Navbar Quick Search (Desktop) -->
+            <div class="dash-nav-search d-none d-md-block">
+                <i class="fas fa-search"></i>
+                <input type="text" id="dashGlobalSearch" placeholder="Search products or orders..." onkeydown="if(event.key==='Enter') searchStore(this.value)">
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                    <i class="fas fa-moon" id="themeToggleIcon"></i>
+                </button>
+                <a href="shop.html" class="btn btn-sm btn-primary rounded-pill px-3 d-none d-sm-inline-flex align-items-center gap-2">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Browse Shop</span>
+                </a>
+                <a href="index.html" class="btn btn-sm btn-light border rounded-pill px-3 d-inline-flex align-items-center gap-2">
+                    <i class="fas fa-home"></i>
+                    <span class="d-none d-md-inline">Store Home</span>
+                </a>
+                <div class="dash-user-chip d-none d-lg-flex">
+                    <div class="dash-user-avatar-mini" id="userMiniAvatar">U</div>
+                    <span id="userChipName">Customer</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Body -->
+        <main class="dashboard-body">
+            <!-- ==========================================
+                 SECTION: OVERVIEW
+                 ========================================== -->
+            <div id="overviewSection" class="dashboard-section">
+                <!-- Hero Welcome Banner -->
+                <div class="dash-hero-banner">
+                    <div class="dash-hero-title" id="heroBannerTitle">Welcome to your Tech Hub, Customer! ✨</div>
+                    <div class="dash-hero-subtitle">
+                        Track your live orders, manage saved gear, and unlock premium member rewards on genuine electronics.
+                    </div>
+                    <div class="dash-hero-features">
+                        <span class="dash-hero-pill"><i class="fas fa-shipping-fast text-info"></i> Fast Nairobi & Regional Delivery</span>
+                        <span class="dash-hero-pill"><i class="fas fa-shield-alt text-success"></i> 1-Year Official Warranty</span>
+                        <span class="dash-hero-pill"><i class="fas fa-headset text-warning"></i> 24/7 Expert Support</span>
+                    </div>
+                    <div class="dash-hero-actions">
+                        <a href="shop.html" class="btn-dash-hero-primary">
+                            <i class="fas fa-fire me-2"></i>Explore Hot Deals
+                        </a>
+                        <button onclick="switchSection('orders')" class="btn-dash-hero-outline">
+                            <i class="fas fa-box-open me-2"></i>Track Orders
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 Refined Modern Stat Cards -->
+                <div class="row g-3 mb-4" id="statsCards">
+                    <!-- Items in Cart -->
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card-widget" onclick="switchSection('cart')">
+                            <div class="stat-widget-top">
+                                <span class="stat-widget-label">Shopping Cart</span>
+                                <div class="stat-widget-icon cart-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-widget-number" id="cartCount">0</div>
+                            <div class="stat-widget-bottom">
+                                <span>Items in bag</span>
+                                <span class="stat-widget-link">View Cart <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Total Orders -->
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card-widget" onclick="switchSection('orders')">
+                            <div class="stat-widget-top">
+                                <span class="stat-widget-label">My Orders</span>
+                                <div class="stat-widget-icon orders-icon">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                            </div>
+                            <div class="stat-widget-number" id="ordersCount">0</div>
+                            <div class="stat-widget-bottom">
+                                <span>Lifetime orders</span>
+                                <span class="stat-widget-link">History <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wishlist Items -->
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card-widget" onclick="switchSection('wishlist')">
+                            <div class="stat-widget-top">
+                                <span class="stat-widget-label">Wishlist</span>
+                                <div class="stat-widget-icon wishlist-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-widget-number" id="wishlistCount">0</div>
+                            <div class="stat-widget-bottom">
+                                <span>Saved favorites</span>
+                                <span class="stat-widget-link">View List <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Total Spent -->
+                    <div class="col-6 col-lg-3">
+                        <div class="stat-card-widget">
+                            <div class="stat-widget-top">
+                                <span class="stat-widget-label">Total Spent</span>
+                                <div class="stat-widget-icon spent-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                            </div>
+                            <div class="stat-widget-number" id="totalSpent">KSh 0</div>
+                            <div class="stat-widget-bottom">
+                                <span>Account expenditure</span>
+                                <span class="text-muted"><i class="fas fa-check-circle text-success me-1"></i>Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2-Column Main Section (8 cols Main + 4 cols Side) -->
+                <div class="row g-4">
+                    <!-- Main Content (8 cols) -->
+                    <div class="col-lg-8">
+                        <!-- Recent Orders Card -->
+                        <div class="dashboard-card">
+                            <div class="section-header">
+                                <h4><i class="fas fa-clock text-primary"></i>Recent Orders</h4>
+                                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="switchSection('orders')">
+                                    View All Orders <i class="fas fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                            <div id="recentOrdersContainer">
+                                <div class="text-center py-4">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommended Products Card -->
+                        <div class="dashboard-card">
+                            <div class="section-header">
+                                <h4><i class="fas fa-star text-warning"></i>Recommended Tech For You</h4>
+                                <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                    View Catalog <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                            <div id="recommendedProductsContainer">
+                                <div class="text-center py-4">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Column (4 cols) -->
+                    <div class="col-lg-4">
+                        <!-- VIP Rewards Card -->
+                        <div class="dash-vip-card">
+                            <div class="dash-vip-badge">
+                                <i class="fas fa-crown"></i> Gold Tech Member
+                            </div>
+                            <div class="dash-vip-points">450 <span style="font-size: 1rem; font-weight: 500; opacity: 0.8;">Pts</span></div>
+                            <div class="dash-vip-desc">
+                                Earn 1 point for every KSh 100 spent. Redeem points for instant store discounts.
+                            </div>
+                            <div class="progress mb-3 dash-vip-progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%; border-radius: 9999px;"></div>
+                            </div>
+                            <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill w-100 fw-bold">
+                                <i class="fas fa-gift me-1 text-warning"></i> Redeem Rewards
+                            </a>
+                        </div>
+
+                        <!-- Active Promo Voucher -->
+                        <div class="dashboard-card">
+                            <div class="fw-bold mb-2 text-dark" style="font-size: 0.95rem;">
+                                <i class="fas fa-ticket-alt text-primary me-2"></i>Exclusive Coupon
+                            </div>
+                            <div class="text-muted mb-3" style="font-size: 0.82rem;">
+                                Use this promo code at checkout for 10% off accessories and peripherals!
+                            </div>
+                            <div class="dash-voucher-box">
+                                <div>
+                                    <span class="text-muted d-block" style="font-size: 0.72rem; text-transform: uppercase;">Promo Code</span>
+                                    <span class="dash-voucher-code" id="voucherCodeText">AWESOME10</span>
+                                </div>
+                                <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="copyVoucherCode()">
+                                    <i class="fas fa-copy me-1"></i>Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Direct Help & Support Card -->
+                        <div class="dash-support-card">
+                            <div class="fw-bold mb-2 text-dark" style="font-size: 0.95rem;">
+                                <i class="fas fa-headset text-success me-2"></i>Need Help with an Order?
+                            </div>
+                            <div class="text-muted mb-3" style="font-size: 0.82rem;">
+                                Our support team is online to assist with orders, deliveries, and warranty inquiries.
+                            </div>
+                            <a href="https://wa.me/254700000000" target="_blank" class="dash-support-btn">
+                                <i class="fab fa-whatsapp text-success fa-lg"></i>
+                                <div>
+                                    <div>Chat on WhatsApp</div>
+                                    <small class="text-muted">Instant Response</small>
+                                </div>
+                            </a>
+                            <a href="tel:+254700000000" class="dash-support-btn">
+                                <i class="fas fa-phone-alt text-primary fa-lg"></i>
+                                <div>
+                                    <div>Call Support Desk</div>
+                                    <small class="text-muted">+254 700 000 000</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 SECTION: MY CART
+                 ========================================== -->
+            <div id="cartSection" class="dashboard-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-shopping-cart text-primary"></i>My Shopping Cart</h4>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="clearCart()">
+                            <i class="fas fa-trash-alt me-1"></i>Clear Cart
+                        </button>
+                    </div>
+                    <div id="cartItemsContainer">
+                        <div class="text-center py-4">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 SECTION: MY ORDERS
+                 ========================================== -->
+            <div id="ordersSection" class="dashboard-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-box-open text-primary"></i>Order History</h4>
+                        <div class="tab-navigation">
+                            <button class="tab-btn active" onclick="filterOrders('all', this)">All Orders</button>
+                            <button class="tab-btn" onclick="filterOrders('pending', this)">Pending</button>
+                            <button class="tab-btn" onclick="filterOrders('processing', this)">Processing</button>
+                            <button class="tab-btn" onclick="filterOrders('completed', this)">Completed</button>
+                            <button class="tab-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
+                        </div>
+                    </div>
+                    <div id="ordersContainer">
+                        <div class="text-center py-4">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 SECTION: WISHLIST
+                 ========================================== -->
+            <div id="wishlistSection" class="dashboard-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-heart text-danger"></i>My Saved Wishlist</h4>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="clearWishlist()">
+                            <i class="fas fa-trash-alt me-1"></i>Clear Wishlist
+                        </button>
+                    </div>
+                    <div id="wishlistItemsContainer">
+                        <div class="text-center py-4">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div id="dashToast" class="dash-toast dash-toast-info">
+        <i class="fas fa-info-circle" id="dashToastIcon"></i>
+        <span id="dashToastMsg">Notification message</span>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dashboard Core Script -->
+    <script>
+        // API Configuration
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+            : '/api';
+
+        // State variables
+        let currentUser = null;
+        let cartItems = [];
+        let orders = [];
+        let wishlistItems = [];
+        let allOrders = [];
+
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', function () {
+            initTheme();
+            checkAuth();
+            initializeUI();
+            loadDashboardData();
+            loadRecommendedProducts();
+        });
+
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('dash_theme') || 'light';
+            applyTheme(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('dash_theme', theme);
+            const icon = document.getElementById('themeToggleIcon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.className = 'fas fa-sun text-warning';
+                } else {
+                    icon.className = 'fas fa-moon text-secondary';
+                }
+            }
+        }
+
+        // Toast feedback helper
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('dashToast');
+            const msgEl = document.getElementById('dashToastMsg');
+            const iconEl = document.getElementById('dashToastIcon');
+
+            toast.className = `dash-toast dash-toast-${type}`;
+            msgEl.textContent = message;
+
+            if (type === 'success') {
+                iconEl.className = 'fas fa-check-circle text-success';
+            } else if (type === 'danger') {
+                iconEl.className = 'fas fa-exclamation-circle text-danger';
+            } else {
+                iconEl.className = 'fas fa-info-circle text-primary';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Copy voucher code
+        function copyVoucherCode() {
+            const code = document.getElementById('voucherCodeText').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(`Coupon ${code} copied!`, 'success');
+            }).catch(() => {
+                showToast(`Use coupon: ${code}`, 'info');
+            });
+        }
+
+        // Search store shortcut
+        function searchStore(query) {
+            if (query && query.trim()) {
+                window.location.href = `shop.html?search=${encodeURIComponent(query.trim())}`;
+            }
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                window.location.href = 'index.html';
+                return;
+            }
+            try {
+                currentUser = JSON.parse(userStr);
+                updateUserInfo();
+            } catch (e) {
+                console.error('Invalid user session:', e);
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Update User profile details in UI
+        function updateUserInfo() {
+            if (!currentUser) return;
+
+            const name = currentUser.name || currentUser.username || 'Customer';
+            const email = currentUser.email || 'customer@example.com';
+            const firstName = name.split(' ')[0] || 'Customer';
+
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userEmail').textContent = email;
+
+            // Generate initial for avatar
+            const initials = name.trim().split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+            document.getElementById('userAvatar').textContent = initials;
+            const miniAvatar = document.getElementById('userMiniAvatar');
+            if (miniAvatar) miniAvatar.textContent = initials;
+            const chipName = document.getElementById('userChipName');
+            if (chipName) chipName.textContent = firstName;
+
+            // Time of day greeting
+            const hour = new Date().getHours();
+            let greeting = 'Welcome';
+            if (hour < 12) greeting = 'Good Morning';
+            else if (hour < 18) greeting = 'Good Afternoon';
+            else greeting = 'Good Evening';
+
+            document.getElementById('welcomeMessage').textContent = `${greeting}, ${firstName}! 👋`;
+            const heroTitle = document.getElementById('heroBannerTitle');
+            if (heroTitle) heroTitle.textContent = `Welcome to your Tech Hub, ${firstName}! ✨`;
+        }
+
+        // Initialize UI Handlers
+        function initializeUI() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function () {
+                    sidebar.classList.toggle('show');
+                    overlay.classList.toggle('show');
+                });
+            }
+
+            if (sidebarCloseBtn) {
+                sidebarCloseBtn.addEventListener('click', function () {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', function () {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                });
+            }
+
+            // Menu links navigation
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    if (section) {
+                        switchSection(section);
+                        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+
+                        // Auto-close on mobile
+                        if (window.innerWidth < 992) {
+                            sidebar.classList.remove('show');
+                            overlay.classList.remove('show');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Switch between dashboard sections
+        function switchSection(section) {
+            document.querySelectorAll('.dashboard-section').forEach(s => s.style.display = 'none');
+
+            const sectionMap = {
+                'overview': 'overviewSection',
+                'cart': 'cartSection',
+                'orders': 'ordersSection',
+                'wishlist': 'wishlistSection'
+            };
+
+            const sectionId = sectionMap[section];
+            if (sectionId) {
+                const el = document.getElementById(sectionId);
+                if (el) el.style.display = 'block';
+
+                // Sync sidebar active link
+                document.querySelectorAll('.menu-link').forEach(l => {
+                    if (l.getAttribute('data-section') === section) {
+                        l.classList.add('active');
+                    } else {
+                        l.classList.remove('active');
+                    }
+                });
+
+                // Scroll to top of dashboard content
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Lazy fetch / refresh if needed
+                if (section === 'cart') loadCart();
+                else if (section === 'orders') loadOrders();
+                else if (section === 'wishlist') loadWishlist();
+            }
+        }
+
+        // Load all dashboard data
+        async function loadDashboardData() {
+            await Promise.all([
+                loadCart(),
+                loadOrders(),
+                loadWishlist()
+            ]);
+            updateStatistics();
+            displayRecentOrders();
+        }
+
+        // Load Recommended Products for Overview section
+        async function loadRecommendedProducts() {
+            const container = document.getElementById('recommendedProductsContainer');
+            if (!container) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/products?limit=3`);
+                if (!res.ok) throw new Error('Failed to fetch products');
+                const data = await res.json();
+                const products = data.products || data.data || [];
+
+                if (products.length === 0) {
+                    container.innerHTML = `<p class="text-muted text-center py-3">No products available at the moment.</p>`;
+                    return;
+                }
+
+                let html = '<div class="row g-3">';
+                products.forEach(product => {
+                    let image = 'img/product-1.png';
+                    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                        image = product.images[0];
+                    } else if (product.image_url) {
+                        image = product.image_url;
+                    } else if (product.image) {
+                        image = product.image;
+                    }
+
+                    html += `
+                        <div class="col-12 col-md-4">
+                            <div class="dash-product-card">
+                                <div class="dash-product-img-wrap">
+                                    <img src="${image}" alt="${product.name || 'Product'}" onerror="this.src='img/product-1.png'">
+                                </div>
+                                <div class="dash-product-body">
+                                    <div class="dash-product-title" title="${product.name || ''}">${product.name || 'Product'}</div>
+                                    <div class="dash-product-price">KSh ${Number(product.price || product.selling_price || 0).toLocaleString()}</div>
+                                    <div class="dash-product-actions">
+                                        <button class="btn btn-sm btn-primary rounded-pill flex-grow-1" onclick="quickAddToCart(${product.id}, '${(product.name || 'Product').replace(/'/g, "\\'")}', ${product.price || product.selling_price || 0}, '${image}')">
+                                            <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        </button>
+                                        <a href="product-detail.html?id=${product.id}" class="btn btn-sm btn-light border rounded-circle" style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;" title="View Details">
+                                            <i class="fas fa-eye text-primary"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (err) {
+                console.error('Error loading recommendations:', err);
+                container.innerHTML = `<p class="text-muted text-center py-3">Check out our <a href="shop.html" class="text-primary fw-bold">Shop Catalog</a> for the latest arrivals.</p>`;
+            }
+        }
+
+        // Quick Add to Cart helper
+        function quickAddToCart(productId, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = cart.find(i => i.id === productId);
+
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + 1;
+            } else {
+                cart.push({ id: productId, name, price, image, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            showToast(`${name} added to cart!`, 'success');
+        }
+
+        // Load Cart items
+        async function loadCart() {
+            try {
+                const localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+                if (localCart.length === 0) {
+                    cartItems = [];
+                    displayCart();
+                    updateStatistics();
+                    return;
+                }
+
+                // Fetch details for each product
+                const promises = localCart.map(async (item) => {
+                    try {
+                        const res = await fetch(`${API_BASE}/products/${item.id}`);
+                        if (!res.ok) throw new Error('Not found');
+                        const product = await res.json();
+                        const pData = product.product || product;
+                        return {
+                            ...pData,
+                            quantity: item.quantity || 1
+                        };
+                    } catch (e) {
+                        return {
+                            id: item.id,
+                            name: item.name || 'Product',
+                            price: item.price || 0,
+                            images: item.image ? [item.image] : [],
+                            quantity: item.quantity || 1
+                        };
+                    }
+                });
+
+                cartItems = await Promise.all(promises);
+                displayCart();
+                updateStatistics();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cartItems = [];
+                displayCart();
+            }
+        }
+
+        // Display Cart items
+        function displayCart() {
+            const container = document.getElementById('cartItemsContainer');
+            if (!container) return;
+
+            if (cartItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h4>Your cart is empty</h4>
+                        <p>Explore our electronics collection and add your favorite items!</p>
+                        <a href="shop.html" class="btn btn-sm btn-primary rounded-pill px-4 py-2">
+                            <i class="fas fa-shopping-bag me-1"></i>Start Shopping
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            let subtotal = 0;
+            let cardsHtml = '<div class="row g-3">';
+
+            cartItems.forEach(item => {
+                const itemTotal = (Number(item.price) || 0) * (item.quantity || 1);
+                subtotal += itemTotal;
+
+                let image = 'img/product-1.png';
+                if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+                    image = item.images[0];
+                } else if (item.image_url) {
+                    image = item.image_url;
+                } else if (item.image) {
+                    image = item.image;
+                }
+
+                cardsHtml += `
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="dash-product-card">
+                            <div class="dash-product-img-wrap">
+                                <img src="${image}" alt="${item.name || 'Product'}" onerror="this.src='img/product-1.png'">
+                            </div>
+                            <div class="dash-product-body">
+                                <div class="dash-product-title" title="${item.name || ''}">${item.name || 'Product'}</div>
+                                <div class="dash-product-price">KSh ${Number(item.price || 0).toLocaleString()}</div>
+                                
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="text-muted" style="font-size: 0.82rem;">Quantity:</span>
+                                    <div class="dash-qty-control">
+                                        <button class="dash-qty-btn" onclick="updateCartQuantity(${item.id}, ${(item.quantity || 1) - 1})">-</button>
+                                        <span class="dash-qty-value">${item.quantity || 1}</span>
+                                        <button class="dash-qty-btn" onclick="updateCartQuantity(${item.id}, ${(item.quantity || 1) + 1})">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="dash-product-actions">
+                                    <button class="btn btn-sm btn-light text-danger rounded-pill flex-grow-1 border" onclick="removeFromCart(${item.id})">
+                                        <i class="fas fa-trash-alt me-1"></i>Remove
+                                    </button>
+                                    <a href="product-detail.html?id=${item.id}" class="btn btn-sm btn-light text-primary rounded-pill flex-grow-1 border">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cardsHtml += '</div>';
+
+            const summaryHtml = `
+                <div class="cart-summary-box mt-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-7 mb-3 mb-md-0">
+                            <div class="cart-summary-row">
+                                <span>Cart Subtotal (${cartItems.reduce((acc, i) => acc + (i.quantity || 1), 0)} items):</span>
+                                <span class="fw-bold text-dark">KSh ${subtotal.toLocaleString()}</span>
+                            </div>
+                            <div class="cart-summary-row mb-0">
+                                <span>Estimated Shipping:</span>
+                                <span class="text-success fw-semibold">Calculated at Checkout</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-md-end">
+                            <div class="cart-summary-total mb-3">
+                                <span class="cart-summary-total-label">Total:</span>
+                                <span class="cart-summary-total-val">KSh ${subtotal.toLocaleString()}</span>
+                            </div>
+                            <a href="cheackout.html" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold w-100 w-md-auto">
+                                <i class="fas fa-lock me-2"></i>Proceed to Checkout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = cardsHtml + summaryHtml;
+        }
+
+        // Update Cart Quantity
+        function updateCartQuantity(productId, newQuantity) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = newQuantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+                showToast('Cart updated', 'info');
+            }
+        }
+
+        // Remove single item from cart
+        function removeFromCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            showToast('Item removed from cart', 'danger');
+        }
+
+        // Clear entire cart
+        function clearCart() {
+            if (cartItems.length === 0) return;
+            if (confirm('Are you sure you want to clear your cart?')) {
+                localStorage.setItem('cart', '[]');
+                loadCart();
+                showToast('Cart cleared', 'info');
+            }
+        }
+
+        // Load Orders
+        async function loadOrders() {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    try {
+                        const res = await fetch(`${API_BASE}/orders`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.success && Array.isArray(data.orders)) {
+                                orders = data.orders;
+                                allOrders = data.orders;
+                                displayOrders();
+                                return;
+                            }
+                        }
+                    } catch (apiErr) {
+                        console.log('Orders API fallback to local storage:', apiErr);
+                    }
+                }
+
+                // Fallback to localStorage orders
+                const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+                orders = savedOrders;
+                allOrders = savedOrders;
+                displayOrders();
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                orders = [];
+                allOrders = [];
+                displayOrders();
+            }
+        }
+
+        // Display Orders Table
+        function displayOrders() {
+            const container = document.getElementById('ordersContainer');
+            if (!container) return;
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h4>No orders found</h4>
+                        <p>You have not placed any orders matching this filter.</p>
+                        <a href="shop.html" class="btn btn-sm btn-primary rounded-pill px-4 py-2">
+                            <i class="fas fa-store me-1"></i>Start Shopping
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Items</th>
+                                <th>Date</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            orders.forEach(order => {
+                const status = (order.status || 'pending').toLowerCase();
+                const statusClass = `status-${status}`;
+                const orderId = order.id ? (String(order.id).startsWith('#') ? order.id : `#${order.id}`) : '#ORD-000';
+                const orderDate = order.created_at || order.date ? new Date(order.created_at || order.date).toLocaleDateString() : 'Recent';
+                const totalAmount = order.total_amount || order.amount || 0;
+                const itemsCount = order.order_items ? order.order_items.length : (order.quantity || 1);
+                const titlePreview = order.order_items && order.order_items[0] 
+                    ? (order.order_items[0].product_name || 'Item') 
+                    : (order.productName || `${itemsCount} item(s)`);
+
+                html += `
+                    <tr>
+                        <td class="fw-bold text-dark">${orderId}</td>
+                        <td>
+                            <div class="fw-semibold text-truncate" style="max-width: 220px;">${titlePreview}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">${itemsCount} item(s)</div>
+                        </td>
+                        <td>${orderDate}</td>
+                        <td class="fw-bold text-dark">KSh ${Number(totalAmount).toLocaleString()}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td class="text-end">
+                            <a href="shop.html" class="btn btn-sm btn-light border rounded-pill px-3 py-1 text-primary">
+                                Reorder
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Filter Orders by tab
+        function filterOrders(status, btnElement) {
+            if (btnElement) {
+                document.querySelectorAll('.tab-navigation .tab-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            if (status === 'all') {
+                orders = allOrders;
+            } else {
+                orders = allOrders.filter(o => (o.status || 'pending').toLowerCase() === status);
+            }
+
+            displayOrders();
+        }
+
+        // Display recent orders on overview section
+        function displayRecentOrders() {
+            const container = document.getElementById('recentOrdersContainer');
+            if (!container) return;
+
+            const recent = allOrders.slice(0, 5);
+
+            if (recent.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state py-4">
+                        <div class="empty-state-icon" style="width: 52px; height: 52px; font-size: 1.35rem;">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h4 style="font-size: 1.05rem;">No recent orders</h4>
+                        <p class="mb-3" style="font-size: 0.85rem;">Your recent purchase history will appear here. Start by exploring our top electronics categories!</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <a href="shop.html?cat=laptops" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-laptop me-1 text-primary"></i>Laptops
+                            </a>
+                            <a href="shop.html?cat=smartphones" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-mobile-alt me-1 text-success"></i>Smartphones
+                            </a>
+                            <a href="shop.html?cat=accessories" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-headphones me-1 text-warning"></i>Accessories
+                            </a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Items</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            recent.forEach(order => {
+                const status = (order.status || 'pending').toLowerCase();
+                const statusClass = `status-${status}`;
+                const orderId = order.id ? (String(order.id).startsWith('#') ? order.id : `#${order.id}`) : '#ORD-000';
+                const orderDate = order.created_at || order.date ? new Date(order.created_at || order.date).toLocaleDateString() : 'Recent';
+                const totalAmount = order.total_amount || order.amount || 0;
+                const itemsCount = order.order_items ? order.order_items.length : (order.quantity || 1);
+                const titlePreview = order.order_items && order.order_items[0] 
+                    ? (order.order_items[0].product_name || 'Item') 
+                    : (order.productName || `${itemsCount} item(s)`);
+
+                html += `
+                    <tr>
+                        <td class="fw-bold text-dark">${orderId}</td>
+                        <td>
+                            <div class="fw-semibold text-truncate" style="max-width: 200px;">${titlePreview}</div>
+                        </td>
+                        <td>${orderDate}</td>
+                        <td class="fw-bold text-dark">KSh ${Number(totalAmount).toLocaleString()}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Load Wishlist
+        async function loadWishlist() {
+            try {
+                const localWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+                if (localWishlist.length === 0) {
+                    wishlistItems = [];
+                    displayWishlist();
+                    updateStatistics();
+                    return;
+                }
+
+                // Fetch full product details
+                const promises = localWishlist.map(async (id) => {
+                    try {
+                        const res = await fetch(`${API_BASE}/products/${id}`);
+                        if (!res.ok) throw new Error('Not found');
+                        const product = await res.json();
+                        return product.product || product;
+                    } catch (e) {
+                        return { id: id, name: 'Saved Product', price: 0, images: [] };
+                    }
+                });
+
+                wishlistItems = await Promise.all(promises);
+                displayWishlist();
+                updateStatistics();
+            } catch (error) {
+                console.error('Error loading wishlist:', error);
+                wishlistItems = [];
+                displayWishlist();
+            }
+        }
+
+        // Display Wishlist
+        function displayWishlist() {
+            const container = document.getElementById('wishlistItemsContainer');
+            if (!container) return;
+
+            if (wishlistItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-heart text-danger"></i>
+                        </div>
+                        <h4>Your wishlist is empty</h4>
+                        <p>Save items you love so you can find and buy them quickly later!</p>
+                        <a href="shop.html" class="btn btn-sm btn-primary rounded-pill px-4 py-2">
+                            <i class="fas fa-shopping-bag me-1"></i>Browse Catalog
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="row g-3">';
+
+            wishlistItems.forEach(item => {
+                let image = 'img/product-1.png';
+                if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+                    image = item.images[0];
+                } else if (item.image_url) {
+                    image = item.image_url;
+                } else if (item.image) {
+                    image = item.image;
+                }
+
+                html += `
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="dash-product-card">
+                            <div class="dash-product-img-wrap">
+                                <img src="${image}" alt="${item.name || 'Product'}" onerror="this.src='img/product-1.png'">
+                            </div>
+                            <div class="dash-product-body">
+                                <div class="dash-product-title" title="${item.name || ''}">${item.name || 'Product'}</div>
+                                <div class="dash-product-price">KSh ${Number(item.price || 0).toLocaleString()}</div>
+                                <div class="dash-product-actions">
+                                    <button class="btn btn-sm btn-primary rounded-pill flex-grow-1" onclick="addToCartFromWishlist(${item.id})">
+                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                    </button>
+                                    <button class="btn btn-sm btn-light text-danger border rounded-circle" style="width: 32px; height: 32px; padding: 0;" onclick="removeFromWishlist(${item.id})" title="Remove from wishlist">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Add to Cart from Wishlist
+        function addToCartFromWishlist(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = cart.find(i => i.id === productId);
+
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + 1;
+            } else {
+                cart.push({ id: productId, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            showToast('Added to cart!', 'success');
+        }
+
+        // Remove item from Wishlist
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            wishlist = wishlist.filter(id => id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            loadWishlist();
+            showToast('Removed from wishlist', 'info');
+        }
+
+        // Clear all wishlist
+        function clearWishlist() {
+            if (wishlistItems.length === 0) return;
+            if (confirm('Are you sure you want to clear your wishlist?')) {
+                localStorage.setItem('wishlist', '[]');
+                loadWishlist();
+                showToast('Wishlist cleared', 'info');
+            }
+        }
+
+        // Update Statistics Badges and Numbers
+        function updateStatistics() {
+            // Cart count
+            const cartCount = cartItems.reduce((acc, i) => acc + (i.quantity || 1), 0);
+            const cartCountEl = document.getElementById('cartCount');
+            const cartBadgeEl = document.getElementById('cartBadge');
+            if (cartCountEl) cartCountEl.textContent = cartCount;
+            if (cartBadgeEl) cartBadgeEl.textContent = cartCount;
+
+            // Orders count
+            const ordersCount = allOrders.length;
+            const ordersCountEl = document.getElementById('ordersCount');
+            const ordersBadgeEl = document.getElementById('ordersBadge');
+            if (ordersCountEl) ordersCountEl.textContent = ordersCount;
+            if (ordersBadgeEl) ordersBadgeEl.textContent = ordersCount;
+
+            // Wishlist count
+            const wishlistCount = wishlistItems.length;
+            const wishlistCountEl = document.getElementById('wishlistCount');
+            const wishlistBadgeEl = document.getElementById('wishlistBadge');
+            if (wishlistCountEl) wishlistCountEl.textContent = wishlistCount;
+            if (wishlistBadgeEl) wishlistBadgeEl.textContent = wishlistCount;
+
+            // Total spent
+            const totalSpent = allOrders.reduce((acc, o) => acc + (Number(o.total_amount || o.amount) || 0), 0);
+            const totalSpentEl = document.getElementById('totalSpent');
+            if (totalSpentEl) totalSpentEl.textContent = `KSh ${totalSpent.toLocaleString()}`;
+        }
+
+        // Logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to sign out?')) {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

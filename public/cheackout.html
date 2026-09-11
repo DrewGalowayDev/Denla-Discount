@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Checkout - Awesome Technologies</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="checkout, payment, M-PESA" name="keywords">
+    <meta content="Secure checkout at Awesome Technologies" name="description">
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Processing...</span>
+            </div>
+            <h5 class="mt-3">Processing your order...</h5>
+            <p class="text-muted">Please wait</p>
+        </div>
+    </div>
+
+    <!-- Topbar Start -->
+    <div class="container-fluid px-5 border-bottom">
+        <div class="row gx-0 align-items-center py-2">
+            <div class="col-lg-4 text-center text-lg-start mb-2 mb-lg-0 d-none d-lg-block">
+                <div class="d-flex flex-wrap">
+                    <a href="#" class="text-muted me-4"><i class="fas fa-question-circle me-2"></i>Help</a>
+                    <a href="#" class="text-muted me-4"><i class="fas fa-headset me-2"></i>Support</a>
+                    <a href="contact.html" class="text-muted me-0"><i class="fas fa-phone-alt me-2"></i>Contact</a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mb-2 mb-lg-0 d-none d-lg-block">
+                <a href="index.html" class="text-decoration-none">
+                    <span class="h4 text-uppercase text-primary bg-dark px-2">Awesome</span>
+                    <span class="h4 text-uppercase text-dark bg-primary px-2 ml-n1">Technologies</span>
+                </a>
+            </div>
+            <div class="col-12 col-lg-4 text-center text-lg-end">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-end">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>KSh</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item">KSh - Kenyan Shilling</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>English</small></a>
+                        <div class="dropdown-menu rounded">
+                            <a href="#" class="dropdown-item">English</a>
+                            <a href="#" class="dropdown-item">Kiswahili</a>
+                        </div>
+                    </div>
+                    <div class="dropdown" id="authDropdown">
+                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><i class="fas fa-user-cog me-2"></i>My Dashboard</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" id="loginDropdownItem" href="login.html"><i class="fas fa-sign-in-alt me-2"></i> Login</a></li>
+                            <li><a class="dropdown-item" id="signupDropdownItem" href="login.html?tab=signup"><i class="fas fa-user-plus me-2"></i> Sign Up</a></li>
+                            <li><a class="dropdown-item" id="dashboardDropdownItem" href="dashboard.html" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                            <li><hr class="dropdown-divider" id="authDivider"></li>
+                            <li><a class="dropdown-item text-danger" id="logoutDropdownItem" href="#" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+   
+
+    
+    <!-- Page Header End -->
+                </div>
+                <div class="col-md-4 col-lg-6 text-center">
+                    <div class="position-relative ps-4">
+                        <div class="d-flex border rounded-pill">
+                            <input class="form-control border-0 rounded-pill w-100 py-3" type="text" id="checkoutSearchInput" onkeyup="handleCheckoutSearch(event)" placeholder="Search Looking For?">
+                            <select class="form-select text-dark border-0 border-start rounded-0 p-3" id="checkoutCategoryFilter" style="width: 200px;">
+                                <option value="">All Category</option>
+                                <option value="laptops">Laptops</option>
+                                <option value="phones">Phones</option>
+                                <option value="audio">Audio</option>
+                                <option value="storage">Storage</option>
+                            </select>
+                            <button type="button" class="btn btn-primary rounded-pill py-3 px-5" style="border: 0;" onclick="performCheckoutSearch()"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="search-results-dropdown" id="checkoutSearchDropdown"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3 text-center text-lg-end">
+                    <div class="d-inline-flex align-items-center">
+                        <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span class="rounded-circle btn-md-square border"><i class="fas fa-random"></i></i></a>
+                        <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
+                        <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span> <span class="text-dark ms-2">$0.00</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Topbar End -->
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
+            <div class="row gx-0 bg-primary px-5 align-items-center">
+                <div class="col-lg-3 d-none d-lg-block">
+                    <nav class="navbar navbar-light position-relative" style="width: 250px;">
+                        <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#allCat">
+                            <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
+                        </button>
+                        <div class="collapse navbar-collapse rounded-bottom" id="allCat">
+                            <div class="navbar-nav ms-auto py-0">
+                                <ul class="list-unstyled categories-bars">
+                                    <li>
+                                        <div class="categories-bars-item">
+                                            <a href="#">Accessories</a>
+                                            <span>(3)</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="categories-bars-item">
+                                            <a href="#">Electronics & Computer</a>
+                                            <span>(5)</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="categories-bars-item">
+                                            <a href="#">Laptops & Desktops</a>
+                                            <span>(2)</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="categories-bars-item">
+                                            <a href="#">Mobiles & Tablets</a>
+                                            <span>(8)</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="categories-bars-item">
+                                            <a href="#">SmartPhone & Smart TV</a>
+                                            <span>(5)</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+                        <a href="index.html" class="navbar-brand d-block d-lg-none">
+                            <img src="img/logo.jpg" alt="Awesome Technologies" style="height: 50px; width: auto;">
+                        </a>
+                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="fa fa-bars fa-1x"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="index.html" class="nav-item nav-link text-white-50 fw-semibold">Home</a>
+                                <a href="shop.html" class="nav-item nav-link text-white-50 fw-semibold">Shop</a>
+                                <a href="cart.html" class="nav-item nav-link text-white-50 fw-semibold">Shop Cart</a>
+                                <a href="cheackout.html" class="nav-item nav-link active fw-bold text-white">Checkout</a>
+                                <a href="contact.html" class="nav-item nav-link text-white-50 fw-semibold me-2">Contact</a>
+                                <div class="nav-item dropdown d-block d-lg-none mb-3">
+                                    <a href="#" class="nav-link" data-bs-toggle="dropdown"><span class="dropdown-toggle">All Category</span></a>
+                                    <div class="dropdown-menu m-0">
+                                        <ul class="list-unstyled categories-bars">
+                                            <li>
+                                                <div class="categories-bars-item">
+                                                    <a href="#">Accessories</a>
+                                                    <span>(3)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="categories-bars-item">
+                                                    <a href="#">Electronics & Computer</a>
+                                                    <span>(5)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="categories-bars-item">
+                                                    <a href="#">Laptops & Desktops</a>
+                                                    <span>(2)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="categories-bars-item">
+                                                    <a href="#">Mobiles & Tablets</a>
+                                                    <span>(8)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="categories-bars-item">
+                                                    <a href="#">SmartPhone & Smart TV</a>
+                                                    <span>(5)</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm"><i class="fa fa-mobile-alt me-2"></i>+254 704 546 916</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar & Hero End -->
+
+        <!-- Mobile Search Bar Start -->
+        <div class="container-fluid d-lg-none bg-light py-3">
+            <div class="container">
+                <div class="position-relative">
+                    <div class="d-flex border rounded-pill bg-white">
+                        <input class="form-control border-0 rounded-pill w-100 py-3 ps-4" type="text" id="mobileCheckoutSearchInput" onkeyup="handleMobileCheckoutSearch(event)" placeholder="Search Looking For?">
+                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4" onclick="performMobileCheckoutSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="search-results-dropdown" id="mobileCheckoutSearchDropdown"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Search Bar End -->
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Cheackout Page</h1>
+            <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item active text-white">Cheackout</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+        <!-- Searvices Start -->
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="p-4">
+                        <div class="d-inline-flex align-items-center">
+                            <i class="fa fa-sync-alt fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Free Return</h6>
+                                <p class="mb-0">30 days money back guarantee!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fab fa-telegram-plane fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Free Shipping</h6>
+                                <p class="mb-0">Free shipping on all order</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-life-ring fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Support 24/7</h6>
+                                <p class="mb-0">We support online 24 hrs a day</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-credit-card fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Receive Gift Card</h6>
+                                <p class="mb-0">Recieve gift all over oder $50</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-lock fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Secure Payment</h6>
+                                <p class="mb-0">We Value Your Security</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-blog fa-2x text-primary"></i>
+                            <div class="ms-4">
+                                <h6 class="text-uppercase mb-2">Online Service</h6>
+                                <p class="mb-0">Free return products in 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Searvices End -->
+
+
+        <!-- Checkout Page Start -->
+        <div class="container-fluid py-5" id="checkoutContent">
+            <div class="container">
+                <!-- Empty Cart Message -->
+                <div id="emptyCartMessage" style="display: none;">
+                    <div class="empty-cart-message">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Your Cart is Empty</h2>
+                        <p>Add some products to your cart before checking out.</p>
+                        <a href="shop-new.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Checkout Form -->
+                <form id="checkoutForm">
+                    <div class="row g-5">
+                        <!-- Billing Details -->
+                        <div class="col-lg-7">
+                            <div class="bg-white p-4 rounded shadow-sm">
+                                <h3 class="mb-4"><i class="fas fa-user-circle me-2"></i>Billing Details</h3>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control" id="phone" placeholder="07XX XXX XXX" required>
+                                        <small class="text-muted">For M-Pesa payment and order updates</small>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">County/Region <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="county" required>
+                                            <option value="">Select County</option>
+                                            <option value="Nairobi">Nairobi</option>
+                                            <option value="Mombasa">Mombasa</option>
+                                            <option value="Kisumu">Kisumu</option>
+                                            <option value="Nakuru">Nakuru</option>
+                                            <option value="Kiambu">Kiambu</option>
+                                            <option value="Machakos">Machakos</option>
+                                            <option value="Kajiado">Kajiado</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Town/City <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="city" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Street Address <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="address" placeholder="Building name, Street name" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Delivery Notes (Optional)</label>
+                                        <textarea class="form-control" id="notes" rows="3" placeholder="Special instructions for delivery..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Methods -->
+                                <div class="mt-5">
+                                    <h3 class="mb-4"><i class="fas fa-credit-card me-2"></i>Payment Method</h3>
+                                    
+                                    <div class="payment-method-card active" onclick="selectPaymentMethod('mpesa')">
+                                        <div class="d-flex align-items-center">
+                                            <input type="radio" name="paymentMethod" id="mpesa" value="mpesa" checked>
+                                            <label for="mpesa" class="mb-0 flex-fill">
+                                                <strong>M-Pesa</strong>
+                                                <p class="mb-0 text-muted small">Pay securely via M-Pesa STK Push</p>
+                                            </label>
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/200px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" class="payment-logo">
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-method-card" onclick="selectPaymentMethod('cod')">
+                                        <div class="d-flex align-items-center">
+                                            <input type="radio" name="paymentMethod" id="cod" value="cod">
+                                            <label for="cod" class="mb-0">
+                                                <strong>Cash on Delivery</strong>
+                                                <p class="mb-0 text-muted small">Pay when you receive the order</p>
+                                            </label>
+                                            <i class="fas fa-money-bill-wave fa-2x text-success payment-logo"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-method-card" onclick="selectPaymentMethod('bank')">
+                                        <div class="d-flex align-items-center">
+                                            <input type="radio" name="paymentMethod" id="bank" value="bank">
+                                            <label for="bank" class="mb-0">
+                                                <strong>Bank Transfer</strong>
+                                                <p class="mb-0 text-muted small">Direct bank transfer</p>
+                                            </label>
+                                            <i class="fas fa-university fa-2x text-primary payment-logo"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- M-Pesa Phone Number Input (for M-Pesa payment) -->
+                                <div class="mt-3" id="mpesaPhoneSection">
+                                    <label class="form-label">M-Pesa Phone Number <span class="text-danger">*</span></label>
+                                    <input 
+                                        type="tel" 
+                                        class="form-control" 
+                                        id="mpesaPhone" 
+                                        placeholder="254XXXXXXXXX" 
+                                        maxlength="12"
+                                        pattern="254[0-9]{9}"
+                                    >
+                                    <small class="text-muted">Format: 254XXXXXXXXX (e.g., 254704546916)</small>
+                                    <div class="invalid-feedback">Please enter a valid M-Pesa phone number (254XXXXXXXXX)</div>
+                                </div>
+
+                                <!-- Payment Instructions -->
+                                <div class="alert alert-info mt-3" id="mpesaInstructions">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>M-Pesa Payment:</strong> 
+                                    <ol class="mb-0 mt-2">
+                                        <li>Enter your M-Pesa registered phone number in 254XXXXXXXXX format</li>
+                                        <li>Click "Place Order Securely"</li>
+                                        <li>You'll receive an STK push prompt on your phone</li>
+                                        <li>Enter your M-Pesa PIN to complete payment</li>
+                                    </ol>
+                                </div>
+
+                                <div class="alert alert-warning mt-3" id="codInstructions" style="display: none;">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Cash on Delivery:</strong> Pay with cash when the order is delivered to your doorstep.
+                                </div>
+
+                                <div class="alert alert-info mt-3" id="bankInstructions" style="display: none;">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Bank Transfer:</strong> Transfer funds to our bank account. Order ships after payment confirmation.<br>
+                                    <strong class="mt-2 d-block">Bank Details:</strong>
+                                    Bank: Equity Bank<br>
+                                    Account: 1234567890<br>
+                                    Account Name: Awesome Tech
+                                </div>
+
+                                <!-- M-Pesa Payment Status Modal -->
+                                <div class="modal fade" id="mpesaStatusModal" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <h5 class="modal-title">M-Pesa Payment</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body text-center py-5">
+                                                <div id="mpesaStatusContent">
+                                                    <!-- Status content loaded dynamically -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="col-lg-5">
+                            <div class="order-summary-card">
+                                <h3 class="mb-4"><i class="fas fa-shopping-bag me-2"></i>Order Summary</h3>
+                                
+                                <div id="cartItemsList">
+                                    <!-- Cart items loaded dynamically -->
+                                </div>
+
+                                <hr class="my-4">
+
+                                <!-- Order Totals -->
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal:</span>
+                                    <strong id="subtotalAmount">KSh 0</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Shipping:</span>
+                                    <strong id="shippingAmount">KSh 0</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2" id="discountRow" style="display: none;">
+                                    <span class="text-success">Discount:</span>
+                                    <strong class="text-success" id="discountAmount">-KSh 0</strong>
+                                </div>
+                                
+                                <hr class="my-3">
+                                
+                                <div class="d-flex justify-content-between mb-4">
+                                    <h4>Total:</h4>
+                                    <h4 class="text-primary" id="totalAmount">KSh 0</h4>
+                                </div>
+
+                                <!-- Place Order Button -->
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                    <i class="fas fa-lock me-2"></i>Place Order Securely
+                                </button>
+
+                                <button type="button" class="btn btn-success btn-lg w-100" onclick="checkoutViaWhatsApp()">
+                                    <i class="fab fa-whatsapp me-2"></i>Order via WhatsApp
+                                </button>
+
+                                <div class="mt-4 text-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        Secure SSL encrypted payment
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Checkout Page End -->
+                    
+                
+
+        <!-- Footer Start -->
+        <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+            <div class="container py-5">
+                <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="rounded p-4">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                                <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white">Kisii Branch</h4>
+                                <p class="mb-2">Kisii Town, Kisii County, Kenya</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="rounded p-4">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                                <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white">Nairobi Branch</h4>
+                                <p class="mb-2">Nairobi CBD, Nairobi, Kenya</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="rounded p-4">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                                <i class="fas fa-envelope fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white">Email Us</h4>
+                                <p class="mb-2">info@awesometech.co.ke</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="rounded p-4">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                                <i class="fa fa-phone-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white">Call Us</h4>
+                                <p class="mb-2">+254 704 546 916</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <div class="footer-item">
+                                <h4 class="text-primary mb-4">Awesome Technologies</h4>
+                                <p class="text-white mb-3">Your trusted partner for quality laptops, phones, accessories, and tech solutions in Kenya. We deliver excellence with every purchase.</p>
+                                <div class="position-relative mx-auto rounded-pill">
+                                    <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
+                                    <button type="button" class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-primary mb-4">Customer Service</h4>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Returns</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> My Account</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe Notification</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-primary mb-4">Information</h4>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Seller Login</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-primary mb-4">Extras</h4>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Wishlist</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                            <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright py-4">
+            <div class="container">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-md-0">
+                        <span class="text-white"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Awesome Technologies</a>, All rights reserved.</span>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end text-white">
+                    Designed & Developed By <i class="fas  text-danger"><a href="https://drewsky-ltd.vercel.app/"><i class="fas fa-code text-white">DrewSky Softwares LTD</i></a></i> 
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="js/auth-helper.js"></script>
+    <script src="js/cart-manager.js"></script>
+    <script src="js/my-account-handler.js"></script>
+    <script src="js/user-activity-tracker.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // API Configuration
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+            : '/api';
+        const WHATSAPP_NUMBER = '+254704546916';
+        
+        // Cart and Checkout Data
+        let cartItems = [];
+        let subtotal = 0;
+        let shipping = 500; // Default shipping cost
+        let total = 0;
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing checkout...');
+            loadCartData();
+            updateCartCount();
+            loadCategories();
+            initializePaymentMethods();
+        });
+
+        // Load cart data from localStorage
+        async function loadCartData() {
+            console.log('Loading cart data...');
+            const cartData = localStorage.getItem('awesomeTech_cart');
+            console.log('Raw cart data from localStorage:', cartData);
+            const cart = JSON.parse(cartData || '[]');
+            console.log('Parsed cart:', cart);
+            
+            if (!cart || cart.length === 0) {
+                console.log('Cart is empty, showing empty message');
+                document.getElementById('emptyCartMessage').style.display = 'block';
+                document.getElementById('checkoutForm').style.display = 'none';
+                return;
+            }
+            
+            console.log(`Cart has ${cart.length} items, proceeding...`);
+            document.getElementById('emptyCartMessage').style.display = 'none';
+            document.getElementById('checkoutForm').style.display = 'block';
+
+            // Fetch latest product prices from API
+            try {
+                const productIds = cart.map(item => item.id).filter(id => id);
+                
+                if (productIds.length > 0) {
+                    // Fetch products to get latest prices
+                    const response = await fetch(`${API_BASE}/products`);
+                    if (response.ok) {
+                        const products = await response.json();
+                        
+                        // Update cart items with latest prices
+                        cartItems = cart.map(cartItem => {
+                            const product = products.find(p => p.id === cartItem.id);
+                            if (product) {
+                                return {
+                                    ...cartItem,
+                                    price: product.price || cartItem.price,
+                                    name: product.name || cartItem.name,
+                                    images: product.images || cartItem.images || [cartItem.image]
+                                };
+                            }
+                            return cartItem;
+                        });
+                        
+                        // Update localStorage with latest prices
+                        localStorage.setItem('awesomeTech_cart', JSON.stringify(cartItems));
+                    } else {
+                        cartItems = cart;
+                    }
+                } else {
+                    cartItems = cart;
+                }
+            } catch (error) {
+                console.error('Error fetching latest prices:', error);
+                cartItems = cart; // Use existing cart data if API fails
+            }
+
+            displayCartItems();
+            calculateTotals();
+        }
+
+        // Display cart items
+        function displayCartItems() {
+            const container = document.getElementById('cartItemsList');
+            
+            if (!cartItems || cartItems.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No items in cart</p>';
+                return;
+            }
+            
+            console.log('Displaying cart items:', cartItems);
+            
+            container.innerHTML = cartItems.map(item => {
+                const price = parseFloat(item.price) || 0;
+                const quantity = parseInt(item.quantity) || 1;
+                const itemTotal = price * quantity;
+                
+                // Get image - handle both array and single image
+                let img = 'img/product-1.png';
+                if (Array.isArray(item.images) && item.images.length > 0) {
+                    img = item.images[0];
+                } else if (item.image) {
+                    img = item.image;
+                }
+
+                return `
+                    <div class="cart-item-checkout">
+                        <img src="${img}" alt="${item.name || 'Product'}" onerror="this.onerror=null; this.src='img/product-1.png';">
+                        <div class="cart-item-info">
+                            <h6>${item.name || 'Product'}</h6>
+                            <small class="text-muted">Qty: ${quantity} × KSh ${price.toLocaleString()}</small>
+                        </div>
+                        <strong>KSh ${itemTotal.toLocaleString()}</strong>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Calculate totals
+        function calculateTotals() {
+            subtotal = cartItems.reduce((sum, item) => {
+                const price = parseFloat(item.price) || 0;
+                const quantity = parseInt(item.quantity) || 1;
+                return sum + (price * quantity);
+            }, 0);
+
+            // Free shipping for orders above KSh 50,000
+            shipping = subtotal > 50000 ? 0 : 500;
+
+            total = subtotal + shipping;
+
+            console.log('Cart Totals:', { subtotal, shipping, total, itemCount: cartItems.length });
+
+            // Update UI with animation
+            const subtotalEl = document.getElementById('subtotalAmount');
+            const shippingEl = document.getElementById('shippingAmount');
+            const totalEl = document.getElementById('totalAmount');
+            
+            if (subtotalEl) {
+                subtotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
+                subtotalEl.classList.add('text-success');
+                setTimeout(() => subtotalEl.classList.remove('text-success'), 1000);
+            }
+            
+            if (shippingEl) {
+                shippingEl.textContent = shipping === 0 ? 'FREE' : `KSh ${shipping.toLocaleString()}`;
+                if (shipping === 0) {
+                    shippingEl.classList.add('text-success', 'fw-bold');
+                }
+            }
+            
+            if (totalEl) {
+                totalEl.textContent = `KSh ${total.toLocaleString()}`;
+                totalEl.classList.add('text-primary');
+            }
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const countElement = document.getElementById('headerCartCount');
+            if (countElement) {
+                countElement.textContent = count;
+            }
+        }
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/categories`);
+                const categories = await response.json();
+                
+                const dropdown = document.getElementById('categoriesDropdown');
+                if (dropdown) {
+                    categories.forEach(cat => {
+                        const item = document.createElement('a');
+                        item.className = 'dropdown-item';
+                        item.href = `shop-new.html?category=${cat.id}`;
+                        item.textContent = cat.name;
+                        dropdown.appendChild(item);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Payment method selection
+        function selectPaymentMethod(method) {
+            // Update active class
+            document.querySelectorAll('.payment-method-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Update radio button
+            document.getElementById(method).checked = true;
+
+            // Show/hide M-Pesa phone section
+            const mpesaPhoneSection = document.getElementById('mpesaPhoneSection');
+            if (mpesaPhoneSection) {
+                mpesaPhoneSection.style.display = method === 'mpesa' ? 'block' : 'none';
+                const mpesaPhoneInput = document.getElementById('mpesaPhone');
+                if (method === 'mpesa') {
+                    mpesaPhoneInput.setAttribute('required', 'required');
+                } else {
+                    mpesaPhoneInput.removeAttribute('required');
+                }
+            }
+
+            // Show/hide instructions
+            document.getElementById('mpesaInstructions').style.display = method === 'mpesa' ? 'block' : 'none';
+            document.getElementById('codInstructions').style.display = method === 'cod' ? 'block' : 'none';
+            document.getElementById('bankInstructions').style.display = method === 'bank' ? 'block' : 'none';
+        }
+
+        // Initialize payment methods
+        function initializePaymentMethods() {
+            document.querySelectorAll('.payment-method-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        selectPaymentMethod(radio.value);
+                    }
+                });
+            });
+
+            // Auto-format M-Pesa phone number
+            const mpesaPhoneInput = document.getElementById('mpesaPhone');
+            if (mpesaPhoneInput) {
+                mpesaPhoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                    
+                    // Auto-add 254 prefix if user starts with 0 or 7
+                    if (value.startsWith('0')) {
+                        value = '254' + value.substring(1);
+                    } else if (value.startsWith('7') && !value.startsWith('254')) {
+                        value = '254' + value;
+                    }
+                    
+                    e.target.value = value.substring(0, 12); // Limit to 12 digits
+                });
+            }
+        }
+
+        // M-Pesa STK Push
+        async function initiateMpesaPayment(orderData, mpesaPhone) {
+            try {
+                const response = await fetch(`${API_BASE}/mpesa/stkpush`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: mpesaPhone,
+                        amount: Math.ceil(orderData.payment.total), // Round up to nearest whole number
+                        accountReference: `ORDER-${Date.now()}`,
+                        transactionDesc: 'Awesome Tech Purchase'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.message || 'M-Pesa payment initiation failed');
+                }
+
+                return result;
+            } catch (error) {
+                console.error('M-Pesa STK Push error:', error);
+                throw error;
+            }
+        }
+
+        // Check M-Pesa payment status
+        async function checkMpesaPaymentStatus(checkoutRequestId) {
+            try {
+                const response = await fetch(`${API_BASE}/mpesa/status/${checkoutRequestId}`);
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.message || 'Failed to check payment status');
+                }
+
+                return result;
+            } catch (error) {
+                console.error('Payment status check error:', error);
+                throw error;
+            }
+        }
+
+        // Show M-Pesa status modal
+        function showMpesaStatus(status, message, details = {}) {
+            const modal = new bootstrap.Modal(document.getElementById('mpesaStatusModal'));
+            const content = document.getElementById('mpesaStatusContent');
+            
+            let html = '';
+            
+            if (status === 'pending') {
+                html = `
+                    <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5 class="mb-3">Processing Payment...</h5>
+                    <p class="text-muted">${message}</p>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-mobile-alt me-2"></i>
+                        Check your phone for the M-Pesa prompt
+                    </div>
+                `;
+            } else if (status === 'success') {
+                html = `
+                    <div class="text-success mb-3">
+                        <i class="fas fa-check-circle" style="font-size: 4rem;"></i>
+                    </div>
+                    <h5 class="mb-3 text-success">Payment Successful!</h5>
+                    <p class="text-muted">${message}</p>
+                    ${details.mpesaReceiptNumber ? `
+                        <div class="alert alert-success mt-3">
+                            <strong>M-Pesa Receipt:</strong> ${details.mpesaReceiptNumber}<br>
+                            <strong>Transaction ID:</strong> ${details.transactionId || 'N/A'}
+                        </div>
+                    ` : ''}
+                    <button class="btn btn-primary mt-3" onclick="window.location.href='index.html'">
+                        Continue Shopping
+                    </button>
+                `;
+            } else if (status === 'failed') {
+                html = `
+                    <div class="text-danger mb-3">
+                        <i class="fas fa-times-circle" style="font-size: 4rem;"></i>
+                    </div>
+                    <h5 class="mb-3 text-danger">Payment Failed</h5>
+                    <p class="text-muted">${message}</p>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Common reasons:</strong>
+                        <ul class="mb-0 mt-2 text-start">
+                            <li>Insufficient balance</li>
+                            <li>Wrong PIN entered</li>
+                            <li>Payment cancelled</li>
+                            <li>Transaction timeout</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary mt-3" data-bs-dismiss="modal">
+                        Try Again
+                    </button>
+                `;
+            }
+            
+            content.innerHTML = html;
+            modal.show();
+        }
+
+        // Poll M-Pesa payment status
+        async function pollMpesaPayment(checkoutRequestId, maxAttempts = 30) {
+            let attempts = 0;
+            
+            return new Promise((resolve, reject) => {
+                const interval = setInterval(async () => {
+                    attempts++;
+                    
+                    try {
+                        const status = await checkMpesaPaymentStatus(checkoutRequestId);
+                        
+                        if (status.resultCode === '0') {
+                            // Payment successful
+                            clearInterval(interval);
+                            resolve(status);
+                        } else if (status.resultCode && status.resultCode !== '0') {
+                            // Payment failed
+                            clearInterval(interval);
+                            reject(new Error(status.resultDesc || 'Payment failed'));
+                        } else if (attempts >= maxAttempts) {
+                            // Timeout
+                            clearInterval(interval);
+                            reject(new Error('Payment verification timeout. Please contact support if payment was deducted.'));
+                        }
+                        // Otherwise, continue polling
+                    } catch (error) {
+                        if (attempts >= maxAttempts) {
+                            clearInterval(interval);
+                            reject(error);
+                        }
+                        // Continue polling on error
+                    }
+                }, 2000); // Check every 2 seconds
+            });
+        }
+
+        // Form submission
+        document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Form submitted, processing order...');
+
+            // Validate form
+            if (!this.checkValidity()) {
+                this.reportValidity();
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            // Validate M-Pesa phone number if M-Pesa is selected
+            if (paymentMethod === 'mpesa') {
+                const mpesaPhone = document.getElementById('mpesaPhone').value;
+                const mpesaPhoneRegex = /^254[0-9]{9}$/;
+                
+                if (!mpesaPhone || !mpesaPhoneRegex.test(mpesaPhone)) {
+                    document.getElementById('mpesaPhone').classList.add('is-invalid');
+                    alert('Please enter a valid M-Pesa phone number (254XXXXXXXXX)');
+                    return;
+                }
+                document.getElementById('mpesaPhone').classList.remove('is-invalid');
+            }
+
+            // Show loading
+            showLoading();
+
+            // Collect form data
+            const orderData = {
+                customer: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    county: document.getElementById('county').value,
+                    city: document.getElementById('city').value,
+                    address: document.getElementById('address').value,
+                    notes: document.getElementById('notes').value
+                },
+                items: cartItems,
+                payment: {
+                    method: paymentMethod,
+                    subtotal: subtotal,
+                    shipping: shipping,
+                    total: total
+                },
+                orderDate: new Date().toISOString()
+            };
+
+            try {
+                // Handle M-Pesa payment
+                if (paymentMethod === 'mpesa') {
+                    const mpesaPhone = document.getElementById('mpesaPhone').value;
+                    
+                    hideLoading();
+                    
+                    // Show pending status
+                    showMpesaStatus('pending', 'Initiating M-Pesa payment...', {});
+                    
+                    try {
+                        // Initiate STK Push
+                        const mpesaResult = await initiateMpesaPayment(orderData, mpesaPhone);
+                        
+                        if (mpesaResult.ResponseCode === '0' || mpesaResult.CheckoutRequestID) {
+                            // Update status message
+                            showMpesaStatus('pending', 'Please enter your M-Pesa PIN on your phone to complete payment.', {});
+                            
+                            // Poll for payment status
+                            const paymentStatus = await pollMpesaPayment(mpesaResult.CheckoutRequestID);
+                            
+                            // Payment successful - add M-Pesa details to order
+                            orderData.payment.mpesaReceiptNumber = paymentStatus.mpesaReceiptNumber;
+                            orderData.payment.transactionId = paymentStatus.transactionId;
+                            orderData.payment.status = 'paid';
+                            
+                            // Submit order to API
+                            const response = await fetch(`${API_BASE}/orders`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(orderData)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Order submission failed');
+                            }
+
+                            const result = await response.json();
+
+                            // Clear cart
+                            localStorage.removeItem('awesomeTech_cart');
+
+                            // Show success
+                            showMpesaStatus('success', `Order #${result.orderId || 'N/A'} placed successfully!`, {
+                                mpesaReceiptNumber: paymentStatus.mpesaReceiptNumber,
+                                transactionId: paymentStatus.transactionId
+                            });
+                            
+                        } else {
+                            throw new Error(mpesaResult.errorMessage || 'Failed to initiate M-Pesa payment');
+                        }
+                    } catch (mpesaError) {
+                        console.error('M-Pesa payment error:', mpesaError);
+                        showMpesaStatus('failed', mpesaError.message || 'Payment failed. Please try again.');
+                    }
+                    
+                } else {
+                    // Handle COD and Bank Transfer (no payment processing)
+                    orderData.payment.status = paymentMethod === 'cod' ? 'pending' : 'awaiting_transfer';
+                    
+                    // Submit order to API
+                    const response = await fetch(`${API_BASE}/orders`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(orderData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Order submission failed');
+                    }
+
+                    const result = await response.json();
+
+                    // Clear cart
+                    localStorage.removeItem('awesomeTech_cart');
+
+                    // Show success
+                    hideLoading();
+                    showSuccessMessage(result.orderId || 'N/A');
+                }
+
+            } catch (error) {
+                console.error('Order error:', error);
+                hideLoading();
+                alert('Failed to place order. Please try again or contact support.');
+            }
+        });
+
+        // WhatsApp Checkout
+        function checkoutViaWhatsApp() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const county = document.getElementById('county').value;
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value;
+
+            if (!firstName || !lastName || !phone || !county || !city || !address) {
+                alert('Please fill in all required billing details first.');
+                return;
+            }
+
+            let message = `🛒 *NEW ORDER REQUEST*\n\n`;
+            message += `📋 *Customer Details:*\n`;
+            message += `Name: ${firstName} ${lastName}\n`;
+            message += `Phone: ${phone}\n`;
+            message += `Location: ${city}, ${county}\n`;
+            message += `Address: ${address}\n\n`;
+
+            message += `📦 *Order Items:*\n`;
+            cartItems.forEach((item, index) => {
+                message += `${index + 1}. ${item.name}\n`;
+                message += `   Qty: ${item.quantity} × KSh ${item.price.toLocaleString()}\n`;
+                message += `   Subtotal: KSh ${((item.price || 0) * (item.quantity || 1)).toLocaleString()}\n\n`;
+            });
+
+            message += `💰 *Order Summary:*\n`;
+            message += `Subtotal: KSh ${subtotal.toLocaleString()}\n`;
+            message += `Shipping: ${shipping === 0 ? 'FREE' : 'KSh ' + shipping.toLocaleString()}\n`;
+            message += `*Total: KSh ${total.toLocaleString()}*\n\n`;
+
+            message += `Please confirm this order and provide payment instructions.\n`;
+            message += `Thank you! 🙏`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Show loading overlay
+        function showLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.classList.add('show');
+            }
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+        }
+
+        // Show success message
+        function showSuccessMessage(orderId) {
+            alert(`✅ Order Placed Successfully!\n\nOrder ID: ${orderId}\n\nYou will receive a confirmation email shortly.\nThank you for shopping with us!`);
+            
+            // Redirect to home page
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: '#28a745',
+                info: '#17a2b8',
+                warning: '#ffc107',
+                error: '#dc3545'
+            };
+
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type]};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Search functionality for checkout page
+        let searchTimeout;
+
+        function handleCheckoutSearch(event) {
+            clearTimeout(searchTimeout);
+            const query = event.target.value.trim();
+
+            if (query.length === 0) {
+                document.getElementById('checkoutSearchDropdown').style.display = 'none';
+                return;
+            }
+
+            if (event.key === 'Enter') {
+                performCheckoutSearch();
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                performCheckoutSearch();
+            }, 300);
+        }
+
+        async function performCheckoutSearch() {
+            const query = document.getElementById('checkoutSearchInput').value.trim();
+            const category = document.getElementById('checkoutCategoryFilter').value;
+            const dropdown = document.getElementById('checkoutSearchDropdown');
+
+            if (!query) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            try {
+                // Search both cart items and products
+                let resultsHtml = '';
+                
+                // Search in current cart
+                const cartMatches = cartItems.filter(item => 
+                    item.name.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (cartMatches.length > 0) {
+                    resultsHtml += cartMatches.map(item => `
+                        <div class="search-result-item" onclick="scrollToCartItem('${item.id}')">
+                            <img src="${item.image || 'img/product-1.png'}" alt="${item.name}" class="search-result-image">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${highlightMatch(item.name, query)}</div>
+                                <div class="search-result-price">KSh ${Number(item.price).toLocaleString()}</div>
+                            </div>
+                            <span class="badge bg-info search-result-badge">In Cart</span>
+                        </div>
+                    `).join('');
+                }
+
+                // Search API products
+                let url = `${API_BASE}/products?search=${encodeURIComponent(query)}&limit=5`;
+                if (category) {
+                    url += `&category=${encodeURIComponent(category)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+                const products = Array.isArray(data.data) ? data.data : Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
+
+                if (products && products.length > 0) {
+                    resultsHtml += products.map(product => {
+                        let productImage = 'img/product-1.png';
+                        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                            productImage = product.images[0];
+                        } else if (product.image_url) {
+                            productImage = product.image_url;
+                        } else if (product.image) {
+                            productImage = product.image;
+                        }
+
+                        return `
+                            <div class="search-result-item" onclick="goToProduct(${product.id})">
+                                <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                                <div class="search-result-info">
+                                    <div class="search-result-name">${highlightMatch(product.name, query)}</div>
+                                    <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
+                                </div>
+                                ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                if (!resultsHtml) {
+                    resultsHtml = `
+                        <div class="search-no-results">
+                            <i class="fas fa-search"></i>
+                            <p>No products found for "${highlightMatch(query, query)}"</p>
+                        </div>
+                    `;
+                }
+
+                dropdown.innerHTML = resultsHtml;
+                dropdown.style.display = 'block';
+            } catch (error) {
+                console.error('Search error:', error);
+                dropdown.innerHTML = `
+                    <div class="search-no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error performing search. Please try again.</p>
+                    </div>
+                `;
+                dropdown.style.display = 'block';
+            }
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function goToProduct(productId) {
+            window.location.href = `product-detail.html?id=${productId}`;
+        }
+
+        function scrollToCartItem(itemId) {
+            document.getElementById('checkoutSearchDropdown').style.display = 'none';
+            const element = document.querySelector(`[data-item-id="${itemId}"]`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.background = '#fff3cd';
+                setTimeout(() => {
+                    element.style.background = '';
+                }, 2000);
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('checkoutSearchDropdown');
+            const searchInput = document.getElementById('checkoutSearchInput');
+            if (dropdown && searchInput && !dropdown.contains(e.target) && e.target !== searchInput) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Mobile Search functionality for cheackout.html
+        let mobileCheckoutSearchTimeout;
+
+        function handleMobileCheckoutSearch(event) {
+            clearTimeout(mobileCheckoutSearchTimeout);
+            const query = event.target.value.trim();
+
+            if (query.length === 0) {
+                document.getElementById('mobileCheckoutSearchDropdown').style.display = 'none';
+                return;
+            }
+
+            if (event.key === 'Enter') {
+                performMobileCheckoutSearch();
+                return;
+            }
+
+            mobileCheckoutSearchTimeout = setTimeout(() => {
+                performMobileCheckoutSearch();
+            }, 300);
+        }
+
+        async function performMobileCheckoutSearch() {
+            const query = document.getElementById('mobileCheckoutSearchInput').value.trim();
+            const dropdown = document.getElementById('mobileCheckoutSearchDropdown');
+            const API_BASE = 'http://localhost:5000/api';
+
+            if (!query) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/products?search=${encodeURIComponent(query)}&limit=10`);
+                const data = await response.json();
+                const products = Array.isArray(data.data) ? data.data : Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
+
+                if (!products || products.length === 0) {
+                    dropdown.innerHTML = `
+                        <div class="search-no-results">
+                            <i class="fas fa-search"></i>
+                            <p>No products found for "${query}"</p>
+                        </div>
+                    `;
+                    dropdown.style.display = 'block';
+                    return;
+                }
+
+                let html = products.map(product => {
+                    let productImage = 'img/product-1.png';
+                    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                        productImage = product.images[0];
+                    } else if (product.image_url) {
+                        productImage = product.image_url;
+                    } else if (product.image) {
+                        productImage = product.image;
+                    }
+
+                    return `
+                    <div class="search-result-item" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                        <img src="${productImage}" alt="${product.name}" class="search-result-image">
+                        <div class="search-result-info">
+                            <div class="search-result-name">${product.name}</div>
+                            <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
+                        </div>
+                        ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                    </div>
+                `;
+                }).join('');
+
+                html += `<a href="shop.html?search=${encodeURIComponent(query)}" class="search-view-all">
+                    View All Results <i class="fas fa-arrow-right ms-2"></i>
+                </a>`;
+
+                dropdown.innerHTML = html;
+                dropdown.style.display = 'block';
+            } catch (error) {
+                console.error('Mobile checkout search error:', error);
+                dropdown.innerHTML = `
+                    <div class="search-no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error performing search. Please try again.</p>
+                    </div>
+                `;
+                dropdown.style.display = 'block';
+            }
+        }
+
+        // Close mobile dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileDropdown = document.getElementById('mobileCheckoutSearchDropdown');
+            const mobileSearchInput = document.getElementById('mobileCheckoutSearchInput');
+            if (mobileDropdown && mobileSearchInput && !mobileDropdown.contains(e.target) && e.target !== mobileSearchInput) {
+                mobileDropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    
+    </body>
+
+</html>

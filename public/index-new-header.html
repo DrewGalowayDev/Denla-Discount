@@ -1,0 +1,209 @@
+<!-- NEW HEADER STRUCTURE FOR INDEX.HTML -->
+<!-- Replace the section from spinner to mobile search bar with this -->
+
+<!-- Spinner Start -->
+<div id="spinner"
+    class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+
+<!-- Main Header - Sticky at Top -->
+<div class="container-fluid sticky-top bg-white shadow-sm" style="z-index: 1000;">
+    <!-- Top Navigation Bar with Logo and Menu -->
+    <div class="row gx-0 align-items-center py-2" style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);">
+        <!-- Logo -->
+        <div class="col-lg-2 col-6 ps-4">
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <h3 class="m-0 text-white fw-bold"><i class="fas fa-store me-2"></i>Denla Discount</h3>
+            </a>
+        </div>
+
+        <!-- Desktop Navigation Links -->
+        <div class="col-lg-7 d-none d-lg-block">
+            <nav class="navbar navbar-expand-lg navbar-light p-0" style="background: transparent;">
+                <div class="navbar-nav ms-auto">
+                    <a href="index.html" class="nav-item nav-link fw-bold text-white px-3">Home</a>
+                    <a href="shop.html" class="nav-item nav-link text-white px-3">Shop</a>
+                    <a href="cart.html" class="nav-item nav-link text-white px-3">Cart</a>
+                    <a href="cheackout.html" class="nav-item nav-link text-white px-3">Checkout</a>
+                    <a href="#" class="nav-item nav-link text-white px-3" id="myAccountLink">My Account</a>
+                    <a href="contact.html" class="nav-item nav-link text-white px-3">Contact</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Contact Button -->
+        <div class="col-lg-3 col-6 text-end pe-4">
+            <a href="tel:+254704546916" class="btn btn-light rounded-pill py-2 px-3 fw-bold d-none d-lg-inline-block">
+                <i class="fa fa-mobile-alt me-2"></i>+254 704 546 916
+            </a>
+            <!-- Mobile Menu Toggle -->
+            <button class="navbar-toggler text-white d-lg-none" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#mobileNavCollapse">
+                <i class="fas fa-bars fa-2x"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="col-12 d-lg-none">
+            <div class="collapse navbar-collapse bg-white" id="mobileNavCollapse">
+                <div class="navbar-nav p-3">
+                    <a href="index.html" class="nav-item nav-link fw-bold">Home</a>
+                    <a href="shop.html" class="nav-item nav-link">Shop</a>
+                    <a href="cart.html" class="nav-item nav-link">Cart</a>
+                    <a href="cheackout.html" class="nav-item nav-link">Checkout</a>
+                    <a href="#" class="nav-item nav-link" id="myAccountLinkMobile">My Account</a>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    <a href="tel:+254704546916" class="nav-item nav-link text-primary">
+                        <i class="fa fa-mobile-alt me-2"></i>+254 704 546 916
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Header End -->
+
+<!-- Search and Category Filter Bar -->
+<div class="container-fluid bg-light py-3 border-bottom">
+    <div class="container-xl">
+        <div class="row align-items-center g-3">
+            <!-- Category Dropdown -->
+            <div class="col-lg-3 col-md-4">
+                <div class="dropdown">
+                    <button class="btn w-100 text-start py-3 dropdown-toggle text-white fw-bold" 
+                            type="button" data-bs-toggle="dropdown"
+                            style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); border: none;">
+                        <i class="fa fa-bars me-2"></i>All Categories
+                    </button>
+                    <ul class="dropdown-menu w-100" id="desktopCategoryList">
+                        <!-- Categories loaded dynamically -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="col-lg-6 col-md-8">
+                <div class="position-relative">
+                    <div class="d-flex border rounded-pill bg-white shadow-sm">
+                        <input class="form-control border-0 rounded-pill w-100 py-3 ps-4" 
+                               type="text" id="indexSearchInput" 
+                               onkeyup="handleIndexSearch(event)"
+                               placeholder="Search for products..." autofocus>
+                        <select class="form-select text-dark border-0 border-start rounded-0 p-2" 
+                                id="categoryFilter" style="width: 130px; font-size: 14px;">
+                            <option value="">All</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Beverages">Beverages</option>
+                            <option value="Dairy Products">Dairy</option>
+                            <option value="Bakery">Bakery</option>
+                            <option value="Household Items">Household</option>
+                            <option value="Personal Care">Personal Care</option>
+                            <option value="Electronics">Electronics</option>
+                        </select>
+                        <button type="button" class="btn rounded-pill py-2 px-4 text-white fw-bold" 
+                                style="border: 0; background: #FF6B35;" 
+                                onclick="performIndexSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-results-dropdown" id="indexSearchDropdown"></div>
+                </div>
+            </div>
+
+            <!-- Action Icons -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="d-flex align-items-center justify-content-end gap-3">
+                    <!-- Wishlist -->
+                    <a href="#" class="text-dark position-relative">
+                        <i class="fas fa-heart fa-lg"></i>
+                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" 
+                              style="font-size: 10px;">0</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="cart.html" class="text-dark position-relative">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        <span class="badge bg-primary position-absolute top-0 start-100 translate-middle rounded-pill" 
+                              style="font-size: 10px; background: #FF6B35 !important;">0</span>
+                    </a>
+                    
+                    <!-- Login Button -->
+                    <button type="button" class="btn rounded-pill py-2 px-4 fw-bold text-white" 
+                            id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal"
+                            style="background: #FF6B35; border: none;">
+                        <i class="fas fa-user me-2"></i>Login
+                    </button>
+                    
+                    <!-- User Menu (shown when logged in) -->
+                    <div class="dropdown" id="userMenuDropdown" style="display: none;">
+                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle fw-bold" 
+                                type="button" data-bs-toggle="dropdown"
+                                style="border-color: #FF6B35; color: #FF6B35;">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="userMenuName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="dashboard.html">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user-cog me-2"></i>Profile
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="#" onclick="handleLogout(event)">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search and Category Filter Bar End -->
+
+<!-- Mobile Search Bar (visible only on mobile) -->
+<div class="d-lg-none bg-white py-3 border-bottom">
+    <div class="container">
+        <div class="position-relative">
+            <div class="d-flex border rounded-pill bg-light">
+                <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" 
+                       type="text" id="mobileIndexSearchInput" 
+                       onkeyup="handleMobileIndexSearch(event)"
+                       placeholder="Search products...">
+                <button type="button" class="btn rounded-pill py-2 px-4 text-white" 
+                        style="border: 0; background: #FF6B35;" 
+                        onclick="performMobileIndexSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="search-results-dropdown" id="mobileIndexSearchDropdown"></div>
+        </div>
+        
+        <!-- Mobile Action Icons -->
+        <div class="d-flex align-items-center justify-content-around mt-3">
+            <a href="#" class="text-dark">
+                <i class="fas fa-heart fa-lg"></i>
+            </a>
+            <a href="cart.html" class="text-dark">
+                <i class="fas fa-shopping-cart fa-lg"></i>
+            </a>
+            <button type="button" class="btn btn-sm rounded-pill px-3 text-white" 
+                    data-bs-toggle="modal" data-bs-target="#loginModal"
+                    style="background: #FF6B35; border: none;">
+                <i class="fas fa-user me-1"></i>Login
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Mobile Search Bar End -->

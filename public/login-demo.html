@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Example - Cart Persistence Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1><i class="fas fa-shopping-cart text-primary"></i> Cart Persistence Demo</h1>
+            <p>Test how cart items persist for both guest and logged-in users</p>
+        </div>
+
+        <!-- Status Card -->
+        <div class="status-card">
+            <h5>Current Status</h5>
+            <div id="userStatus" class="mb-3">
+                <span class="status-badge status-guest">
+                    <i class="fas fa-user-secret"></i> Guest User
+                </span>
+            </div>
+            <div id="cartStatus">
+                <strong>Cart Items:</strong> <span id="cartCount">0</span>
+            </div>
+        </div>
+
+        <!-- Demo Actions -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5><i class="fas fa-plus-circle text-success"></i> Add Test Products</h5>
+                <button class="btn btn-success btn-demo w-100 mb-2" onclick="addSampleProduct()">
+                    <i class="fas fa-laptop"></i> Add Laptop to Cart
+                </button>
+                <button class="btn btn-success btn-demo w-100 mb-2" onclick="addPhoneToCart()">
+                    <i class="fas fa-mobile-alt"></i> Add Phone to Cart
+                </button>
+                <button class="btn btn-success btn-demo w-100" onclick="addHeadphonesToCart()">
+                    <i class="fas fa-headphones"></i> Add Headphones to Cart
+                </button>
+            </div>
+
+            <div class="col-md-6">
+                <h5><i class="fas fa-user-lock text-primary"></i> Authentication</h5>
+                <button class="btn btn-primary btn-demo w-100 mb-2" id="loginBtn" onclick="simulateLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Login (Test User)
+                </button>
+                <button class="btn btn-warning btn-demo w-100 mb-2" id="logoutBtn" onclick="simulateLogout()" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <button class="btn btn-danger btn-demo w-100" onclick="clearCart()">
+                    <i class="fas fa-trash"></i> Clear Cart
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i>
+            <strong>Test Scenario:</strong> Add items as guest, then login to see cart merge!
+        </div>
+
+        <!-- Cart Items Display -->
+        <div class="cart-items" id="cartDisplay">
+            <div class="text-center text-muted">
+                <i class="fas fa-shopping-cart" style="font-size: 3rem; opacity: 0.3;"></i>
+                <p>Your cart is empty. Add some products!</p>
+            </div>
+        </div>
+
+        <!-- Storage Info -->
+        <div class="mt-4">
+            <h5><i class="fas fa-database text-info"></i> Storage Information</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="status-card">
+                        <strong>LocalStorage Cart:</strong>
+                        <pre id="localStorageCart" class="mt-2 mb-0" style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="status-card">
+                        <strong>User Data:</strong>
+                        <pre id="userData" class="mt-2 mb-0" style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Site -->
+        <div class="text-center mt-4">
+            <a href="index.html" class="btn btn-secondary btn-demo">
+                <i class="fas fa-arrow-left"></i> Back to Shop
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth-helper.js"></script>
+    <script src="js/cart-manager.js"></script>
+
+    <script>
+        // Sample products for demo
+        const sampleProducts = {
+            laptop: {
+                id: 1001,
+                name: "Gaming Laptop Pro",
+                brand: "TechBrand",
+                price: 85000,
+                oldPrice: 95000,
+                image: "img/product-1.png",
+                description: "High-performance gaming laptop",
+                category_name: "Laptops",
+                condition: "new",
+                stock_quantity: 10,
+                specs: {
+                    processor: "Intel i7",
+                    ram: "16GB",
+                    storage: "512GB SSD"
+                }
+            },
+            phone: {
+                id: 1002,
+                name: "Smartphone X",
+                brand: "PhoneCo",
+                price: 45000,
+                oldPrice: 50000,
+                image: "img/product-2.png",
+                description: "Latest smartphone with amazing features",
+                category_name: "Phones",
+                condition: "new",
+                stock_quantity: 25
+            },
+            headphones: {
+                id: 1003,
+                name: "Wireless Headphones",
+                brand: "SoundPro",
+                price: 8500,
+                oldPrice: 10000,
+                image: "img/product-3.png",
+                description: "Premium noise-cancelling headphones",
+                category_name: "Accessories",
+                condition: "new",
+                stock_quantity: 50
+            }
+        };
+
+        // Add sample products to cart
+        function addSampleProduct() {
+            window.cartManager.addItem(sampleProducts.laptop, 1);
+            updateDisplay();
+        }
+
+        function addPhoneToCart() {
+            window.cartManager.addItem(sampleProducts.phone, 1);
+            updateDisplay();
+        }
+
+        function addHeadphonesToCart() {
+            window.cartManager.addItem(sampleProducts.headphones, 1);
+            updateDisplay();
+        }
+
+        // Simulate login
+        function simulateLogin() {
+            // Create mock user data
+            const mockUser = {
+                id: 999,
+                username: 'demo_user',
+                email: 'demo@example.com',
+                first_name: 'Demo',
+                last_name: 'User'
+            };
+
+            const mockToken = 'demo_token_' + Date.now();
+
+            // Save to localStorage
+            localStorage.setItem('user', JSON.stringify(mockUser));
+            localStorage.setItem('token', mockToken);
+
+            // Dispatch login event
+            window.dispatchEvent(new CustomEvent('userLoggedIn', { 
+                detail: { user: mockUser } 
+            }));
+
+            // Update UI
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'block';
+
+            updateDisplay();
+            
+            // Show success message
+            alert('✅ Logged in as: ' + mockUser.username + '\n\nCart has been merged with your saved cart!');
+        }
+
+        // Simulate logout
+        function simulateLogout() {
+            window.authHelper.logout();
+
+            // Update UI
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'none';
+
+            updateDisplay();
+            
+            alert('👋 Logged out!\n\nYour cart is still saved in localStorage.');
+        }
+
+        // Clear cart
+        function clearCart() {
+            if (confirm('Clear all items from cart?')) {
+                window.cartManager.clearCart();
+                updateDisplay();
+            }
+        }
+
+        // Update display
+        function updateDisplay() {
+            const cart = window.cartManager.getItems();
+            const user = window.authHelper.getCurrentUser();
+
+            // Update user status
+            const statusHTML = user 
+                ? `<span class="status-badge status-logged-in">
+                    <i class="fas fa-user-check"></i> ${user.username}
+                   </span>`
+                : `<span class="status-badge status-guest">
+                    <i class="fas fa-user-secret"></i> Guest User
+                   </span>`;
+            document.getElementById('userStatus').innerHTML = statusHTML;
+
+            // Update cart count
+            document.getElementById('cartCount').textContent = cart.length;
+
+            // Update cart display
+            const cartDisplay = document.getElementById('cartDisplay');
+            if (cart.length === 0) {
+                cartDisplay.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-shopping-cart" style="font-size: 3rem; opacity: 0.3;"></i>
+                        <p>Your cart is empty. Add some products!</p>
+                    </div>
+                `;
+            } else {
+                const totals = window.cartManager.calculateTotals();
+                cartDisplay.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="flex-grow-1">
+                            <strong>${item.name}</strong>
+                            <div class="text-muted small">${item.brand}</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-primary fw-bold">KSh ${item.price.toLocaleString()}</div>
+                            <div class="text-muted small">Qty: ${item.quantity}</div>
+                        </div>
+                    </div>
+                `).join('') + `
+                    <div class="mt-3 pt-3 border-top">
+                        <h5 class="text-end">
+                            Total: <span class="text-primary">KSh ${totals.total.toLocaleString()}</span>
+                        </h5>
+                    </div>
+                `;
+            }
+
+            // Update storage info
+            document.getElementById('localStorageCart').textContent = 
+                localStorage.getItem('awesomeTech_cart') || 'null';
+            
+            document.getElementById('userData').textContent = 
+                localStorage.getItem('user') || 'null';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDisplay();
+            
+            // Check if user is logged in
+            const user = window.authHelper.getCurrentUser();
+            if (user) {
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+            }
+        });
+
+        // Listen for cart changes
+        window.cartManager.addListener(() => {
+            updateDisplay();
+        });
+    </script>
+
+</body>
+</html>
