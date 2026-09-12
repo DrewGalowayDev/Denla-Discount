@@ -1,5 +1,6 @@
 const db = require('../config/database');
-const { v4: uuidv4 } = require('uuid');
+// Use crypto.randomUUID() instead of uuid package for Node 18+
+const { randomUUID } = require('crypto');
 
 /**
  * Sales Controller for POS System
@@ -49,7 +50,7 @@ exports.createSale = async (req, res) => {
         }
 
         // Insert sale
-        const saleId = uuidv4();
+        const saleId = randomUUID();
         const [saleResult] = await connection.query(
             `INSERT INTO sales (
                 id, sale_number, customer_id, cashier_id, 
@@ -75,7 +76,7 @@ exports.createSale = async (req, res) => {
 
         // Insert sale items and update inventory
         for (const item of items) {
-            const itemId = uuidv4();
+            const itemId = randomUUID();
             
             // Insert sale item
             await connection.query(
@@ -107,7 +108,7 @@ exports.createSale = async (req, res) => {
             );
 
             // Log inventory transaction
-            const transId = uuidv4();
+            const transId = randomUUID();
             await connection.query(
                 `INSERT INTO inventory_transactions (
                     id, product_id, transaction_type, quantity,
@@ -127,7 +128,7 @@ exports.createSale = async (req, res) => {
         // Record cash register transaction
         const registerId = req.body.register_id || null;
         if (registerId) {
-            const cashTransId = uuidv4();
+            const cashTransId = randomUUID();
             await connection.query(
                 `INSERT INTO cash_register_transactions (
                     id, register_id, transaction_type, amount,
@@ -460,7 +461,7 @@ exports.voidSale = async (req, res) => {
             );
 
             // Log inventory restoration
-            const transId = uuidv4();
+            const transId = randomUUID();
             await connection.query(
                 `INSERT INTO inventory_transactions (
                     id, product_id, transaction_type, quantity,
