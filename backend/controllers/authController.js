@@ -39,19 +39,26 @@ exports.register = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
+        // Split name into first_name and last_name
+        const nameParts = name.trim().split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        // Create user with UUID
         const userId = generateUUID();
         await query(
-            `INSERT INTO users (id, name, email, password, phone, role) 
-             VALUES (?, ?, ?, ?, ?, ?)`,
-            [userId, name, email, hashedPassword, phone || null, 'customer']
+            `INSERT INTO users (id, email, password_hash, first_name, last_name, phone, role) 
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [userId, email, hashedPassword, firstName, lastName, phone || null, 'customer']
         );
 
         // Get created user
-        const user = await queryOne('SELECT id, name, email, role FROM users WHERE id = ?', [userId]);
+        const user = await queryOne('SELECT id, first_name, last_name, email, role FROM users WHERE id = ?', [userId]);
 
         // Generate token
         const token = generateToken(user.id);
+
+        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
 
         res.status(201).json({
             success: true,
@@ -59,7 +66,7 @@ exports.register = async (req, res, next) => {
             token,
             user: {
                 id: user.id,
-                name: user.name,
+                name: fullName,
                 email: user.email,
                 role: user.role
             }
@@ -84,7 +91,7 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Get user by email
+        // Get user by email (using password_hash column)
         const user = await queryOne('SELECT * FROM users WHERE email = ?', [email]);
 
         if (!user) {
@@ -102,8 +109,8 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Check password
-        const isMatch = await bcrypt.compare(password, user.password);
+        // Check password (using password_hash column)
+        const isMatch = await bcrypt.compare(password, user.password_hash);
 
         if (!isMatch) {
             return res.status(401).json({
@@ -112,11 +119,18 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Update last login
-        await query('UPDATE users SET last_login = NOW() WHERE id = ?', [user.id]);
+        // Update last login (if column exists)
+        try {
+            await query('UPDATE users SET updated_at = NOW() WHERE id = ?', [user.id]);
+        } catch (err) {
+            // Ignore if last_login column doesn't exist
+        }
 
         // Generate token
         const token = generateToken(user.id);
+
+        // Combine first_name and last_name for name
+        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email;
 
         res.status(200).json({
             success: true,
@@ -124,7 +138,7 @@ exports.login = async (req, res, next) => {
             token,
             user: {
                 id: user.id,
-                name: user.name,
+                name: fullName,
                 email: user.email,
                 role: user.role
             }
@@ -140,7 +154,7 @@ exports.login = async (req, res, next) => {
 exports.getMe = async (req, res, next) => {
     try {
         const user = await queryOne(
-            'SELECT id, name, email, phone, role, created_at FROM users WHERE id = ?',
+            'SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE id = ?',
             [req.user.id]
         );
 
@@ -151,9 +165,14 @@ exports.getMe = async (req, res, next) => {
             });
         }
 
+        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
+
         res.status(200).json({
             success: true,
-            user
+            user: {
+                ...user,
+                name: fullName
+            }
         });
     } catch (error) {
         next(error);
@@ -181,20 +200,30 @@ exports.updateProfile = async (req, res, next) => {
     try {
         const { name, phone } = req.body;
 
+        // Split name into first_name and last_name
+        const nameParts = (name || '').trim().split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
         await query(
-            'UPDATE users SET name = ?, phone = ? WHERE id = ?',
-            [name, phone, req.user.id]
+            'UPDATE users SET first_name = ?, last_name = ?, phone = ? WHERE id = ?',
+            [firstName, lastName, phone, req.user.id]
         );
 
         const user = await queryOne(
-            'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+            'SELECT id, first_name, last_name, email, phone, role FROM users WHERE id = ?',
             [req.user.id]
         );
+
+        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
 
         res.status(200).json({
             success: true,
             message: 'Profile updated successfully',
-            user
+            user: {
+                ...user,
+                name: fullName
+            }
         });
     } catch (error) {
         next(error);
@@ -208,14 +237,14 @@ exports.updatePassword = async (req, res, next) => {
     try {
         const { currentPassword, newPassword } = req.body;
 
-        // Get user with password
+        // Get user with password_hash
         const user = await queryOne(
-            'SELECT password FROM users WHERE id = ?',
+            'SELECT password_hash FROM users WHERE id = ?',
             [req.user.id]
         );
 
         // Check current password
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
 
         if (!isMatch) {
             return res.status(401).json({
@@ -228,9 +257,9 @@ exports.updatePassword = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-        // Update password
+        // Update password_hash
         await query(
-            'UPDATE users SET password = ? WHERE id = ?',
+            'UPDATE users SET password_hash = ? WHERE id = ?',
             [hashedPassword, req.user.id]
         );
 
