@@ -40,16 +40,23 @@ app.use(cors({
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
 
-        // Allow localhost and local file system (including Live Server ports)
+        // Allow localhost, local file system, and deployed domains
         const allowedOrigins = [
             'http://localhost:3000',
             'http://localhost:5000',
             'http://127.0.0.1:5500',  // Live Server
             'http://localhost:5500',   // Live Server alternative
+            'http://5nvzq8z6cxtm4hgmb4t8zd8o.169.58.244.109.sslip.io', // Deployed frontend
+            'http://169.58.244.109', // Server IP
             'null'
         ];
 
-        if (allowedOrigins.indexOf(origin) !== -1 || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || origin === 'null') {
+        // Check if origin matches allowed origins or starts with localhost/127.0.0.1
+        if (allowedOrigins.indexOf(origin) !== -1 || 
+            origin.startsWith('http://localhost') || 
+            origin.startsWith('http://127.0.0.1') || 
+            origin.startsWith('http://169.58.244.109') ||
+            origin === 'null') {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
