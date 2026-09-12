@@ -84,12 +84,8 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Get user by email or name
-        let user = await queryOne('SELECT * FROM users WHERE email = ?', [email]);
-        
-        if (!user) {
-            user = await queryOne('SELECT * FROM users WHERE name = ?', [email]);
-        }
+        // Get user by email
+        const user = await queryOne('SELECT * FROM users WHERE email = ?', [email]);
 
         if (!user) {
             return res.status(401).json({
