@@ -31,35 +31,7 @@ const app = express();
 
 // Security middleware with relaxed CSP for frontend functionality
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: [
-                "'self'",
-                "'unsafe-inline'", // Allow inline scripts
-                "https://ajax.googleapis.com",
-                "https://cdn.jsdelivr.net",
-                "https://accounts.google.com",
-                "https://www.gstatic.com"
-            ],
-            styleSrc: [
-                "'self'",
-                "'unsafe-inline'", // Allow inline styles
-                "https://fonts.googleapis.com",
-                "https://cdn.jsdelivr.net",
-                "https://cdnjs.cloudflare.com"
-            ],
-            fontSrc: [
-                "'self'",
-                "https://fonts.gstatic.com",
-                "https://cdnjs.cloudflare.com",
-                "data:"
-            ],
-            imgSrc: ["'self'", "data:", "https:", "http:"],
-            connectSrc: ["'self'", "https://accounts.google.com"],
-            frameSrc: ["'self'", "https://accounts.google.com"]
-        }
-    }
+    contentSecurityPolicy: false  // Disable CSP for now to allow all resources
 }));
 
 // CORS configuration
