@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-package-lock.json
+# package-lock.json  # Commented out - we need this for Docker builds
 yarn.lock
 
 # Environment variables (NEVER commit these!)
