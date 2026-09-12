@@ -120,7 +120,7 @@ function renderOrdersTable() {
 // ============================================
 
 async function viewOrderDetails(orderId) {
-    const order = ordersData.find(o => o.id === orderId);
+    const order = ordersData.find(o => String(o.id) === String(orderId));
     if (!order) return;
 
     try {
@@ -214,7 +214,7 @@ async function updateOrderStatus(orderId, newStatus) {
 
         if (response.success) {
             // Update local data
-            const order = ordersData.find(o => o.id === orderId);
+            const order = ordersData.find(o => String(o.id) === String(orderId));
             if (order) {
                 order.status = newStatus;
                 showToast('success', `Order ${order.orderNumber} updated to ${newStatus}`);
@@ -249,7 +249,7 @@ async function updateOrderStatus(orderId, newStatus) {
 // ============================================
 
 function sendOrderWhatsApp(orderId) {
-    const order = ordersData.find(o => o.id === orderId);
+    const order = ordersData.find(o => String(o.id) === String(orderId));
     if (!order) return;
 
     const statusMessage = {
@@ -267,7 +267,7 @@ function sendOrderWhatsApp(orderId) {
         `Total: ${formatCurrency(order.amount)}\n` +
         `Items: ${order.items} product(s)\n\n` +
         `For any questions, please contact us.\n\n` +
-        `Awesome Technologies 🛍️`;
+        `Denla Discount 🛍️`;
 
     const phone = order.phone.replace(/[^0-9]/g, '');
     const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -281,7 +281,7 @@ function sendOrderWhatsApp(orderId) {
 // ============================================
 
 function printInvoice(orderId) {
-    const order = ordersData.find(o => o.id === orderId);
+    const order = ordersData.find(o => String(o.id) === String(orderId));
     if (!order) return;
 
     // Create printable invoice
@@ -301,18 +301,18 @@ function printInvoice(orderId) {
                 .header { 
                     text-align: center; 
                     margin-bottom: 30px;
-                    border-bottom: 2px solid #2575fc;
+                    border-bottom: 2px solid #FF6B35;
                     padding-bottom: 20px;
                 }
-                .header h1 {
-                    color: #2575fc;
-                    margin: 0;
+                .header h1 { 
+                    color: #FF6B35; 
+                    margin: 0; 
                 }
                 .invoice-details { 
                     margin: 20px 0; 
                 }
-                .invoice-details p {
-                    margin: 8px 0;
+                .invoice-details p { 
+                    margin: 8px 0; 
                 }
                 table { 
                     width: 100%; 
@@ -324,32 +324,32 @@ function printInvoice(orderId) {
                     border-bottom: 1px solid #ddd; 
                     text-align: left; 
                 }
-                th {
-                    background-color: #f8f9fa;
-                    font-weight: bold;
+                th { 
+                    background-color: #f8f9fa; 
+                    font-weight: bold; 
                 }
                 .total { 
                     font-size: 1.3em; 
-                    font-weight: bold;
-                    text-align: right;
-                    margin-top: 20px;
-                    padding-top: 20px;
-                    border-top: 2px solid #2575fc;
+                    font-weight: bold; 
+                    text-align: right; 
+                    margin-top: 20px; 
+                    padding-top: 20px; 
+                    border-top: 2px solid #FF6B35; 
                 }
-                .footer {
-                    text-align: center;
-                    margin-top: 40px;
-                    color: #666;
+                .footer { 
+                    text-align: center; 
+                    margin-top: 40px; 
+                    color: #666; 
                 }
-                @media print {
-                    body { padding: 20px; }
+                @media print { 
+                    body { padding: 20px; } 
                 }
             </style>
         </head>
         <body>
             <div class="header">
-                <h1>Awesome Technologies</h1>
-                <p>Electronics & Computing Solutions</p>
+                <h1>Denla Discount</h1>
+                <p>Groceries & Household Store</p>
             </div>
             
             <div class="invoice-details">
@@ -385,9 +385,9 @@ function printInvoice(orderId) {
             </div>
             
             <div class="footer">
-                <p>Thank you for your business!</p>
-                <p>Awesome Technologies | Phone: +254 704546916 | Email: info@awesometech.co.ke</p>
-            </div>
+                <p>Thank you for shopping with us!</p>
+                <p>Denla Discount | Phone: +254 704546916 | Email: info@denladiscount.co.ke</p>
+            </div>         </div>
             
             <script>
                 window.onload = function() {

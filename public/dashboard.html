@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Customer Dashboard - Awesome Technologies</title>
+    <title>Customer Dashboard - Denla Discount</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="dashboard, account, orders, cart, wishlist, electronics" name="keywords">
-    <meta content="Manage your account, view your orders, cart, and wishlist at Awesome Technologies" name="description">
+    <meta content="dashboard, account, orders, cart, wishlist, groceries" name="keywords">
+    <meta content="Manage your account, view your orders, cart, and wishlist at Denla Discount" name="description">
 
     <!-- Security Meta Tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -19,8 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"> 
 
     <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap-icons/bootstrap-icons.min.css">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                     <i class="fas fa-shopping-bag"></i>
                 </div>
                 <div>
-                    <div class="sidebar-brand-text">Awesome Tech</div>
+                    <div class="sidebar-brand-text">Denla Discount</div>
                     <div class="sidebar-brand-sub">Customer Portal</div>
                 </div>
             </a>
@@ -172,9 +172,9 @@
             <div id="overviewSection" class="dashboard-section">
                 <!-- Hero Welcome Banner -->
                 <div class="dash-hero-banner">
-                    <div class="dash-hero-title" id="heroBannerTitle">Welcome to your Tech Hub, Customer! ✨</div>
+                    <div class="dash-hero-title" id="heroBannerTitle">Welcome to Denla Discount, Customer! ✨</div>
                     <div class="dash-hero-subtitle">
-                        Track your live orders, manage saved gear, and unlock premium member rewards on genuine electronics.
+                        Track your live orders, manage saved items, and enjoy great deals on groceries & household essentials.
                     </div>
                     <div class="dash-hero-features">
                         <span class="dash-hero-pill"><i class="fas fa-shipping-fast text-info"></i> Fast Nairobi & Regional Delivery</span>
@@ -574,7 +574,7 @@
 
             document.getElementById('welcomeMessage').textContent = `${greeting}, ${firstName}! 👋`;
             const heroTitle = document.getElementById('heroBannerTitle');
-            if (heroTitle) heroTitle.textContent = `Welcome to your Tech Hub, ${firstName}! ✨`;
+            if (heroTitle) heroTitle.textContent = `Welcome to Denla Discount, ${firstName}! ✨`;
         }
 
         // Initialize UI Handlers
@@ -800,7 +800,7 @@
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <h4>Your cart is empty</h4>
-                        <p>Explore our electronics collection and add your favorite items!</p>
+                        <p>Explore our groceries, beverages & household collection and add your favourite items!</p>
                         <a href="shop.html" class="btn btn-sm btn-primary rounded-pill px-4 py-2">
                             <i class="fas fa-shopping-bag me-1"></i>Start Shopping
                         </a>
@@ -1067,16 +1067,16 @@
                             <i class="fas fa-box-open"></i>
                         </div>
                         <h4 style="font-size: 1.05rem;">No recent orders</h4>
-                        <p class="mb-3" style="font-size: 0.85rem;">Your recent purchase history will appear here. Start by exploring our top electronics categories!</p>
+                        <p class="mb-3" style="font-size: 0.85rem;">Your recent purchase history will appear here. Start by exploring our top categories!</p>
                         <div class="d-flex flex-wrap justify-content-center gap-2">
-                            <a href="shop.html?cat=laptops" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
-                                <i class="fas fa-laptop me-1 text-primary"></i>Laptops
+                            <a href="shop.html?cat=groceries" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-shopping-basket me-1 text-primary"></i>Groceries
                             </a>
-                            <a href="shop.html?cat=smartphones" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
-                                <i class="fas fa-mobile-alt me-1 text-success"></i>Smartphones
+                            <a href="shop.html?cat=beverages" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-glass-whiskey me-1 text-success"></i>Beverages
                             </a>
-                            <a href="shop.html?cat=accessories" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
-                                <i class="fas fa-headphones me-1 text-warning"></i>Accessories
+                            <a href="shop.html?cat=household" class="btn btn-sm btn-light border rounded-pill px-3 py-1">
+                                <i class="fas fa-home me-1 text-warning"></i>Household
                             </a>
                         </div>
                     </div>

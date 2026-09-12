@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Shop - Awesome Technologies</title>
+    <title>Shop - Denla Discount | Groceries, Beverages, Household & More</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="electronics, laptops, phones, computers, Nairobi, Kenya" name="keywords">
-    <meta content="Shop for quality electronics at Awesome Technologies - Laptops, phones, and accessories" name="description">
+    <meta content="groceries, beverages, dairy, household items, personal care, food stuffs, shop Kenya, Denla Discount" name="keywords">
+    <meta content="Shop for fresh groceries, beverages, dairy products, household items and personal care at Denla Discount - Best prices in Kenya" name="description">
     
     <!-- Security Meta Tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -16,11 +16,11 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap-icons/bootstrap-icons.min.css">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -35,31 +35,67 @@
 </head>
 
 <body>
-    <!-- Topbar Start -->
-    <div class="container-fluid px-5 d-none border-bottom d-lg-block">
-        <div class="row gx-0 align-items-center">
-            <div class="col-lg-4 text-center text-lg-start mb-lg-0">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a href="#" class="text-muted me-2">Help</a><small> / </small>
-                    <a href="#" class="text-muted mx-2">Support</a><small> / </small>
-                    <a href="#" class="text-muted ms-2">Contact</a>
+    <!-- Top Thin Strip Start -->
+    <div class="container-fluid px-5 border-bottom bg-light shop-top-strip">
+        <div class="d-flex align-items-center justify-content-end py-1" style="min-height: 32px;">
+            <div class="d-inline-flex align-items-center gap-3 ms-auto">
+                <a href="#" class="top-strip-link" title="Wishlist">
+                    <i class="fas fa-heart text-danger"></i>
+                    <span class="d-none d-sm-inline">Wishlist</span>
+                </a>
+                <a href="cart.html" class="top-strip-link" title="Shopping Cart">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="d-none d-sm-inline">Cart</span>
+                    <span class="badge bg-primary rounded-pill ms-1" id="cartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Top Thin Strip End -->
+
+    <!-- Main Header Start -->
+    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom shop-main-header">
+        <div class="row gx-4 align-items-center">
+            <!-- Brand Logo -->
+            <div class="col-lg-3 pe-3">
+                <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
+                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;">
+                    <div>
+                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">Denla Discount</h3>
+                        <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.6px; font-weight: 600;">Groceries & Home Store</small>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="col-lg-5 px-3">
+                <div class="position-relative" style="max-width: 540px; margin: 0 auto;">
+                    <div class="d-flex border rounded-pill bg-white shadow-sm overflow-hidden header-search-box">
+                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="searchInput" onkeyup="handleShopSearch(event)" placeholder="Search groceries, beverages, household items...">
+                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performShopSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-results-dropdown" id="shopSearchDropdown"></div>
                 </div>
             </div>
-            <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
-                <small class="text-dark">Call Us:</small>
-                <a href="tel:+254704546916" class="text-muted">+254 704546916</a>
-            </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
+
+            <!-- User Auth & Dashboard Actions -->
+            <div class="col-lg-4 text-end">
+                <div class="d-inline-flex align-items-center gap-3">
+                    <!-- Currency Dropdown -->
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>KSh</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item">KSh - Kenyan Shilling</a>
+                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fas fa-coins text-warning me-1"></i>KSh</a>
+                        <div class="dropdown-menu rounded shadow-sm">
+                            <a href="#" class="dropdown-item small">KSh - Kenyan Shilling</a>
+                            <a href="#" class="dropdown-item small">USD - US Dollar</a>
                         </div>
                     </div>
+
+                    <!-- Dashboard Dropdown -->
                     <div class="dropdown" id="authDropdown">
-                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i class="fa fa-home me-2"></i>My Dashboard</small></a>
-                        <div class="dropdown-menu rounded">
+                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fa fa-home text-primary me-1"></i>My Dashboard</a>
+                        <div class="dropdown-menu rounded shadow-sm">
                             <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i class="fas fa-sign-in-alt me-2"></i> Login</a>
                             <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i class="fas fa-user-plus me-2"></i> Sign Up</a>
                             <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
@@ -67,51 +103,23 @@
                             <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log Out</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Header Start -->
-    <div class="container-fluid px-5 py-4 d-none d-lg-block">
-        <div class="row gx-7 align-items-center">
-            <div class="col-lg-2 pe-4">
-                <a href="index.html" class="navbar-brand">
-                    <img src="img/logo.jpg" alt="Awesome Technologies" style="height: 50px; width: auto;">
-                </a>
-            </div>
-            <div class="col-lg-6 ps-3">
-                <div class="position-relative" style="max-width: 650px; margin: 0 auto;">
-                    <div class="d-flex border rounded-pill">
-                        <input class="form-control border-0 rounded-pill w-100 py-3" type="text" id="searchInput" onkeyup="handleShopSearch(event)" placeholder="Search for laptops, phones, accessories...">
-                        <button type="button" class="btn btn-primary rounded-pill py-3 px-5" onclick="performShopSearch()">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    <div class="search-results-dropdown" id="shopSearchDropdown"></div>
-                </div>
-            </div>
-            <div class="col-lg-4 text-end">
-                <div class="d-inline-flex align-items-center gap-2">
-                    <a href="#" class="text-muted"><i class="fas fa-heart fa-lg"></i></a>
-                    <a href="cart.html" class="text-muted"><i class="fas fa-shopping-cart fa-lg"></i> <span class="badge bg-primary" id="cartCount">0</span></a>
-                    
                     <!-- Login Button - shown when not logged in -->
-                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 ms-2" id="loginBtn">
+                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 shadow-sm fw-semibold" id="loginBtn">
                         <i class="fas fa-user me-2"></i>Login
                     </a>
                     
                     <!-- Dashboard Button - shown when logged in -->
-                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 ms-2" id="dashboardBtn" style="display: none;">
+                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 shadow-sm fw-semibold" id="dashboardBtn" style="display: none;">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
                     
                     <!-- User Menu - shown when logged in -->
                     <div class="dropdown" id="userMenuDropdown" style="display: none;">
-                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle shadow-sm fw-semibold" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i><span id="userMenuName">User</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                             <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
                             <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -122,7 +130,7 @@
             </div>
         </div>
     </div>
-    <!-- Header End -->
+    <!-- Main Header End -->
       <!-- Navbar & Hero Start -->
         <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
             <div class="row gx-0 bg-primary px-5 align-items-center">
@@ -143,7 +151,7 @@
                 <div class="col-12 col-lg-9">
                     <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
                         <a href="index.html" class="navbar-brand d-block d-lg-none">
-                            <img src="img/logo.jpg" alt="Awesome Technologies" style="height: 50px; width: auto;">
+                            <img src="img/logo.jpg" alt="Denla Discount" style="height: 50px; width: auto;">
                         </a>
                         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                             <span class="fa fa-bars fa-1x"></span>
@@ -174,10 +182,10 @@
         <!-- Navbar & Hero End -->
          <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Shop Page</h1>
+            <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Our Shop</h1>
+            <p class="text-center text-white-50 mb-3 wow fadeInUp" data-wow-delay="0.2s">Groceries &bull; Beverages &bull; Dairy &bull; Household Items &bull; Personal Care</p>
             <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item active text-white">Shop</li>
             </ol>
         </div>
@@ -277,6 +285,33 @@
 
                 <!-- Product Grid -->
                 <div class="col-lg-9">
+                    <!-- Category Quick Filters -->
+                    <div class="shop-category-tabs mb-4">
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <button class="shop-cat-btn active" data-cat="all" onclick="filterByCategory('all', this)">
+                                <i class="fas fa-th-large me-1"></i> All Products
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Groceries" onclick="filterByCategory('Groceries', this)">
+                                <i class="fas fa-shopping-basket me-1"></i> Groceries
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Beverages" onclick="filterByCategory('Beverages', this)">
+                                <i class="fas fa-wine-bottle me-1"></i> Beverages
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Dairy Products" onclick="filterByCategory('Dairy Products', this)">
+                                <i class="fas fa-cheese me-1"></i> Dairy
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Household Items" onclick="filterByCategory('Household Items', this)">
+                                <i class="fas fa-home me-1"></i> Household
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Personal Care" onclick="filterByCategory('Personal Care', this)">
+                                <i class="fas fa-spa me-1"></i> Personal Care
+                            </button>
+                            <button class="shop-cat-btn" data-cat="Bakery" onclick="filterByCategory('Bakery', this)">
+                                <i class="fas fa-bread-slice me-1"></i> Bakery
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Search & Sort Bar -->
                     <div class="search-sort-bar">
                         <div class="row align-items-center">
@@ -296,7 +331,7 @@
                     </div>
 
                     <!-- Products Grid -->
-                    <div class="row g-4" id="productsGrid">
+                    <div class="row g-3" id="productsGrid">
                         <!-- Products will be loaded here dynamically -->
                     </div>
 
@@ -528,27 +563,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script src="js/auth-helper.js"></script>
+    <script src="js/api-helper.js"></script>
     <script src="js/cart-manager.js"></script>
     <script src="js/user-activity-tracker.js"></script>
 
     <script>
-        // Configuration - API_BASE_URL is already defined in cart-manager.js
+        // API Base configuration
+        const API_BASE = (typeof API_BASE_URL !== 'undefined' && API_BASE_URL) 
+            ? API_BASE_URL 
+            : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/api' : '/api');
         let currentPage = 1;
         const productsPerPage = 12;
 
         // Live products cache (fetched from backend)
         let productsCache = [];
+        let priceSliderInitialized = false;
 
-        // Initialize price range slider
+        // Initialize price range slider with standard groceries/shop items bounds
         const priceSlider = document.getElementById('priceRange');
         noUiSlider.create(priceSlider, {
-            start: [10000, 200000],
+            start: [0, 50000],
             connect: true,
             range: {
-                'min': 10000,
-                'max': 200000
+                'min': 0,
+                'max': 50000
             },
-            step: 5000,
+            step: 50,
             format: {
                 to: value => 'KSh ' + Math.round(value).toLocaleString(),
                 from: value => Number(value.replace(/[^0-9.-]+/g, ''))
@@ -560,7 +600,7 @@
             document.getElementById('maxPrice').value = values[1];
         });
 
-        priceSlider.noUiSlider.on('change', applyFilters);
+        priceSlider.noUiSlider.on('change', () => applyFilters());
 
         // Toggle mobile filters
         function toggleFilters() {
@@ -607,7 +647,7 @@
 
             try {
                 if (!productsCache || productsCache.length === 0) {
-                    const resp = await fetch(`${API_BASE_URL}/products?limit=1000`);
+                    const resp = await fetch(`${API_BASE}/products?limit=1000`);
                     
                     if (resp.ok) {
                         const json = await resp.json();
@@ -639,6 +679,19 @@
                         
                         console.log(`Shop: ${rawProducts.length} products fetched, ${productsCache.length} after deduplication`);
                         
+                        // Dynamically update price slider max if higher prices exist
+                        if (!priceSliderInitialized && productsCache.length > 0) {
+                            const maxProductPrice = Math.max(...productsCache.map(p => Number(p.price) || 0));
+                            if (maxProductPrice > 0) {
+                                const roundedMax = Math.ceil(maxProductPrice / 500) * 500;
+                                priceSlider.noUiSlider.updateOptions({
+                                    range: { min: 0, max: Math.max(roundedMax, 5000) }
+                                });
+                                priceSlider.noUiSlider.set([0, Math.max(roundedMax, 5000)]);
+                            }
+                            priceSliderInitialized = true;
+                        }
+
                         // Populate dynamic filters after fetching products
                         populateBrandFilters(productsCache);
                         populateCategoryFilters(productsCache);
@@ -647,51 +700,80 @@
                     }
                 }
 
-                // apply client-side filters
+                // Apply client-side filters
                 let filtered = [...productsCache];
 
-                // Search filter
+                // Search query filter
                 if (filters.searchQuery && typeof filters.searchQuery === 'string' && filters.searchQuery.trim()) {
                     const query = filters.searchQuery.toLowerCase();
                     filtered = filtered.filter(p => 
-                        p.name.toLowerCase().includes(query) || 
+                        (p.name && p.name.toLowerCase().includes(query)) || 
                         (p.description && p.description.toLowerCase().includes(query)) ||
                         (p.brand && p.brand.toLowerCase().includes(query))
                     );
                 }
 
-                if (filters.minPrice || filters.maxPrice) {
-                    filtered = filtered.filter(p => p.price >= (filters.minPrice || 0) && p.price <= (filters.maxPrice || Infinity));
+                // Price range filter
+                if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+                    filtered = filtered.filter(p => {
+                        const price = Number(p.price) || 0;
+                        return price >= (filters.minPrice || 0) && price <= (filters.maxPrice || Infinity);
+                    });
                 }
 
+                // Brand filter
                 if (filters.brands && filters.brands.length > 0) {
                     filtered = filtered.filter(p => filters.brands.includes(p.brand));
                 }
 
+                // Hierarchical category checkboxes filter
                 if (filters.categories && filters.categories.length > 0) {
                     filtered = filtered.filter(p => {
-                        // Use flexible keyword matching (same as counting logic)
                         const productName = (p.name || '').toLowerCase();
                         const productCategory = ((p.categories && p.categories.name) || p.category || '').toLowerCase();
                         const productBrand = (p.brand || '').toLowerCase();
                         const searchText = `${productName} ${productCategory} ${productBrand}`;
                         
-                        // Check if product matches ANY of the selected category filters
                         return filters.categories.some(catSlug => {
-                            // Convert slug back to search terms (e.g., "student-laptops" -> ["student", "laptops"])
                             const searchTerms = catSlug.split('-').filter(term => term.length > 1);
-                            // Product matches if ANY search term is found (consistent with counting)
                             return searchTerms.some(term => searchText.includes(term));
                         });
                     });
                 }
 
+                // Category Quick Tabs filter
+                if (activeCategoryFilter && activeCategoryFilter !== 'all') {
+                    const qCat = activeCategoryFilter.toLowerCase();
+                    filtered = filtered.filter(p => {
+                        const catName = ((p.categories && p.categories.name) || p.category || '').toLowerCase();
+                        const pName = (p.name || '').toLowerCase();
+                        return catName.includes(qCat) || pName.includes(qCat);
+                    });
+                }
+
+                // Condition filter
                 if (filters.condition && filters.condition !== 'all') {
                     filtered = filtered.filter(p => p.condition === filters.condition);
                 }
 
+                // Stock filter
                 if (filters.inStock) {
                     filtered = filtered.filter(p => (p.stock_quantity || p.stock || 0) > 0);
+                }
+
+                // Sorting
+                const sortValue = document.getElementById('sortSelect') ? document.getElementById('sortSelect').value : 'newest';
+                if (sortValue === 'price-low') {
+                    filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+                } else if (sortValue === 'price-high') {
+                    filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+                } else if (sortValue === 'rating') {
+                    filtered.sort((a, b) => (Number(b.rating) || 4.5) - (Number(a.rating) || 4.5));
+                } else if (sortValue === 'popular') {
+                    filtered.sort((a, b) => (Number(b.reviews_count || b.sales_count) || 0) - (Number(a.reviews_count || a.sales_count) || 0));
+                } else {
+                    // Newest
+                    filtered.sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));
                 }
 
                 displayProducts(filtered);
@@ -709,53 +791,86 @@
             }
         }
 
-        // Render single product card with recommendation feature
+        // Current category quick-filter selection
+        let activeCategoryFilter = 'all';
+
+        // Quick filter by category from tab buttons
+        function filterByCategory(category, btn) {
+            activeCategoryFilter = category;
+            document.querySelectorAll('.shop-cat-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            applyFilters();
+        }
+
+        // Override applyFilters to inject the category quick-filter
+        const _origGetActiveFilters = getActiveFilters;
+
+        // Render single product card — premium redesign
         function renderProductCard(product) {
             const image = getProductImage(product);
             const hasDiscount = product.old_price && product.old_price > product.price;
+            const discountPct = hasDiscount ? Math.round(((product.old_price - product.price) / product.old_price) * 100) : 0;
             const isNew = product.is_new_arrival || product.is_new;
             const isRefurbished = product.condition === 'refurbished';
             const inStock = (product.stock_quantity || product.stock || 0) > 0;
+            const categoryName = (product.categories && product.categories.name) || product.category || '';
+            const rating = product.rating || 4.5;
+            const reviewsCount = product.reviews_count || 0;
 
             return `
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="${image}" alt="${product.name}" onerror="this.src='img/product-1.png'">
-                            <div class="product-badges">
-                                ${isNew ? '<span class="badge-new">NEW</span>' : ''}
-                                ${hasDiscount ? '<span class="badge-sale">SALE</span>' : ''}
-                                ${isRefurbished ? '<span class="badge-refurbished">REFURBISHED</span>' : ''}
+                <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                    <div class="shop-product-card" onclick="quickView('${product.id}')">
+                        <!-- Badges -->
+                        <div class="shop-card-badges">
+                            ${isNew ? '<span class="shop-badge shop-badge-new"><i class="fas fa-bolt me-1"></i>NEW</span>' : ''}
+                            ${hasDiscount ? `<span class="shop-badge shop-badge-sale">-${discountPct}%</span>` : ''}
+                            ${isRefurbished ? '<span class="shop-badge shop-badge-refurb">REFURB</span>' : ''}
+                            ${!inStock ? '<span class="shop-badge shop-badge-oos">OUT OF STOCK</span>' : ''}
+                        </div>
+
+                        <!-- Quick actions -->  
+                        <div class="shop-card-quick-actions">
+                            <button class="shop-qa-btn" onclick="event.stopPropagation(); addToWishlist('${product.id}')" title="Wishlist">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="shop-qa-btn" onclick="event.stopPropagation(); showRecommendations('${product.id}')" title="Bundle Deals">
+                                <i class="fas fa-gift"></i>
+                            </button>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="shop-card-img-wrap">
+                            <img src="${image}" alt="${product.name}" class="shop-card-img" onerror="this.src='img/product-1.png'" loading="lazy">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="shop-card-body">
+                            ${categoryName ? `<div class="shop-card-cat"><i class="fas fa-tag me-1"></i>${categoryName}</div>` : ''}
+                            <h6 class="shop-card-title">${product.name}</h6>
+
+                            <!-- Rating -->
+                            <div class="shop-card-rating">
+                                <div class="shop-stars">${generateStars(rating)}</div>
+                                <span class="shop-rating-count">${reviewsCount > 0 ? `(${reviewsCount})` : ''}</span>
                             </div>
-                            <div class="product-actions">
-                                <button class="action-btn" onclick="addToWishlist('${product.id}')" title="Add to Wishlist">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <button class="action-btn" onclick="quickView('${product.id}')" title="Quick View">
-                                    <i class="far fa-eye"></i>
-                                </button>
-                                <button class="action-btn" onclick="showRecommendations('${product.id}')" title="Frequently Bought Together">
-                                    <i class="fas fa-gift"></i>
-                                </button>
+
+                            <!-- Price -->
+                            <div class="shop-card-price-row">
+                                <span class="shop-price-current">${formatPrice(product.price)}</span>
+                                ${hasDiscount ? `<span class="shop-price-old">${formatPrice(product.old_price)}</span>` : ''}
                             </div>
                         </div>
-                        <div class="product-info">
-                            <div class="product-brand">${product.brand || 'Generic'}</div>
-                            <h5 class="product-title">${product.name}</h5>
-                            <div class="product-rating">
-                                <div class="rating-stars">
-                                    ${generateStars(product.rating || 4.5)}
-                                </div>
-                                <span class="rating-count">(${product.reviews_count || 0})</span>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">${formatPrice(product.price)}</span>
-                                ${hasDiscount ? `<span class="old-price">${formatPrice(product.old_price)}</span>` : ''}
-                            </div>
-                        </div>
-                        <div class="product-footer">
-                            <button class="btn btn-primary btn-add-cart" onclick="addToCart('${product.id}')" ${!inStock ? 'disabled' : ''}>
-                                <i class="fas fa-shopping-cart me-2"></i>${inStock ? 'Add to Cart' : 'Out of Stock'}
+
+                        <!-- Footer CTA -->
+                        <div class="shop-card-footer">
+                            <button class="shop-btn-cart ${!inStock ? 'shop-btn-oos' : ''}" 
+                                onclick="event.stopPropagation(); addToCart('${product.id}')" 
+                                ${!inStock ? 'disabled' : ''}>
+                                <i class="fas fa-${inStock ? 'shopping-cart' : 'times-circle'} me-2"></i>
+                                ${inStock ? 'Add to Cart' : 'Out of Stock'}
+                            </button>
+                            <button class="shop-btn-view" onclick="event.stopPropagation(); quickView('${product.id}')" title="View Details">
+                                <i class="fas fa-eye"></i>
                             </button>
                         </div>
                     </div>
@@ -801,20 +916,6 @@
             grid.innerHTML = products.map(product => renderProductCard(product)).join('');
         }
 
-        // Generate star rating HTML
-        function generateStars(rating) {
-            const fullStars = Math.floor(rating);
-            const halfStar = rating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-            let html = '';
-            for (let i = 0; i < fullStars; i++) html += '<i class="fas fa-star"></i>';
-            if (halfStar) html += '<i class="fas fa-star-half-alt"></i>';
-            for (let i = 0; i < emptyStars; i++) html += '<i class="far fa-star"></i>';
-
-            return html;
-        }
-
         // XSS Sanitization helper
         function sanitizeHTML(str) {
             if (!str) return '';
@@ -824,9 +925,6 @@
         }
 
         // Search functionality
-        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5000/api'
-            : '/api';
         let searchTimeout;
 
         function handleShopSearch(event) {
@@ -948,14 +1046,15 @@
 
         // Sort products
         function sortProducts() {
-            const sortValue = document.getElementById('sortSelect').value;
-            // TODO: Implement sorting logic
-            console.log('Sorting by:', sortValue);
+            applyFilters();
         }
 
         // Reset filters
         function resetFilters() {
-            priceSlider.noUiSlider.set([10000, 200000]);
+            if (priceSlider && priceSlider.noUiSlider) {
+                const range = priceSlider.noUiSlider.options.range;
+                priceSlider.noUiSlider.set([range.min, range.max]);
+            }
             document.querySelectorAll('.form-check-input').forEach(input => {
                 if (input.type === 'checkbox') {
                     input.checked = false;
@@ -963,6 +1062,16 @@
                     input.checked = true;
                 }
             });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            
+            // Reset category tabs
+            activeCategoryFilter = 'all';
+            document.querySelectorAll('.shop-cat-btn').forEach(b => {
+                if (b.dataset.cat === 'all') b.classList.add('active');
+                else b.classList.remove('active');
+            });
+
             applyFilters();
         }
 
@@ -1030,79 +1139,90 @@
             }
         }
         
-        // Comprehensive Category Structure
+        // Comprehensive Category Structure — Food, Household & Shop Items
         const categoryHierarchy = {
-            'computers-mobile': {
-                name: 'Computers & Mobile',
-                icon: 'laptop',
+            'fresh-food': {
+                name: 'Fresh Food & Groceries',
+                icon: 'shopping-basket',
                 subcategories: {
-                    'gaming-arena': {
-                        name: 'The Gaming Arena',
-                        icon: 'gamepad',
-                        items: ['Gaming Laptops', 'Gaming Monitors', 'Custom RGB Desktops', 'Mechanical Keyboards', 'Gaming Mice', 'Game Controllers']
+                    'fresh-produce': {
+                        name: 'Fresh Produce',
+                        icon: 'leaf',
+                        items: ['Vegetables', 'Fruits', 'Herbs & Spices', 'Salad Greens', 'Mushrooms']
                     },
-                    'productivity-hub': {
-                        name: 'The Productivity Hub',
-                        icon: 'briefcase',
-                        items: ['Student Laptops', 'MacBooks', 'Laptop Stands', 'All-in-One Desktops', 'Chromebooks']
+                    'packaged-foods': {
+                        name: 'Packaged & Dry Foods',
+                        icon: 'box-open',
+                        items: ['Rice & Grains', 'Flour & Baking', 'Pasta & Noodles', 'Breakfast Cereals', 'Cooking Oils', 'Sugar & Sweeteners', 'Canned Foods', 'Snacks & Crisps']
                     },
-                    'mobile-suite': {
-                        name: 'The Mobile Suite',
-                        icon: 'mobile-alt',
-                        items: ['iPhones', 'Samsung Phones', 'Android Phones', 'Tablets & iPads', 'Smartwatches', 'RAM', 'Screen Guards', 'Selfie Rings', 'Phone Chargers']
-                    },
-                    'low-budget': {
-                        name: 'Low Budget Computers',
-                        icon: 'tag',
-                        items: ['Refurbished Laptops', 'Ex-UK Desktops', 'Used Computers']
+                    'meat-fish': {
+                        name: 'Meat, Poultry & Fish',
+                        icon: 'drumstick-bite',
+                        items: ['Beef', 'Chicken', 'Fish & Seafood', 'Pork', 'Sausages & Processed Meat']
                     }
                 }
             },
-            'audio-visual': {
-                name: 'Audio & Visual',
-                icon: 'volume-up',
+            'beverages': {
+                name: 'Beverages & Drinks',
+                icon: 'wine-bottle',
                 subcategories: {
-                    'audio': {
-                        name: 'Sight & Sound (Audio)',
-                        icon: 'headphones',
-                        items: ['Woofers', 'Home Theater Systems', 'Bluetooth Speakers', 'Soundbars', 'Headphones', 'Earbuds', 'Microphones']
+                    'soft-drinks': {
+                        name: 'Soft Drinks & Juices',
+                        icon: 'glass-cheers',
+                        items: ['Sodas & Fizzy Drinks', 'Fruit Juices', 'Energy Drinks', 'Water & Sparkling Water', 'Squash & Cordials']
                     },
-                    'visuals': {
-                        name: 'Visuals',
-                        icon: 'tv',
-                        items: ['Mini Projectors', 'Office Projectors', 'Projector Screens', 'Computer Monitors', 'Gaming Monitors', 'Smart TVs']
+                    'hot-drinks': {
+                        name: 'Hot Drinks',
+                        icon: 'mug-hot',
+                        items: ['Tea & Herbal Tea', 'Coffee & Instant Coffee', 'Hot Chocolate', 'Milk Powders']
                     }
                 }
             },
-            'components-accessories': {
-                name: 'Components & Accessories',
-                icon: 'microchip',
+            'dairy-bakery': {
+                name: 'Dairy & Bakery',
+                icon: 'cheese',
                 subcategories: {
-                    'pc-components': {
-                        name: 'PC Components',
-                        icon: 'memory',
-                        items: ['SSDs', 'HDDs', 'RAM', 'Graphics Cards', 'Processors', 'Motherboards', 'Power Supply Units', 'CPU Coolers', 'PC Cases']
+                    'dairy': {
+                        name: 'Dairy Products',
+                        icon: 'cheese',
+                        items: ['Milk', 'Cheese', 'Yogurt', 'Butter & Margarine', 'Eggs', 'Cream & Sour Cream']
                     },
-                    'essentials': {
-                        name: 'Essentials Kit',
+                    'bakery': {
+                        name: 'Bread & Bakery',
+                        icon: 'bread-slice',
+                        items: ['Bread & Loaves', 'Cakes & Pastries', 'Biscuits & Cookies', 'Muffins & Rolls']
+                    }
+                }
+            },
+            'household-care': {
+                name: 'Household & Home Care',
+                icon: 'home',
+                subcategories: {
+                    'cleaning': {
+                        name: 'Cleaning Supplies',
+                        icon: 'spray-can',
+                        items: ['Dishwashing Liquid', 'Laundry Detergents', 'Fabric Softeners', 'Floor Cleaners', 'Toilet Cleaners', 'Surface Sprays', 'Bleach & Disinfectants', 'Sponges & Scrubbers']
+                    },
+                    'home-essentials': {
+                        name: 'Home Essentials',
                         icon: 'toolbox',
-                        items: ['HDMI Cables', 'Ethernet Cables', 'USB Cables', 'Laptop Bags', 'Backpacks', 'Flash Drives', 'External Hard Drives', 'SD Cards', 'Power Banks', 'Adapters']
+                        items: ['Kitchen Roll & Towels', 'Toilet Paper', 'Trash Bags', 'Aluminum Foil & Cling Film', 'Storage Containers', 'Air Fresheners', 'Candles', 'Matches & Lighters']
                     }
                 }
             },
-            'business-deals': {
-                name: 'Business & Deals',
-                icon: 'building',
+            'personal-care': {
+                name: 'Personal Care & Beauty',
+                icon: 'spa',
                 subcategories: {
-                    'smart-office': {
-                        name: 'Smart Office & Security',
-                        icon: 'shield-alt',
-                        items: ['Biometric Systems', 'Fingerprint Scanners', 'Face ID Systems', 'CCTV Cameras', 'Smart Door Locks', 'Access Control', 'Security Systems']
+                    'bath-body': {
+                        name: 'Bath & Body',
+                        icon: 'soap',
+                        items: ['Bath Soap & Body Wash', 'Shampoo & Conditioner', 'Deodorants & Antiperspirants', 'Body Lotion & Creams', 'Hand Sanitizers']
                     },
-                    'office-equipment': {
-                        name: 'Office Equipment',
-                        icon: 'print',
-                        items: ['Printers', 'Scanners', 'Photocopiers', 'Laminators', 'Shredders', 'Office Furniture', 'Whiteboards', 'Projectors']
+                    'grooming': {
+                        name: 'Grooming & Oral Care',
+                        icon: 'tooth',
+                        items: ['Toothpaste & Toothbrushes', 'Shaving Products', 'Hair Care Accessories', 'Nail Care', 'Cotton Wool & Swabs']
                     }
                 }
             }
@@ -1246,21 +1366,19 @@
             }
         }
 
-        // Product Recommendation System
+        // Product Recommendation System for Food Stuffs, Groceries & Household Items
         let selectedProductForRecommendation = null;
         let selectedRecommendations = [];
 
-        // Product recommendation mapping
         const productRecommendations = {
-            'laptop': ['laptop-bag', 'laptop-stand', 'mouse', 'hdmi-cable', 'usb-hub', 'external-hard-drive', 'cooling-pad'],
-            'gaming-laptop': ['gaming-mouse', 'gaming-keyboard', 'headset', 'mousepad', 'laptop-cooler'],
-            'phone': ['phone-case', 'screen-guard', 'charger', 'power-bank', 'earbuds', 'selfie-ring'],
-            'tablet': ['tablet-case', 'stylus', 'keyboard', 'screen-guard'],
-            'desktop': ['monitor', 'keyboard', 'mouse', 'speakers', 'hdmi-cable'],
-            'monitor': ['hdmi-cable', 'monitor-stand', 'webcam', 'speakers'],
-            'printer': ['printer-cable', 'paper', 'ink-cartridge'],
-            'camera': ['sd-card', 'camera-bag', 'tripod', 'lens'],
-            'default': ['laptop-bag', 'hdmi-cable', 'flash-drive', 'external-hard-drive']
+            'groceries': ['rice', 'flour', 'oil', 'sugar', 'salt', 'spice', 'pasta', 'cereal'],
+            'produce': ['salad', 'fruit', 'vegetable', 'tomato', 'onion', 'herb', 'spinach'],
+            'beverages': ['juice', 'water', 'tea', 'coffee', 'soda', 'drink', 'beverage'],
+            'dairy': ['milk', 'cheese', 'butter', 'yogurt', 'bread', 'egg', 'cream'],
+            'bakery': ['bread', 'cookie', 'butter', 'milk', 'cake', 'pastry', 'jam'],
+            'household': ['cleaner', 'detergent', 'soap', 'tissue', 'towel', 'sponge', 'spray', 'bleach'],
+            'personal-care': ['soap', 'lotion', 'shampoo', 'toothpaste', 'deodorant', 'body wash', 'sanitizer'],
+            'default': ['milk', 'bread', 'oil', 'sugar', 'soap', 'juice', 'rice']
         };
 
         // Show recommendation modal
@@ -1276,7 +1394,7 @@
                 <img src="${getProductImage(product)}" alt="${product.name}" class="selected-product-img">
                 <div>
                     <h5 class="mb-2">${product.name}</h5>
-                    <p class="text-muted mb-2">${product.brand || ''}</p>
+                    <p class="text-muted mb-2">${product.brand || 'Denla Fresh'}</p>
                     <h4 class="text-primary mb-0">${formatPrice(product.price)}</h4>
                 </div>
             `;
@@ -1291,35 +1409,43 @@
         function getRecommendationsForProduct(product) {
             const productName = (product.name || '').toLowerCase();
             const category = ((product.categories && product.categories.name) || product.category || '').toLowerCase();
+            const searchStr = `${productName} ${category}`;
             
-            // Determine product type
             let productType = 'default';
-            if (productName.includes('gaming') && productName.includes('laptop')) {
-                productType = 'gaming-laptop';
-            } else if (productName.includes('laptop')) {
-                productType = 'laptop';
-            } else if (productName.includes('phone') || category.includes('phone')) {
-                productType = 'phone';
-            } else if (productName.includes('tablet') || productName.includes('ipad')) {
-                productType = 'tablet';
-            } else if (productName.includes('desktop')) {
-                productType = 'desktop';
-            } else if (productName.includes('monitor')) {
-                productType = 'monitor';
-            } else if (productName.includes('printer')) {
-                productType = 'printer';
-            } else if (productName.includes('camera')) {
-                productType = 'camera';
+            if (searchStr.includes('milk') || searchStr.includes('cheese') || searchStr.includes('dairy') || searchStr.includes('yogurt') || searchStr.includes('butter')) {
+                productType = 'dairy';
+            } else if (searchStr.includes('bread') || searchStr.includes('bakery') || searchStr.includes('cake') || searchStr.includes('biscuit') || searchStr.includes('cookie')) {
+                productType = 'bakery';
+            } else if (searchStr.includes('drink') || searchStr.includes('beverage') || searchStr.includes('juice') || searchStr.includes('soda') || searchStr.includes('tea') || searchStr.includes('coffee')) {
+                productType = 'beverages';
+            } else if (searchStr.includes('clean') || searchStr.includes('detergent') || searchStr.includes('household') || searchStr.includes('wash') || searchStr.includes('bleach')) {
+                productType = 'household';
+            } else if (searchStr.includes('soap') || searchStr.includes('shampoo') || searchStr.includes('lotion') || searchStr.includes('personal') || searchStr.includes('care') || searchStr.includes('beauty')) {
+                productType = 'personal-care';
+            } else if (searchStr.includes('fruit') || searchStr.includes('veg') || searchStr.includes('fresh') || searchStr.includes('produce')) {
+                productType = 'produce';
+            } else if (searchStr.includes('food') || searchStr.includes('rice') || searchStr.includes('flour') || searchStr.includes('grocery') || searchStr.includes('grain')) {
+                productType = 'groceries';
             }
 
-            const recommendedTypes = productRecommendations[productType];
+            const recommendedTypes = productRecommendations[productType] || productRecommendations['default'];
             
             // Find matching products from cache
-            return productsCache.filter(p => {
-                if (p.id === product.id) return false; // Exclude the selected product
+            let matches = productsCache.filter(p => {
+                if (String(p.id) === String(product.id)) return false;
                 const pName = (p.name || '').toLowerCase();
-                return recommendedTypes.some(type => pName.includes(type.replace(/-/g, ' ')));
-            }).slice(0, 6); // Limit to 6 recommendations
+                const pCat = ((p.categories && p.categories.name) || p.category || '').toLowerCase();
+                const pCombined = `${pName} ${pCat}`;
+                return recommendedTypes.some(type => pCombined.includes(type));
+            });
+
+            // If not enough matches, fill with other available products
+            if (matches.length < 4) {
+                const others = productsCache.filter(p => String(p.id) !== String(product.id) && !matches.some(m => String(m.id) === String(p.id)));
+                matches = matches.concat(others);
+            }
+
+            return matches.slice(0, 6);
         }
 
         function displayRecommendations(recommendations) {

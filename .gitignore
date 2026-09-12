@@ -9,6 +9,13 @@ yarn.lock
 .env.production
 backend/.env
 
+# CRITICAL: Secret files - NEVER commit!
+COOLIFY_ENV_SECRETS.txt
+*SECRETS*.txt
+*.secret
+*.key
+*.pem
+
 # Database
 *.sql.backup
 *.db

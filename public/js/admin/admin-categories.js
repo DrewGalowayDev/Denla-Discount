@@ -105,8 +105,8 @@ function showAddCategoryModal() {
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Icon Class (FontAwesome)</label>
-                    <input type="text" class="form-control" id="categoryIcon" placeholder="fa-box" value="fa-box" required>
-                    <small class="text-muted">Example: fa-laptop, fa-headphones, fa-mobile</small>
+                    <input type="text" class="form-control" id="categoryIcon" placeholder="fa-shopping-basket" value="fa-shopping-basket" required>
+                    <small class="text-muted">Example: fa-seedling, fa-coffee, fa-egg, fa-spray-can, fa-bread-slice</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Color</label>
@@ -163,7 +163,7 @@ function showAddCategoryModal() {
 // ============================================
 
 function editCategory(categoryId) {
-    const category = categoriesList.find(c => c.id === categoryId);
+    const category = categoriesList.find(c => String(c.id) === String(categoryId));
     if (!category) return;
 
     Swal.fire({
@@ -177,7 +177,7 @@ function editCategory(categoryId) {
                 <div class="mb-3">
                     <label class="form-label">Icon Class</label>
                     <input type="text" class="form-control" id="editCategoryIcon" value="${category.icon}" required>
-                    <small class="text-muted">Example: fa-laptop, fa-headphones, fa-mobile</small>
+                    <small class="text-muted">Example: fa-seedling, fa-coffee, fa-egg, fa-spray-can, fa-bread-slice</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Color</label>
@@ -224,7 +224,7 @@ function editCategory(categoryId) {
 // ============================================
 
 function deleteCategory(categoryId) {
-    const category = categoriesList.find(c => c.id === categoryId);
+    const category = categoriesList.find(c => String(c.id) === String(categoryId));
     if (!category) return;
 
     Swal.fire({

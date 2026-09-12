@@ -1,0 +1,85 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (will be set via Coolify)
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Development files
+*.md
+!DEPLOYMENT.md
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
+__tests__/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Build artifacts
+dist/
+build/
+coverage/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+
+# Database files
+*.sql
+database/*.sql
+!database/supabase-schema.sql
+
+# Scripts
+*.bat
+*.sh
+!start.sh
+
+# Test and debug scripts
+test-*.js
+debug-*.js
+check_*.js
+create_admin.js
+diagnose_*.js
+generate_*.js
+apply_changes.bat
+fix-database.bat
+test_login.bat
+
+# CSV and data files
+*.csv
+
+# Backup files
+*.bak
+*.backup
+
+# Hash results
+hash_result.txt
+
+# Awesome folder (seems like a duplicate/test folder)
+Awesome/

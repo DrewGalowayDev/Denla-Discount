@@ -5,9 +5,7 @@
 
 const ADMIN_MONITOR_CONFIG = {
     REFRESH_INTERVAL: 10000, // Refresh every 10 seconds
-    BACKEND_BASE: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5000'
-        : ''
+    BACKEND_BASE: window.location.origin
 };
 
 class AdminActivityMonitor {

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marquee Test</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { margin: 0; padding: 20px; background: #f0f0f0; }
+        .test-info { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        #console-log { background: #1e1e1e; color: #00ff00; padding: 15px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; }
+        .log-entry { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>Marquee Test Page</h2>
+        <p>This page tests the marquee in isolation.</p>
+        <div id="api-status">Checking API...</div>
+    </div>
+
+    <div id="console-log">
+        <div class="log-entry">🧪 Console Output:</div>
+    </div>
+
+    <!-- Marquee Section -->
+    <div class="product-marquee-wrapper bg-gradient-primary py-2">
+        <div class="product-marquee-container">
+            <div class="product-marquee" id="productMarquee">
+                <div style="color: white; padding: 20px;">Initializing...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Custom console logging
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logDiv = document.getElementById('console-log');
+        
+        function addLog(message, type = 'log') {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.style.color = type === 'error' ? '#ff6b6b' : '#00ff00';
+            entry.textContent = message;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        // Test API first
+        async function testAPI() {
+            const statusDiv = document.getElementById('api-status');
+            try {
+                console.log('Testing API endpoint: /api/products?limit=5');
+                const response = await fetch('/api/products?limit=5');
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response type:', typeof data);
+                console.log('Is array:', Array.isArray(data));
+                console.log('Has .products:', !!data.products);
+                console.log('Has .data:', !!data.data);
+                
+                let products = [];
+                if (Array.isArray(data)) {
+                    products = data;
+                } else if (data.products) {
+                    products = data.products;
+                } else if (data.data) {
+                    products = data.data;
+                }
+                
+                console.log('Products count:', products.length);
+                
+                if (products.length > 0) {
+                    console.log('First product:', JSON.stringify(products[0], null, 2));
+                }
+                
+                statusDiv.innerHTML = `✅ API OK - ${products.length} products found`;
+                statusDiv.style.color = 'green';
+                
+                return products;
+            } catch (error) {
+                console.error('API test failed:', error);
+                statusDiv.innerHTML = `❌ API Error: ${error.message}`;
+                statusDiv.style.color = 'red';
+                return [];
+            }
+        }
+
+        // Load marquee
+        async function loadMarquee() {
+            console.log('🎬 Starting loadMarquee()');
+            const marquee = document.getElementById('productMarquee');
+            
+            if (!marquee) {
+                console.error('Marquee element not found!');
+                return;
+            }
+            
+            console.log('Marquee element found');
+            marquee.innerHTML = '<div style="color: white; padding: 20px;">Loading...</div>';
+            
+            try {
+                const response = await fetch('/api/products?limit=15');
+                console.log('Fetch response:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                let products = Array.isArray(data) ? data : (data.products || data.data || []);
+                
+                console.log('Products for marquee:', products.length);
+                
+                if (products.length === 0) {
+                    marquee.innerHTML = '<div style="color: white; padding: 20px;">No products found</div>';
+                    return;
+                }
+                
+                // Duplicate for seamless loop
+                const duplicated = [...products, ...products];
+                
+                const html = duplicated.map((p, i) => {
+                    let image = 'img/product-1.png';
+                    if (p.images) {
+                        if (Array.isArray(p.images)) {
+                            image = p.images[0] || image;
+                        } else if (typeof p.images === 'string') {
+                            try {
+                                const parsed = JSON.parse(p.images);
+                                image = parsed[0] || image;
+                            } catch (e) {
+                                image = p.images;
+                            }
+                        }
+                    }
+                    
+                    const price = p.price || p.selling_price || 0;
+                    
+                    if (i === 0) {
+                        console.log('Sample item:', p.name, 'price:', price, 'image:', image);
+                    }
+                    
+                    return `
+                        <div class="marquee-item">
+                            <img src="${image}" alt="${p.name}" class="marquee-item-image" onerror="this.src='img/product-1.png'">
+                            <div class="marquee-item-content">
+                                <span class="marquee-item-badge">✨ NEW</span>
+                                <h6 class="marquee-item-name">${p.name}</h6>
+                                <div class="marquee-item-price-wrapper">
+                                    <span class="marquee-item-price">KSh ${parseFloat(price).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                console.log('Generated HTML length:', html.length);
+                marquee.innerHTML = html;
+                console.log('✅ Marquee loaded successfully!');
+                
+            } catch (error) {
+                console.error('Error loading marquee:', error);
+                marquee.innerHTML = `<div style="color: white; padding: 20px;">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Run tests
+        window.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 DOM loaded');
+            await testAPI();
+            await loadMarquee();
+        });
+    </script>
+</body>
+</html>

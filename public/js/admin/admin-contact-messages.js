@@ -6,9 +6,7 @@ let currentMessageFilter = 'all';
 let currentViewingMessageId = null;
 
 // API Base URL
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000/api'
-    : '/api';
+const API_BASE = '/api';
 
 /**
  * Load all contact messages from the API
@@ -204,7 +202,7 @@ function displayContactMessages() {
  * View message details in modal
  */
 async function viewMessage(messageId) {
-    const message = allContactMessages.find(msg => msg.id === messageId);
+    const message = allContactMessages.find(msg => String(msg.id) === String(messageId));
     
     if (!message) {
         Swal.fire('Error', 'Message not found', 'error');

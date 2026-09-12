@@ -1,5 +1,5 @@
 /**
- * Awesome Technologies - Shopping Cart Manager
+ * Denla Discount - Shopping Cart & POS Manager
  * Handles cart operations with localStorage persistence and backend sync
  * Supports both guest users and authenticated users with smart cart merging
  */
@@ -7,9 +7,7 @@
 const CART_STORAGE_KEY = 'awesomeTech_cart';
 const WISHLIST_STORAGE_KEY = 'awesomeTech_wishlist';
 const WHATSAPP_NUMBER = '+254704546916';
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000/api'
-    : '/api';
+const API_BASE_URL = '/api';
 
 class CartManager {
     constructor() {

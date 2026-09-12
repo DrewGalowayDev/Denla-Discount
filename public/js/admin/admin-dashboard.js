@@ -287,14 +287,29 @@ async function loadCategoryChartData(products) {
         categoriesData = [];
     }
 
+    // Define vibrant color palette for categories
+    const colorPalette = [
+        '#FF6B35',  // Orange (Groceries)
+        '#4ECDC4',  // Turquoise (Beverages)
+        '#FFD93D',  // Yellow (Dairy Products)
+        '#6BCF7F',  // Green (Household Items)
+        '#A78BFA',  // Purple (Personal Care)
+        '#F87171',  // Red (Meat & Poultry)
+        '#60A5FA',  // Blue (Bakery)
+        '#FBBF24',  // Amber (Fruits & Vegetables)
+        '#EC4899',  // Pink (Snacks)
+        '#10B981'   // Emerald (Others)
+    ];
+
     // Count products per category
     const categoryCounts = {};
     const categoryColors = {};
     const categoryNames = {};
 
-    categoriesData.forEach(cat => {
+    categoriesData.forEach((cat, index) => {
         categoryCounts[cat.id] = 0;
-        categoryColors[cat.id] = cat.color || '#2575fc';
+        // Use color from database if available, otherwise use palette color
+        categoryColors[cat.id] = cat.color || colorPalette[index % colorPalette.length];
         categoryNames[cat.id] = cat.name;
     });
 
@@ -317,7 +332,9 @@ async function loadCategoryChartData(products) {
             labels: labels.length > 0 ? labels : ['No Data'],
             datasets: [{
                 data: data.length > 0 ? data : [1],
-                backgroundColor: colors.length > 0 ? colors : ['#cccccc']
+                backgroundColor: colors.length > 0 ? colors : ['#cccccc'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
             }]
         },
         options: {
@@ -325,7 +342,26 @@ async function loadCategoryChartData(products) {
             maintainAspectRatio: true,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: {
+                            size: 12
+                        },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${label}: ${value} items (${percentage}%)`;
+                        }
+                    }
                 }
             }
         }

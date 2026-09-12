@@ -21,8 +21,8 @@
         rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap-icons/bootstrap-icons.min.css">
 
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
@@ -250,13 +250,13 @@
     <!-- Mobile Search Bar End -->
 
     <!-- Latest Products Marquee Start -->
-    <div class="product-marquee-wrapper bg-gradient-primary py-2">
+    <div class="product-marquee-wrapper py-1">
         <div class="product-marquee-container">
             <div class="product-marquee" id="productMarquee">
                 <!-- Products will be dynamically loaded here -->
             </div>
         </div>
-    </div>`
+    </div>
     <!-- Latest Products Marquee End -->
 
     <!-- Carousel Start -->
@@ -558,7 +558,7 @@
 
     <!-- Our Products Start -->
     <div class="container-fluid products productList overflow-hidden" style="padding-top: 3rem; padding-bottom: 0;">
-        <div class="container products-mini">
+        <div class="container-fluid px-2 px-md-4 px-xl-5 products-mini">
             <div class="mx-auto text-center mb-4" style="max-width: 900px;">
                 <h4 class="text-primary border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
                     data-wow-delay="0.1s">Products</h4>
@@ -567,28 +567,33 @@
             <div class="d-flex justify-content-center mb-3">
                 <ul class="nav nav-pills d-inline-flex text-center py-2 px-2 rounded bg-light flex-wrap justify-content-center">
                     <li class="nav-item">
-                        <a class="d-flex py-2 mx-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                        <a class="d-flex py-2 mx-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1" onclick="filterProducts('all')">
                             <span class="text-dark" style="width: 130px;"><i class="fas fa-th-large me-1"></i>All Products</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="d-flex py-2 mx-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                            <span class="text-dark" style="width: 150px;"><i class="fas fa-laptop me-1"></i>Computers & Mobile</span>
+                        <a class="d-flex py-2 mx-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2" onclick="filterProducts('Groceries')">
+                            <span class="text-dark" style="width: 130px;"><i class="fas fa-shopping-basket me-1"></i>Groceries</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                            <span class="text-dark" style="width: 140px;"><i class="fas fa-headphones me-1"></i>Audio & Visual</span>
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3" onclick="filterProducts('Beverages')">
+                            <span class="text-dark" style="width: 130px;"><i class="fas fa-wine-bottle me-1"></i>Beverages</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                            <span class="text-dark" style="width: 180px;"><i class="fas fa-plug me-1"></i>Components & Accessories</span>
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4" onclick="filterProducts('Dairy Products')">
+                            <span class="text-dark" style="width: 150px;"><i class="fas fa-cheese me-1"></i>Dairy Products</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                            <span class="text-dark" style="width: 150px;"><i class="fas fa-briefcase me-1"></i>Business & Deals</span>
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5" onclick="filterProducts('Household Items')">
+                            <span class="text-dark" style="width: 160px;"><i class="fas fa-home me-1"></i>Household Items</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex mx-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-6" onclick="filterProducts('Personal Care')">
+                            <span class="text-dark" style="width: 150px;"><i class="fas fa-spa me-1"></i>Personal Care</span>
                         </a>
                     </li>
                 </ul>
@@ -597,27 +602,32 @@
             <div class="tab-content" style="margin-top: 1rem;">
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div id="products-tab-1" class="product-grid" style="min-height: 0;">
-                        <!-- All Products -->
+                        <!-- All Products loaded here -->
                     </div>
                 </div>
                 <div id="tab-2" class="tab-pane fade p-0">
                     <div id="products-tab-2" class="product-grid" style="min-height: 0;">
-                        <!-- Computers & Mobile -->
+                        <!-- Groceries -->
                     </div>
                 </div>
                 <div id="tab-3" class="tab-pane fade p-0">
                     <div id="products-tab-3" class="product-grid" style="min-height: 0;">
-                        <!-- Audio & Visual -->
+                        <!-- Beverages -->
                     </div>
                 </div>
                 <div id="tab-4" class="tab-pane fade p-0">
                     <div id="products-tab-4" class="product-grid" style="min-height: 0;">
-                        <!-- Components & Accessories -->
+                        <!-- Dairy Products -->
                     </div>
                 </div>
                 <div id="tab-5" class="tab-pane fade p-0">
                     <div id="products-tab-5" class="product-grid" style="min-height: 0;">
-                        <!-- Business & Deals -->
+                        <!-- Household Items -->
+                    </div>
+                </div>
+                <div id="tab-6" class="tab-pane fade p-0">
+                    <div id="products-tab-6" class="product-grid" style="min-height: 0;">
+                        <!-- Personal Care -->
                     </div>
                 </div>
             </div>
@@ -849,9 +859,9 @@
     <!-- WhatsApp Chat Window -->
     <div class="whatsapp-chat-window" id="whatsappChatWindow">
         <div class="whatsapp-chat-header">
-            <img src="img/young.webp" alt="Awesome Tech" onerror="this.src='img/product-1.png'">
+            <img src="img/young.webp" alt="Denla Discount" onerror="this.src='img/product-1.png'">
             <div class="whatsapp-chat-header-info">
-                <h5>Awesome Tech</h5>
+                <h5>Denla Discount</h5>
                 <p>Typically replies instantly</p>
             </div>
             <span class="whatsapp-chat-header-online"></span>
@@ -863,20 +873,20 @@
         <div class="whatsapp-chat-body" id="whatsappChatBody">
             <div class="whatsapp-message dealer">
                 <div class="whatsapp-message-bubble">
-                    <p>👋 Hello! Welcome to Awesome Tech!</p>
+                    <p>👋 Hello! Welcome to Denla Discount!</p>
                     <p class="mt-2">How can we help you today? Please select what you're looking for:</p>
                     <div class="whatsapp-questionnaire">
-                        <button class="whatsapp-question-btn" onclick="selectQuestion('laptop')">
-                            <i class="fas fa-laptop"></i>
-                            <span>I need a Laptop</span>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('groceries')">
+                            <i class="fas fa-shopping-basket"></i>
+                            <span>Groceries & Cooking</span>
                         </button>
-                        <button class="whatsapp-question-btn" onclick="selectQuestion('phone')">
-                            <i class="fas fa-mobile-alt"></i>
-                            <span>I need a Phone</span>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('beverages')">
+                            <i class="fas fa-glass-whiskey"></i>
+                            <span>Beverages & Drinks</span>
                         </button>
-                        <button class="whatsapp-question-btn" onclick="selectQuestion('accessory')">
-                            <i class="fas fa-headphones"></i>
-                            <span>I need Accessories</span>
+                        <button class="whatsapp-question-btn" onclick="selectQuestion('household')">
+                            <i class="fas fa-home"></i>
+                            <span>Household & Cleaning</span>
                         </button>
                         <button class="whatsapp-question-btn" onclick="selectQuestion('other')">
                             <i class="fas fa-question-circle"></i>
@@ -894,7 +904,7 @@
                 <span>Start Chat on WhatsApp</span>
             </button>
         </div>
-    </div>iv>
+    </div>
 
 
         <!-- JavaScript Libraries -->
@@ -946,8 +956,13 @@
         <!-- Cart Manager -->
     <script src="js/auth-helper.js"></script>
     <script src="js/cart-manager.js"></script>
-    <script src="js/my-account-handler.js"></script>        <!-- Login Redirect -->
-        <script src="js/login-redirect.js"></script>
+    <script src="js/my-account-handler.js"></script>
+    
+    <!-- Product Marquee -->
+    <script src="js/product-marquee.js"></script>
+    
+    <!-- Login Redirect -->
+    <script src="js/login-redirect.js"></script>
 
         <!-- User Activity Tracker -->
         <script src="js/user-activity-tracker.js"></script>
@@ -958,9 +973,7 @@
 
         <script>
             // Search functionality for index.html
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : '/api';
+            const API_BASE = '/api';
             let searchTimeout;
             let cachedProducts = null; // Cache products for faster filtering
 
@@ -1264,90 +1277,6 @@
                 }
             });
 
-            // Product Marquee Loader
-            // Ensure API_BASE_URL is available
-            const MARQUEE_API_URL = typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : 'http://localhost:5000/api';
-            
-            async function loadProductMarquee() {
-                console.log('Loading product marquee...');
-                try {
-                    const marquee = document.getElementById('productMarquee');
-                    if (!marquee) {
-                        console.error('Marquee element not found!');
-                        return;
-                    }
-                    
-                    console.log('Fetching products from:', `${MARQUEE_API_URL}/products`);
-                    const response = await fetch(`${MARQUEE_API_URL}/products?limit=10&sort=created_at&order=desc`);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    let data = await response.json();
-                    console.log('Received data:', data);
-                    
-                    let products = Array.isArray(data) ? data : (data.products || data.data || []);
-                    console.log('Products array:', products, 'Length:', products.length);
-                    
-                    if (products.length === 0) {
-                        console.warn('No products found');
-                        marquee.innerHTML = '<div class="marquee-item"><p style="color: white; padding: 20px;">No products available</p></div>';
-                        return;
-                    }
-                    
-                    // Duplicate products for seamless loop
-                    const duplicatedProducts = [...products, ...products];
-                    
-                    const marqueeHTML = duplicatedProducts.map(product => {
-                        const image = Array.isArray(product.images) && product.images.length > 0 
-                            ? product.images[0] 
-                            : (product.image || 'img/product-1.png');
-                        
-                        const oldPrice = product.old_price || product.oldPrice;
-                        const hasDiscount = oldPrice && oldPrice > product.price;
-                        
-                        return `
-                            <div class="marquee-item" onclick="window.location.href='shop.html'">
-                                <img src="${image}" alt="${product.name}" class="marquee-item-image" onerror="this.src='img/product-1.png'">
-                                <div class="marquee-item-content">
-                                    <span class="marquee-item-badge">✨ NEW</span>
-                                    <h6 class="marquee-item-name">${product.name}</h6>
-                                    <div class="marquee-item-price-wrapper">
-                                        <span class="marquee-item-price">KSh ${product.price.toLocaleString()}</span>
-                                        ${hasDiscount ? `<span class="marquee-item-old-price">KSh ${oldPrice.toLocaleString()}</span>` : ''}
-                                    </div>
-                                </div>
-                                <div class="marquee-item-icon">
-                                    <i class="fas fa-arrow-right"></i>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    console.log('Setting marquee HTML, items count:', duplicatedProducts.length);
-                    marquee.innerHTML = marqueeHTML;
-                    console.log('Marquee loaded successfully!');
-                } catch (error) {
-                    console.error('Error loading marquee products:', error);
-                    const marquee = document.getElementById('productMarquee');
-                    if (marquee) {
-                        marquee.innerHTML = '<div class="marquee-item"><p style="color: white; padding: 20px;">⚠️ Error loading products</p></div>';
-                    }
-                }
-            }
-            
-            // Load marquee when DOM is ready AND after a small delay to ensure cart-manager.js is loaded
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => {
-                    console.log('DOM loaded, waiting for scripts...');
-                    setTimeout(loadProductMarquee, 100);
-                });
-            } else {
-                console.log('DOM already loaded, loading marquee immediately...');
-                setTimeout(loadProductMarquee, 100);
-            }
-
             // WhatsApp Chat Functionality
             // WHATSAPP_NUMBER is already defined in cart-manager.js
             let selectedCategory = '';
@@ -1372,39 +1301,37 @@
                 selectedCategory = category;
                 const chatBody = document.getElementById('whatsappChatBody');
                 
-                // Category-specific responses
+                // Category-specific responses (Grocery & Household Store)
                 const responses = {
-                    laptop: {
-                        icon: '💻',
-                        title: 'Great choice! Looking for a laptop.',
+                    groceries: {
+                        icon: '🛒',
+                        title: 'Looking for groceries & cooking essentials!',
                         questions: [
-                            { question: 'What\'s your budget range?', options: ['Under KSh 50,000', 'KSh 50,000 - 100,000', 'Above KSh 100,000'] },
-                            { question: 'What will you use it for?', options: ['Gaming', 'Work/Business', 'School/Study', 'General Use'] },
-                            { question: 'Preferred brand?', options: ['HP', 'Dell', 'Lenovo', 'Apple MacBook', 'Any Brand'] }
+                            { question: 'What type of grocery item?', options: ['Cooking Oil & Fats', 'Rice, Flour & Grains', 'Sugar, Salt & Spices', 'Canned & Packaged Goods', 'Other Groceries'] },
+                            { question: 'Do you need a specific brand?', options: ['Yes, specific brand', 'No, best price available', 'Recommend for me'] }
                         ]
                     },
-                    phone: {
-                        icon: '📱',
-                        title: 'Perfect! Let\'s find you a phone.',
+                    beverages: {
+                        icon: '🥤',
+                        title: 'Looking for beverages & drinks!',
                         questions: [
-                            { question: 'What\'s your budget?', options: ['Under KSh 20,000', 'KSh 20,000 - 50,000', 'Above KSh 50,000'] },
-                            { question: 'Preferred brand?', options: ['Samsung', 'iPhone', 'Xiaomi', 'Tecno/Infinix', 'Any Brand'] },
-                            { question: 'Main use?', options: ['Photography', 'Gaming', 'Business', 'General Use'] }
+                            { question: 'What type of beverage?', options: ['Water & Soft Drinks', 'Juice & Cordials', 'Tea & Coffee', 'Milk & Dairy Drinks', 'Energy Drinks'] },
+                            { question: 'Pack size preference?', options: ['Single / Small Pack', 'Family Pack', 'Wholesale / Bulk', 'No preference'] }
                         ]
                     },
-                    accessory: {
-                        icon: '🎧',
-                        title: 'Looking for accessories!',
+                    household: {
+                        icon: '🏠',
+                        title: 'Looking for household & cleaning items!',
                         questions: [
-                            { question: 'What accessory do you need?', options: ['Headphones/Earbuds', 'Charger/Cable', 'Case/Cover', 'Mouse/Keyboard', 'Other'] },
-                            { question: 'For which device?', options: ['Phone', 'Laptop', 'Tablet', 'General'] }
+                            { question: 'What household item?', options: ['Cleaning Detergents', 'Dishwashing & Kitchen', 'Air Fresheners', 'Personal Care / Toiletries', 'Other Household'] },
+                            { question: 'Any preferred brand?', options: ['Yes, specific brand', 'Cheapest available', 'Best quality for price'] }
                         ]
                     },
                     other: {
-                        icon: '🛒',
+                        icon: '❓',
                         title: 'How can we assist you?',
                         questions: [
-                            { question: 'What are you interested in?', options: ['Price Inquiry', 'Product Availability', 'Warranty Info', 'Delivery', 'General Question'] }
+                            { question: 'What can we help you with?', options: ['Price Inquiry', 'Product Availability', 'Delivery Options', 'Bulk / Wholesale Order', 'General Question'] }
                         ]
                     }
                 };
@@ -1474,16 +1401,14 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
 
                 const responses = {
-                    laptop: [
-                        { question: 'What will you use it for?', options: ['Gaming', 'Work/Business', 'School/Study', 'General Use'] },
-                        { question: 'Preferred brand?', options: ['HP', 'Dell', 'Lenovo', 'Apple MacBook', 'Any Brand'] }
+                    groceries: [
+                        { question: 'Do you need a specific brand?', options: ['Yes, specific brand', 'No, best price available', 'Recommend for me'] }
                     ],
-                    phone: [
-                        { question: 'Preferred brand?', options: ['Samsung', 'iPhone', 'Xiaomi', 'Tecno/Infinix', 'Any Brand'] },
-                        { question: 'Main use?', options: ['Photography', 'Gaming', 'Business', 'General Use'] }
+                    beverages: [
+                        { question: 'Pack size preference?', options: ['Single / Small Pack', 'Family Pack', 'Wholesale / Bulk', 'No preference'] }
                     ],
-                    accessory: [
-                        { question: 'For which device?', options: ['Phone', 'Laptop', 'Tablet', 'General'] }
+                    household: [
+                        { question: 'Any preferred brand?', options: ['Yes, specific brand', 'Cheapest available', 'Best quality for price'] }
                     ],
                     other: []
                 };
@@ -1513,7 +1438,7 @@
             }
 
             window.openWhatsApp = function() {
-                let message = "Hello Awesome Tech! 👋\n\n";
+                let message = "Hello Denla Discount! 👋\n\n";
                 
                 if (chatMessages.length > 0) {
                     message += "I'm interested in:\n";
@@ -1540,7 +1465,15 @@
                     chatWindow.classList.remove('active');
                 }
             });
+
+            // Function to filter products by category
+            window.filterProducts = function(category) {
+                console.log('Filtering products for category:', category);
+                // The load-products.js script handles the actual loading
+                // This function is just a placeholder for future enhancements
+            };
         </script>
+        <script src="js/api-helper.js"></script>
         <script src="js/load-products.js"></script>
 </body>
 

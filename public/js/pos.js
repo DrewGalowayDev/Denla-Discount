@@ -1,5 +1,5 @@
 // POS System JavaScript
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 let products = [];
 let cart = [];
 let selectedPaymentMethod = 'cash';

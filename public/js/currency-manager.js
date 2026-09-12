@@ -1,5 +1,5 @@
 /**
- * Currency Switcher for Awesome Technologies
+ * Currency Switcher for Denla Discount
  * Handles currency conversion between KSh and USD across the entire website
  */
 

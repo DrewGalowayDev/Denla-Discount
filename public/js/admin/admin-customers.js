@@ -105,7 +105,7 @@ function renderCustomersTable() {
 // ============================================
 
 async function viewCustomerDetails(customerId) {
-    const customer = customersData.find(c => c.id === customerId);
+    const customer = customersData.find(c => String(c.id) === String(customerId));
     if (!customer) return;
 
     try {
@@ -169,7 +169,7 @@ async function viewCustomerDetails(customerId) {
 // ============================================
 
 function contactCustomer(customerId) {
-    const customer = customersData.find(c => c.id === customerId);
+    const customer = customersData.find(c => String(c.id) === String(customerId));
     if (!customer) return;
 
     Swal.fire({
@@ -191,7 +191,7 @@ function contactCustomer(customerId) {
                 return false;
             }
 
-            const fullMessage = `Hello ${customer.name}! 👋\n\n${message}\n\nAwesome Technologies Team`;
+            const fullMessage = `Hello ${customer.name}! 👋\n\n${message}\n\nDenla Discount Team`;
             const phone = customer.phone.replace(/[^0-9]/g, '');
 
             if (!phone || phone === 'NA') {
@@ -211,7 +211,7 @@ function contactCustomer(customerId) {
 // ============================================
 
 async function customerOrderHistory(customerId) {
-    const customer = customersData.find(c => c.id === customerId);
+    const customer = customersData.find(c => String(c.id) === String(customerId));
     if (!customer) return;
 
     try {

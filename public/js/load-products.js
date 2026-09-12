@@ -1,26 +1,26 @@
 
-// Backend base (ensure this matches your running API)
-const BACKEND_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000'
-    : '';
+// Backend base (auto-detect based on current URL)
+const BACKEND_BASE = window.location.origin;
 
-// Product endpoints and container mapping - Updated for category-based tabs
+// Product endpoints and container mapping - Updated for shop categories
 const PRODUCT_CONFIGS = [
     { endpoint: '/api/products/new-arrivals?limit=4', containerId: 'justInGrid', priority: 1 },
     { endpoint: '/api/products?limit=50', containerId: 'products-tab-1', category: 'all', priority: 2 },
-    { endpoint: '/api/products?limit=50', containerId: 'products-tab-2', category: 'computers-mobile', priority: 3 },
-    { endpoint: '/api/products?limit=50', containerId: 'products-tab-3', category: 'audio-visual', priority: 4 },
-    { endpoint: '/api/products?limit=50', containerId: 'products-tab-4', category: 'components-accessories', priority: 5 },
-    { endpoint: '/api/products?limit=50', containerId: 'products-tab-5', category: 'business-deals', priority: 6 },
-    { endpoint: '/api/products?limit=200', containerId: 'productListCarousel', isCarousel: true, priority: 7 }
+    { endpoint: '/api/products?category=Groceries&limit=50', containerId: 'products-tab-2', category: 'groceries', priority: 3 },
+    { endpoint: '/api/products?category=Beverages&limit=50', containerId: 'products-tab-3', category: 'beverages', priority: 4 },
+    { endpoint: '/api/products?category=Dairy Products&limit=50', containerId: 'products-tab-4', category: 'dairy', priority: 5 },
+    { endpoint: '/api/products?category=Household Items&limit=50', containerId: 'products-tab-5', category: 'household', priority: 6 },
+    { endpoint: '/api/products?category=Personal Care&limit=50', containerId: 'products-tab-6', category: 'personal-care', priority: 7 },
+    { endpoint: '/api/products?limit=200', containerId: 'productListCarousel', isCarousel: true, priority: 8 }
 ];
 
 // Category keywords for filtering products
 const CATEGORY_KEYWORDS = {
-    'computers-mobile': ['laptop', 'computer', 'pc', 'desktop', 'notebook', 'phone', 'smartphone', 'mobile', 'tablet', 'ipad', 'macbook', 'chromebook', 'gaming', 'dell', 'hp', 'lenovo', 'asus', 'acer', 'samsung', 'iphone', 'android', 'surface'],
-    'audio-visual': ['headphone', 'earphone', 'speaker', 'audio', 'sound', 'bluetooth', 'wireless', 'microphone', 'mic', 'monitor', 'display', 'screen', 'tv', 'television', 'projector', 'camera', 'webcam', 'earbuds', 'airpods', 'jbl', 'sony', 'bose'],
-    'components-accessories': ['cable', 'charger', 'adapter', 'usb', 'hdmi', 'hub', 'dock', 'keyboard', 'mouse', 'case', 'cover', 'stand', 'mount', 'bag', 'sleeve', 'protector', 'power', 'battery', 'ssd', 'hdd', 'ram', 'memory', 'storage', 'drive', 'flash', 'sd card', 'cooling', 'fan'],
-    'business-deals': ['office', 'business', 'professional', 'enterprise', 'workstation', 'server', 'printer', 'scanner', 'refurbished', 'deal', 'sale', 'discount', 'bundle', 'combo', 'package', 'bulk', 'wholesale']
+    'groceries': ['sugar', 'maize', 'flour', 'rice', 'beans', 'wheat', 'cooking', 'oil', 'unga', 'salt', 'pembe', 'kabras', 'soko', 'jogoo', 'chipsy', 'elianto', 'kimbo', 'salit', 'mwitu', 'basmati', 'pasta', 'spaghetti', 'macaroni', 'azam', 'bidco'],
+    'beverages': ['tea', 'coffee', 'juice', 'soda', 'water', 'drink', 'beverage', 'coca', 'pepsi', 'fanta', 'sprite', 'ketepa', 'brookside', 'tusker', 'pilsner', 'white cap', 'senator', 'balozi', 'mango', 'orange', 'tropical', 'minute maid', 'del monte', 'freshjus'],
+    'dairy': ['milk', 'yogurt', 'cheese', 'butter', 'cream', 'dairy', 'brookside', 'lato', 'mala', 'tuzo', 'kilifi', 'nunu', 'ilara', 'long life', 'fresh milk', 'ghee', 'margarine', 'prestige'],
+    'household': ['soap', 'detergent', 'tissue', 'toilet', 'cleaning', 'disinfectant', 'bleach', 'jik', 'omo', 'ariel', 'persil', 'sunlight', 'downy', 'softlan', 'vim', 'domestos', 'harpic', 'handy andy', 'colgate', 'close up'],
+    'personal-care': ['soap', 'shampoo', 'lotion', 'cream', 'deodorant', 'toothpaste', 'tissue', 'pads', 'sanitary', 'diapers', 'pampers', 'always', 'geisha', 'imperial leather', 'lux', 'dettol', 'nivea', 'vaseline', 'johnson', 'baby', 'dove', 'shield', 'axe']
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -60,38 +60,103 @@ function hideLoadingNotification() {
     if (overlay) overlay.remove();
 }
 
-// Helper: fetch with retries on 429 Too Many Requests
-async function fetchWithRetries(url, options = {}, maxAttempts = 3, baseDelay = 400) {
-    let attempt = 0;
-    let lastResp = null;
-    while (attempt < maxAttempts) {
-        attempt += 1;
-        try {
-            const resp = await fetch(url, options);
-            lastResp = resp;
-            if (resp.ok) return resp;
-            // If 429, wait and retry
-            if (resp.status === 429) {
-                const delay = baseDelay * Math.pow(2, attempt - 1);
-                console.warn(`${url} returned 429, retrying in ${delay}ms (attempt ${attempt})`);
-                // eslint-disable-next-line no-await-in-loop
-                await new Promise(r => setTimeout(r, delay));
-                continue;
-            }
-            // For other non-ok statuses, don't retry
-            return resp;
-        } catch (err) {
-            console.warn(`Fetch error for ${url} (attempt ${attempt}):`, err);
-            const delay = baseDelay * Math.pow(2, attempt - 1);
-            // eslint-disable-next-line no-await-in-loop
-            await new Promise(r => setTimeout(r, delay));
+// ─── API Response Cache ────────────────────────────────────────────────────
+// Caches GET responses in memory for 5 minutes to avoid redundant API calls.
+// This is the primary defence against hitting rate limits on page navigation.
+const _apiCache = new Map();
+const _API_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const _inFlight = new Map(); // deduplicates simultaneous identical requests
+
+function _getCached(url) {
+    const entry = _apiCache.get(url);
+    if (!entry) return null;
+    if (Date.now() - entry.ts > _API_CACHE_TTL) {
+        _apiCache.delete(url);
+        return null;
+    }
+    return entry.clone(); // Return a clone so the body can be re-read
+}
+
+async function _setCached(url, response) {
+    // Only cache successful GET responses
+    if (!response || !response.ok) return response;
+    try {
+        // We need to clone before reading, so the original can still be consumed
+        const clone = response.clone();
+        _apiCache.set(url, { resp: clone, ts: Date.now(), clone: () => clone.clone() });
+    } catch (e) { /* ignore caching errors silently */ }
+    return response;
+}
+
+// Helper: fetch with in-memory caching + retries on 429 Too Many Requests
+async function fetchWithRetries(url, options = {}, maxAttempts = 3, baseDelay = 500) {
+    const isGet = !options.method || options.method.toUpperCase() === 'GET';
+
+    // 1. Check cache for GET requests
+    if (isGet) {
+        const cached = _getCached(url);
+        if (cached) {
+            // console.log(`[Cache HIT] ${url}`);
+            return cached;
+        }
+
+        // 2. Deduplicate in-flight requests
+        if (_inFlight.has(url)) {
+            // console.log(`[Dedup] Waiting for in-flight request: ${url}`);
+            return _inFlight.get(url);
         }
     }
-    return lastResp;
+
+    const requestPromise = (async () => {
+        let attempt = 0;
+        let lastResp = null;
+        while (attempt < maxAttempts) {
+            attempt += 1;
+            try {
+                const resp = await fetch(url, options);
+                lastResp = resp;
+                if (resp.ok) {
+                    if (isGet) await _setCached(url, resp.clone());
+                    return resp;
+                }
+                // Respect server's Retry-After header or use exponential backoff
+                if (resp.status === 429) {
+                    const retryAfter = resp.headers.get('Retry-After');
+                    const delay = retryAfter
+                        ? parseInt(retryAfter) * 1000
+                        : baseDelay * Math.pow(2, attempt - 1);
+                    console.warn(`[Rate Limit] ${url} → 429. Waiting ${delay}ms before retry ${attempt}/${maxAttempts}`);
+                    await new Promise(r => setTimeout(r, delay));
+                    continue;
+                }
+                // For other non-ok statuses, don't retry
+                return resp;
+            } catch (err) {
+                console.warn(`[Fetch Error] ${url} (attempt ${attempt}/${maxAttempts}):`, err);
+                if (attempt < maxAttempts) {
+                    await new Promise(r => setTimeout(r, baseDelay * Math.pow(2, attempt - 1)));
+                }
+            }
+        }
+        return lastResp;
+    })();
+
+    if (isGet) {
+        _inFlight.set(url, requestPromise);
+        try {
+            const result = await requestPromise;
+            return result;
+        } finally {
+            _inFlight.delete(url);
+        }
+    }
+
+    return requestPromise;
 }
 
 // Global cache for product details to populate modal quickly
 window._productCache = window._productCache || {};
+
 
 async function loadProducts(endpoint, containerId, isCarousel = false) {
     try {
@@ -360,6 +425,9 @@ async function loadAllProductsOnce() {
             }
         }
 
+        // Render top latest products marquee
+        renderMarquee(allProducts);
+
         // re-init animations after initial DOM injection
         reinitAnimations();
     } catch (err) {
@@ -435,10 +503,69 @@ async function _attemptLocalMockLoad() {
             }
         }
 
+        renderMarquee(allProducts);
+
         reinitAnimations();
     } catch (e) {
         console.error('Loading mock products failed:', e);
     }
+}
+
+// Render Top Marquee
+function renderMarquee(products) {
+    const marquee = document.getElementById('productMarquee');
+    if (!marquee || !products || products.length === 0) return;
+
+    // Ensure enough items to smoothly fill across wide screens before duplicating
+    let list = [...products];
+    while (list.length < 8 && list.length > 0) {
+        list = [...list, ...products];
+    }
+    // Duplicate for seamless 50% translation loop
+    const duplicated = [...list, ...list];
+
+    marquee.innerHTML = duplicated.map(p => {
+        let image = 'img/product-1.png';
+        if (p.images) {
+            if (Array.isArray(p.images) && p.images.length > 0) {
+                image = p.images[0];
+            } else if (typeof p.images === 'string') {
+                try {
+                    const parsed = JSON.parse(p.images);
+                    if (Array.isArray(parsed) && parsed.length > 0) image = parsed[0];
+                } catch (e) {
+                    image = p.images;
+                }
+            }
+        } else if (p.image_url) {
+            image = p.image_url;
+        } else if (p.image) {
+            image = p.image;
+        }
+
+        const price = p.price || p.selling_price || 0;
+        const oldPrice = p.old_price || p.oldPrice || p.cost_price;
+        const hasDiscount = oldPrice && parseFloat(oldPrice) > parseFloat(price);
+        const name = p.name || 'Product';
+        const pid = p.id || p._id || '';
+
+        return `
+            <div class="marquee-item" onclick="window.location.href='product-detail.html?id=${pid}'">
+                <img src="${image}" alt="${name}" class="marquee-item-image" onerror="this.src='img/product-1.png'">
+                <div class="marquee-item-content">
+                    <span class="marquee-item-badge">✨ NEW</span>
+                    <h6 class="marquee-item-name" title="${name}">${name}</h6>
+                    <div class="marquee-item-price-wrapper">
+                        <span class="marquee-item-price">KSh ${parseFloat(price).toLocaleString()}</span>
+                        ${hasDiscount ? `<span class="marquee-item-old-price">KSh ${parseFloat(oldPrice).toLocaleString()}</span>` : ''}
+                    </div>
+                </div>
+                <div class="marquee-item-icon">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 function renderProduct(product, index) {
@@ -459,7 +586,7 @@ function renderProduct(product, index) {
     let badgeHtml = '';
     if (product.is_new_arrival) {
         badgeHtml = '<div class="product-badge badge-new">New</div>';
-    } else if (product.old_price && product.old_price > product.price) {
+    } else if (product.old_price && product.old_price > (product.price || product.selling_price || 0)) {
         badgeHtml = '<div class="product-badge badge-sale">Sale</div>';
     } else if (product.is_deal) {
         badgeHtml = '<div class="product-badge badge-deal">Deal</div>';
@@ -467,9 +594,9 @@ function renderProduct(product, index) {
 
     // Extract data
     const title = product.name || 'Product';
-    const price = product.price || 0;
-    const oldPrice = product.old_price || product.original_price || price;
-    const category = (product.categories && product.categories.name) || product.category || 'Electronics';
+    const price = product.price || product.selling_price || 0;
+    const oldPrice = product.old_price || product.original_price || product.cost_price || price;
+    const category = (product.categories && product.categories.name) || product.category_name || product.category || 'Shop Items';
     const rating = Math.round(product.rating || 5);
     const productId = product.id || product._id || product.product_id || index;
 
@@ -490,7 +617,7 @@ function renderProduct(product, index) {
             </div>
             <div class="product-content">
                 <div class="product-category">${category}</div>
-                <h3 class="product-title" title="${title}">${title}</h3>
+                <div class="product-title" title="${title}">${title}</div>
                 <div class="product-rating">
                     ${renderStars(rating)}
                 </div>
@@ -526,9 +653,9 @@ function renderCarouselProduct(product) {
     }
 
     const title = product.name || 'Product';
-    const price = product.price || 0;
-    const oldPrice = product.old_price || product.original_price || price;
-    const category = (product.categories && product.categories.name) || product.category || 'Electronics';
+    const price = product.price || product.selling_price || 0;
+    const oldPrice = product.old_price || product.original_price || product.cost_price || price;
+    const category = (product.categories && product.categories.name) || product.category_name || product.category || 'Shop Items';
 
     return `
     <div class="productImg-item products-mini-item border">

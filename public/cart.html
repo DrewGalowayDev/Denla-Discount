@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Shopping Cart - Awesome Technologies</title>
+    <title>Shopping Cart & POS Checkout - Denla Discount</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="shopping cart, checkout, electronics" name="keywords">
-    <meta content="Your shopping cart at Awesome Technologies" name="description">
+    <meta content="shopping cart, POS checkout, groceries, household items, food stuffs, Denla Discount, Kenya" name="keywords">
+    <meta content="Review your shopping cart, select payment method (M-Pesa, Cash, Card, WhatsApp) and complete your order at Denla Discount." name="description">
 
     <!-- Security Meta Tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -16,79 +16,58 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap-icons/bootstrap-icons.min.css">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
-    
 </head>
 
 <body>
-    <!-- Topbar Start -->
-    <div class="container-fluid px-5 border-bottom">
-        <div class="row gx-0 align-items-center py-2">
-            <div class="col-lg-4 text-center text-lg-start mb-lg-0 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a href="#" class="text-muted me-2">Help</a><small> / </small>
-                    <a href="#" class="text-muted mx-2">Support</a><small> / </small>
-                    <a href="#" class="text-muted ms-2">Contact</a>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center align-items-center justify-content-center d-none d-lg-flex">
-                <small class="text-dark">Call Us:</small>
-                <a href="tel:+254704546916" class="text-muted">+254 704546916</a>
-            </div>
-            <div class="col-12 col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>KSh</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item">KSh - Kenyan Shilling</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>English</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item">English</a>
-                            <a href="#" class="dropdown-item">Kiswahili</a>
-                        </div>
-                    </div>
-                    <div class="dropdown" id="authDropdown">
-                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i class="fa fa-home me-2"></i>My Dashboard</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="login.html" class="dropdown-item" id="loginDropdownItem">Login</a>
-                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem">Sign Up</a>
-                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;">Dashboard</a>
-                            <div class="dropdown-divider" id="authDivider"></div>
-                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)">Log Out</a>
-                        </div>
-                    </div>
-                </div>
+    <!-- Top Thin Strip Start -->
+    <div class="container-fluid px-5 border-bottom bg-light shop-top-strip">
+        <div class="d-flex align-items-center justify-content-end py-1" style="min-height: 32px;">
+            <div class="d-inline-flex align-items-center gap-3 ms-auto">
+                <a href="#" class="top-strip-link" title="Wishlist">
+                    <i class="fas fa-heart text-danger"></i>
+                    <span class="d-none d-sm-inline">Wishlist</span>
+                </a>
+                <a href="cart.html" class="top-strip-link active" title="Shopping Cart">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="d-none d-sm-inline">Cart</span>
+                    <span class="badge bg-primary rounded-pill ms-1" id="cartCount">0</span>
+                </a>
             </div>
         </div>
     </div>
+    <!-- Top Thin Strip End -->
 
-    <!-- Header Start -->
-    <div class="container-fluid px-5 py-4 d-none d-lg-block">
-        <div class="row gx-7 align-items-center">
-            <div class="col-lg-2 pe-4">
-                <a href="index.html" class="navbar-brand">
-                    <img src="img/logo.jpg" alt="Awesome Technologies" style="height: 50px; width: auto;">
+    <!-- Main Header Start -->
+    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom shop-main-header">
+        <div class="row gx-4 align-items-center">
+            <!-- Brand Logo -->
+            <div class="col-lg-3 pe-3">
+                <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
+                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;">
+                    <div>
+                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">Denla Discount</h3>
+                        <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.6px; font-weight: 600;">Groceries & Home Store</small>
+                    </div>
                 </a>
             </div>
-            <div class="col-lg-6 ps-3">
-                <div class="position-relative" style="max-width: 650px; margin: 0 auto;">
-                    <div class="d-flex border rounded-pill">
-                        <input class="form-control border-0 rounded-pill w-100 py-3" type="text" id="cartSearchInput" placeholder="Search cart items or products..." onkeyup="handleCartSearch(event)">
-                        <button type="button" class="btn btn-primary rounded-pill py-3 px-5" onclick="performCartSearch()">
+
+            <!-- Search Bar -->
+            <div class="col-lg-5 px-3">
+                <div class="position-relative" style="max-width: 540px; margin: 0 auto;">
+                    <div class="d-flex border rounded-pill bg-white shadow-sm overflow-hidden header-search-box">
+                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="cartSearchInput" placeholder="Search cart items or shop products..." onkeyup="handleCartSearch(event)">
+                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performCartSearch()">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -98,193 +77,433 @@
                     </div>
                 </div>
             </div>
+
+            <!-- User Auth & Dashboard Actions -->
             <div class="col-lg-4 text-end">
-                <div class="d-inline-flex align-items-center">
-                    <a href="#" class="text-muted me-3"><i class="fas fa-heart fa-lg"></i></a>
-                    <a href="cart-new.html" class="text-muted"><i class="fas fa-shopping-cart fa-lg"></i> <span class="badge bg-primary" id="headerCartCount">0</span></a>
+                <div class="d-inline-flex align-items-center gap-3">
+                    <!-- Currency Dropdown -->
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fas fa-coins text-warning me-1"></i>KSh</a>
+                        <div class="dropdown-menu rounded shadow-sm">
+                            <a href="#" class="dropdown-item small">KSh - Kenyan Shilling</a>
+                            <a href="#" class="dropdown-item small">USD - US Dollar</a>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown" id="authDropdown">
+                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fa fa-home text-primary me-1"></i>My Dashboard</a>
+                        <div class="dropdown-menu rounded shadow-sm">
+                            <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i class="fas fa-sign-in-alt me-2"></i> Login</a>
+                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i class="fas fa-user-plus me-2"></i> Sign Up</a>
+                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                            <div class="dropdown-divider" id="authDivider"></div>
+                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log Out</a>
+                        </div>
+                    </div>
+
+                    <!-- Login Button - shown when not logged in -->
+                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 shadow-sm fw-semibold" id="loginBtn">
+                        <i class="fas fa-user me-2"></i>Login
+                    </a>
+                    
+                    <!-- Dashboard Button - shown when logged in -->
+                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 shadow-sm fw-semibold" id="dashboardBtn" style="display: none;">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    
+                    <!-- User Menu - shown when logged in -->
+                    <div class="dropdown" id="userMenuDropdown" style="display: none;">
+                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle shadow-sm fw-semibold" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i><span id="userMenuName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Header End -->
-      <!-- Navbar & Hero Start -->
-        <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
-            <div class="row gx-0 bg-primary px-5 align-items-center">
-                <div class="col-lg-3 d-none d-lg-block">
-                    <nav class="navbar navbar-light position-relative" style="width: 250px;">
-                        <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#allCat">
-                            <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
-                        </button>
-                        <div class="collapse navbar-collapse rounded-bottom" id="allCat">
-                            <div class="navbar-nav ms-auto py-0">
-                                <ul class="list-unstyled categories-bars" id="desktopCategoryList">
-                                    <!-- Categories loaded dynamically -->
-                                </ul>
-                            </div>
+    <!-- Main Header End -->
+
+    <!-- Navbar Start -->
+    <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
+        <div class="row gx-0 bg-primary px-5 align-items-center">
+            <div class="col-lg-3 d-none d-lg-block">
+                <nav class="navbar navbar-light position-relative" style="width: 250px;">
+                    <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#allCat">
+                        <h4 class="m-0 text-white"><i class="fa fa-bars me-2"></i>All Categories</h4>
+                    </button>
+                    <div class="collapse navbar-collapse rounded-bottom" id="allCat">
+                        <div class="navbar-nav ms-auto py-0">
+                            <ul class="list-unstyled categories-bars" id="desktopCategoryList">
+                                <!-- Categories loaded dynamically -->
+                            </ul>
                         </div>
-                    </nav>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-                        <a href="index.html" class="navbar-brand d-block d-lg-none">
-                            <img src="img/logo.jpg" alt="Awesome Technologies" style="height: 50px; width: auto;">
-                        </a>
-                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                            <span class="fa fa-bars fa-1x"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarCollapse">
-                            <div class="navbar-nav ms-auto py-0">
-                                <a href="index.html" class="nav-item nav-link text-white-50 fw-semibold">Home</a>
-                                <a href="shop.html" class="nav-item nav-link text-white-50 fw-semibold">Shop</a>
-                                <a href="cart.html" class="nav-item nav-link active fw-bold text-white">Shop Cart</a>
-                                <a href="cheackout.html" class="nav-item nav-link text-white-50 fw-semibold">Checkout</a>
-                                <a href="contact.html" class="nav-item nav-link text-white-50 fw-semibold me-2">Contact</a>
-                                <div class="nav-item dropdown d-block d-lg-none mb-3">
-                                    <a href="#" class="nav-link" data-bs-toggle="dropdown"><span class="dropdown-toggle">All Category</span></a>
-                                    <div class="dropdown-menu m-0">
-                                        <ul class="list-unstyled categories-bars" id="mobileCategoryList">
-                                            <!-- Categories loaded dynamically -->
-                                        </ul>
-                                    </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-12 col-lg-9">
+                <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                    <a href="index.html" class="navbar-brand d-block d-lg-none">
+                        <img src="img/logo.jpg" alt="Denla Discount" style="height: 45px; width: auto; border-radius: 6px;">
+                    </a>
+                    <button class="navbar-toggler ms-auto text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars fa-1x"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="index.html" class="nav-item nav-link text-white-50 fw-semibold">Home</a>
+                            <a href="shop.html" class="nav-item nav-link text-white-50 fw-semibold">Shop</a>
+                            <a href="cart.html" class="nav-item nav-link active fw-bold text-white">Shop Cart</a>
+                            <a href="cheackout.html" class="nav-item nav-link text-white-50 fw-semibold">Checkout</a>
+                            <a href="#" class="nav-item nav-link text-white-50 fw-semibold" id="myAccountLink">My Account</a>
+                            <a href="contact.html" class="nav-item nav-link text-white-50 fw-semibold me-2">Contact</a>
+                            <div class="nav-item dropdown d-block d-lg-none mb-3">
+                                <a href="#" class="nav-link" data-bs-toggle="dropdown"><span class="dropdown-toggle text-white">All Category</span></a>
+                                <div class="dropdown-menu m-0">
+                                    <ul class="list-unstyled categories-bars" id="mobileCategoryList">
+                                        <!-- Categories loaded dynamically -->
+                                    </ul>
                                 </div>
                             </div>
-                            <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm"><i class="fa fa-mobile-alt me-2"></i>+254 704 546 916</a>
                         </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <!-- Navbar & Hero End -->
-
-        <!-- Mobile Search Bar Start -->
-        <div class="container-fluid d-lg-none bg-light py-3">
-            <div class="container">
-                <div class="position-relative">
-                    <div class="d-flex border rounded-pill bg-white">
-                        <input class="form-control border-0 rounded-pill w-100 py-3 ps-4" type="text" id="mobileCart2SearchInput" onkeyup="handleMobileCart2Search(event)" placeholder="Search cart items or products...">
-                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4" onclick="performMobileCart2Search()"><i class="fas fa-search"></i></button>
+                        <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm text-white">
+                            <i class="fa fa-mobile-alt me-2"></i>+254 704 546 916
+                        </a>
                     </div>
-                    <div class="search-results-dropdown" id="mobileCart2SearchDropdown"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile Search Bar End -->
-
-        <!-- Single Page Header start -->
-        <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Cart Page</h1>
-            <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Cart Page</li>
-            </ol>
-        </div>
-        <!-- Single Page Header End --> 
-
-    <!-- Cart Header -->
-    <div class="cart-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h2 class="mb-0"><i class="fas fa-shopping-cart me-3"></i>Shopping Cart</h2>
-                </div>
-                <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                    <span class="badge bg-light text-dark px-3 py-2" style="font-size: 1rem;">
-                        <span id="cartItemCount">0</span> Items
-                    </span>
-                </div>
+                </nav>
             </div>
         </div>
     </div>
+    <!-- Navbar End -->
 
-    <!-- Cart Content -->
-    <div class="container cart-container py-5">
+    <!-- Single Page Header start -->
+    <div class="container-fluid page-header py-4 mb-4">
+        <h1 class="text-center text-white display-6 wow fadeInUp mb-1" data-wow-delay="0.1s">POS Cart & Checkout</h1>
+        <p class="text-center text-white-50 mb-2 wow fadeInUp" data-wow-delay="0.2s">Fast Multi-Payment Order Processing &bull; M-Pesa Express &bull; Cash &bull; WhatsApp</p>
+        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
+            <li class="breadcrumb-item active text-white">Cart & POS</li>
+        </ol>
+    </div>
+    <!-- Single Page Header End --> 
+
+    <!-- Cart & POS Content -->
+    <div class="container cart-container mb-5">
         <div class="row g-4">
-            <!-- Cart Items -->
-            <div class="col-lg-8">
+            <!-- Cart Items & Customer Info (Left Column) -->
+            <div class="col-lg-7 col-xl-8">
+                <!-- POS Control Bar -->
+                <div class="pos-control-bar">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">
+                            <i class="fas fa-shopping-basket me-1"></i> <span id="cartItemCount">0</span> Items
+                        </span>
+                        <span class="text-muted small d-none d-sm-inline">in your order</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                            <i class="fas fa-plus me-1"></i> Add More Items
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="cart.clearCart()">
+                            <i class="fas fa-trash-alt me-1"></i> Clear Cart
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Empty Cart Message -->
-                <div id="emptyCart" class="empty-cart" style="display: none;">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>Your cart is empty</h3>
-                    <p class="text-muted">Add some amazing products to get started!</p>
-                    <a href="shop.html" class="btn btn-primary btn-lg rounded-pill px-5 mt-3">
-                        <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+                <div id="emptyCart" class="empty-cart shadow-sm" style="display: none;">
+                    <i class="fas fa-shopping-basket text-muted"></i>
+                    <h3 class="fw-bold">Your cart is empty</h3>
+                    <p class="text-muted mb-4">Browse our fresh groceries, beverages, dairy, and household essentials to start your order!</p>
+                    <a href="shop.html" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+                        <i class="fas fa-store me-2"></i>Go to Shop
                     </a>
                 </div>
 
                 <!-- Cart Items Container -->
                 <div id="cartItemsContainer">
-                    <!-- Items will be loaded here dynamically -->
+                    <!-- Items loaded dynamically -->
+                </div>
+
+                <!-- Customer Details Panel (POS Delivery & Order Info) -->
+                <div class="card border-0 shadow-sm rounded-4 mt-4 p-4" id="customerInfoCard">
+                    <h5 class="fw-bold mb-3 text-dark">
+                        <i class="fas fa-user-circle text-primary me-2"></i>Customer & Delivery Details
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Customer Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. Jane Mwangi">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">M-Pesa / Phone Number <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-success"></i></span>
+                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="e.g. 0712345678" oninput="syncMpesaPhone(this.value)">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-muted">Delivery Location / Address / Counter Note</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-map-marker-alt text-danger"></i></span>
+                                <input type="text" class="form-control border-start-0" id="posDeliveryAddress" placeholder="e.g. Kisii CBD, Next to Posta / Table 4">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Cart Summary -->
-            <div class="col-lg-4">
-                <div class="cart-summary">
-                    <h4><i class="fas fa-receipt me-2"></i>Order Summary</h4>
+            <!-- POS Payment Station & Summary (Right Column) -->
+            <div class="col-lg-5 col-xl-4">
+                <div class="pos-payment-station">
+                    <h4><i class="fas fa-cash-register text-primary me-2"></i>Payment & Summary</h4>
 
-                    <!-- Promo Code Section -->
-                    <div class="promo-code-section">
-                        <label class="form-label fw-bold">Have a promo code?</label>
-                        <div class="promo-input-group">
-                            <input type="text" class="form-control" id="promoCode" placeholder="Enter code">
-                            <button class="btn btn-outline-primary" onclick="applyPromoCode()">Apply</button>
+                    <!-- Payment Mode Selector -->
+                    <label class="form-label small fw-bold text-muted mb-2">SELECT PAYMENT METHOD</label>
+                    <div class="payment-methods-grid">
+                        <div class="pay-tile active mpesa-tile" id="tile-mpesa" onclick="selectPaymentMode('mpesa')">
+                            <i class="fas fa-mobile-alt text-success"></i>
+                            <span>M-Pesa</span>
+                        </div>
+                        <div class="pay-tile" id="tile-cash" onclick="selectPaymentMode('cash')">
+                            <i class="fas fa-money-bill-wave text-primary"></i>
+                            <span>Cash (POS)</span>
+                        </div>
+                        <div class="pay-tile" id="tile-card" onclick="selectPaymentMode('card')">
+                            <i class="fas fa-credit-card text-info"></i>
+                            <span>Card / Bank</span>
+                        </div>
+                        <div class="pay-tile" id="tile-whatsapp" onclick="selectPaymentMode('whatsapp')">
+                            <i class="fab fa-whatsapp text-success"></i>
+                            <span>WhatsApp</span>
                         </div>
                     </div>
 
+                    <!-- M-Pesa Panel -->
+                    <div class="pay-panel active" id="panel-mpesa">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <strong class="text-success small"><i class="fas fa-bolt me-1"></i> M-Pesa Express / STK Push</strong>
+                            <span class="badge bg-success">Instant</span>
+                        </div>
+                        <p class="small text-muted mb-2">Enter your Safaricom number to receive an instant PIN prompt on your phone:</p>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text bg-white"><i class="fas fa-phone text-success"></i></span>
+                            <input type="tel" class="form-control" id="mpesaPromptPhone" placeholder="07XXXXXXXX" value="">
+                        </div>
+                        <div class="alert alert-light border small py-2 mb-0 text-muted">
+                            <i class="fas fa-info-circle text-primary me-1"></i> Or Pay via <strong>Till No: 4123456</strong> (Denla Discount)
+                        </div>
+                    </div>
+
+                    <!-- Cash Panel with Live POS Change Calculator -->
+                    <div class="pay-panel" id="panel-cash">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <strong class="text-primary small"><i class="fas fa-calculator me-1"></i> Cash Tendered & Change</strong>
+                            <span class="badge bg-primary">POS Mode</span>
+                        </div>
+                        <label class="form-label small fw-bold text-muted mb-1">Cash Tendered (KSh)</label>
+                        <input type="number" class="form-control mb-2 fw-bold" id="cashTenderedInput" placeholder="Enter amount received" oninput="calculatePosChange()">
+                        
+                        <div class="quick-cash-row">
+                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(500)">+ KSh 500</button>
+                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(1000)">+ KSh 1,000</button>
+                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(2000)">+ KSh 2,000</button>
+                            <button type="button" class="btn-quick-cash" onclick="setExactCash()">Exact</button>
+                        </div>
+
+                        <div class="pos-change-display" id="posChangeBox">
+                            <span>Change Due to Customer</span>
+                            <span class="pos-change-amount" id="posChangeValue">KSh 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Panel -->
+                    <div class="pay-panel" id="panel-card">
+                        <strong class="text-info small d-block mb-2"><i class="fas fa-credit-card me-1"></i> Debit or Credit Card</strong>
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Card Number (4XXX XXXX XXXX XXXX)">
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="text" class="form-control form-control-sm" placeholder="MM/YY">
+                            </div>
+                            <div class="col-6">
+                                <input type="password" class="form-control form-control-sm" maxlength="3" placeholder="CVV">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Panel -->
+                    <div class="pay-panel" id="panel-whatsapp">
+                        <strong class="text-success small d-block mb-1"><i class="fab fa-whatsapp me-1"></i> Direct WhatsApp Order</strong>
+                        <p class="small text-muted mb-0">Your entire cart and customer details will be pre-formatted into a direct order sent to our official WhatsApp line.</p>
+                    </div>
+
+                    <!-- Promo Code Section -->
+                    <div class="promo-code-section">
+                        <label class="form-label small fw-bold text-muted mb-1"><i class="fas fa-ticket-alt text-primary me-1"></i> Coupon / Promo Code</label>
+                        <div class="promo-input-group">
+                            <input type="text" class="form-control" id="promoCode" placeholder="Try SAVE10 or FREEDEL">
+                            <button class="btn btn-outline-primary" onclick="applyPromoCode()">Apply</button>
+                        </div>
+                        <div id="promoMessage" class="small mt-1" style="display: none;"></div>
+                    </div>
+
+                    <!-- Summary Rows -->
                     <div class="summary-row">
-                        <span>Subtotal:</span>
+                        <span>Items Subtotal:</span>
                         <span id="subtotal">KSh 0</span>
                     </div>
                     <div class="summary-row">
                         <span>Discount:</span>
-                        <span id="discount" class="text-success">- KSh 0</span>
+                        <span id="discount" class="text-success">KSh 0</span>
                     </div>
                     <div class="summary-row">
-                        <span>Delivery:</span>
+                        <span>Delivery Fee:</span>
                         <span id="delivery">Free</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total:</span>
-                        <span id="total">KSh 0</span>
                     </div>
 
                     <div id="savingsInfo" style="display: none;">
                         <div class="savings-badge">
-                            <i class="fas fa-tag me-2"></i>You save KSh <span id="savingsAmount">0</span>
+                            <i class="fas fa-gift me-1"></i> You Save KSh <span id="savingsAmount">0</span>
                         </div>
                     </div>
 
-                    <!-- WhatsApp Checkout Button -->
+                    <div class="summary-row total-row">
+                        <span>Total Due:</span>
+                        <span id="total">KSh 0</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <button class="btn-pos-checkout" onclick="processPOSCheckout()">
+                        <i class="fas fa-receipt me-2"></i> Complete Order & Print Receipt
+                    </button>
+
                     <button class="btn-whatsapp-checkout" onclick="checkoutViaWhatsApp()">
-                        <i class="fab fa-whatsapp fa-lg me-2"></i>
-                        Checkout via WhatsApp
+                        <i class="fab fa-whatsapp fa-lg me-2"></i> Order via WhatsApp
                     </button>
 
-                    <button class="btn btn-outline-primary btn-continue-shopping" onclick="window.location.href='shop-new.html'">
-                        <i class="fas fa-arrow-left me-2"></i>Continue Shopping
-                    </button>
-
-                    <!-- Trust Badges -->
-                    <div class="mt-4 pt-4 border-top">
-                        <div class="row g-3 text-center">
-                            <div class="col-6">
-                                <i class="fas fa-shield-alt text-primary fa-2x mb-2"></i>
-                                <small class="d-block">Secure Payment</small>
+                    <!-- Trust Guarantees -->
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="row g-2 text-center text-muted" style="font-size: 0.78rem;">
+                            <div class="col-4">
+                                <i class="fas fa-shield-alt text-success fa-lg d-block mb-1"></i>
+                                <span>M-Pesa Verified</span>
                             </div>
-                            <div class="col-6">
-                                <i class="fas fa-truck text-primary fa-2x mb-2"></i>
-                                <small class="d-block">Fast Delivery</small>
+                            <div class="col-4">
+                                <i class="fas fa-print text-primary fa-lg d-block mb-1"></i>
+                                <span>Instant Receipt</span>
                             </div>
-                            <div class="col-6">
-                                <i class="fas fa-undo text-primary fa-2x mb-2"></i>
-                                <small class="d-block">Easy Returns</small>
-                            </div>
-                            <div class="col-6">
-                                <i class="fas fa-headset text-primary fa-2x mb-2"></i>
-                                <small class="d-block">24/7 Support</small>
+                            <div class="col-4">
+                                <i class="fas fa-truck-fast text-warning fa-lg d-block mb-1"></i>
+                                <span>Fast Delivery</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POS Printable Thermal Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-check-circle text-success me-2"></i>Order Completed!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Thermal Receipt Paper -->
+                    <div class="pos-receipt-container" id="printableReceiptArea">
+                        <div class="receipt-header">
+                            <div class="receipt-title">DENLA DISCOUNT</div>
+                            <div class="receipt-meta">Groceries & Home Store</div>
+                            <div class="receipt-meta">Kisii & Nairobi, Kenya | Tel: +254 704 546 916</div>
+                            <div class="receipt-divider"></div>
+                            <div class="d-flex justify-content-between receipt-meta">
+                                <span>Rcpt: <strong id="rcptNumber">#DD-8942</strong></span>
+                                <span id="rcptDateTime">2026-09-12 10:30</span>
+                            </div>
+                            <div class="d-flex justify-content-between receipt-meta">
+                                <span>Customer: <strong id="rcptCustomer">Guest</strong></span>
+                                <span>Pay: <strong id="rcptPayMethod">M-PESA</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Itemized Table -->
+                        <table class="receipt-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Price</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rcptItemsBody">
+                                <!-- Dynamic receipt items -->
+                            </tbody>
+                        </table>
+
+                        <!-- Totals -->
+                        <div class="receipt-totals">
+                            <div class="receipt-total-row">
+                                <span>Subtotal:</span>
+                                <span id="rcptSubtotal">KSh 0</span>
+                            </div>
+                            <div class="receipt-total-row text-success" id="rcptDiscountRow" style="display: none;">
+                                <span>Discount:</span>
+                                <span id="rcptDiscount">- KSh 0</span>
+                            </div>
+                            <div class="receipt-total-row">
+                                <span>Delivery / Shipping:</span>
+                                <span id="rcptDelivery">KSh 0</span>
+                            </div>
+                            <div class="receipt-total-row receipt-grand-total">
+                                <span>GRAND TOTAL:</span>
+                                <span id="rcptGrandTotal">KSh 0</span>
+                            </div>
+                            <div class="receipt-total-row" id="rcptCashRow" style="display: none;">
+                                <span>Cash Tendered:</span>
+                                <span id="rcptCashTendered">KSh 0</span>
+                            </div>
+                            <div class="receipt-total-row" id="rcptChangeRow" style="display: none;">
+                                <span>Change Given:</span>
+                                <span id="rcptChangeGiven">KSh 0</span>
+                            </div>
+                            <div class="receipt-meta mt-1 text-center" style="font-size: 0.72rem;">
+                                <span>(16% VAT Inclusive where applicable)</span>
+                            </div>
+                        </div>
+
+                        <div class="receipt-footer">
+                            <p class="mb-1 fw-bold">THANK YOU FOR SHOPPING WITH US!</p>
+                            <p class="mb-0 text-muted" style="letter-spacing: 2px;">||||| | |||| |||||| | |||||||</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary rounded-pill px-4" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i> Print Receipt
+                        </button>
+                        <button type="button" class="btn btn-success rounded-pill px-4" onclick="startNewPosSale()">
+                            <i class="fas fa-plus me-1"></i> New Order
+                        </button>
                     </div>
                 </div>
             </div>
@@ -349,21 +568,6 @@
                             <p class="mb-0">Don't have an account? <a href="#" class="text-primary fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign Up</a></p>
                         </div>
                     </form>
-                    <div class="text-center my-3">
-                        <div class="d-flex align-items-center">
-                            <hr class="flex-grow-1">
-                            <span class="px-3 text-muted small">OR</span>
-                            <hr class="flex-grow-1">
-                        </div>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark py-2 rounded-pill">
-                            <i class="fab fa-google me-2 text-danger"></i>Continue with Google
-                        </button>
-                        <button class="btn btn-outline-primary py-2 rounded-pill">
-                            <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -416,41 +620,16 @@
                                 <input type="password" id="signupPassword" class="form-control border-start-0 py-3" placeholder="Create a strong password" required>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Confirm Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-primary"></i></span>
-                                <input type="password" id="signupConfirmPassword" class="form-control border-start-0 py-3" placeholder="Re-enter your password" required>
-                            </div>
-                        </div>
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                             <label class="form-check-label small" for="agreeTerms">
-                                I agree to the <a href="#" class="text-primary text-decoration-none">Terms & Conditions</a> and <a href="#" class="text-primary text-decoration-none">Privacy Policy</a>
+                                I agree to the <a href="#" class="text-primary text-decoration-none">Terms & Conditions</a>
                             </label>
                         </div>
                         <button type="submit" class="btn btn-success w-100 py-3 rounded-pill fw-bold mb-3">
                             <i class="fas fa-user-check me-2"></i>Create Account
                         </button>
-                        <div class="text-center">
-                            <p class="mb-0">Already have an account? <a href="#" class="text-primary fw-bold text-decoration-none" href="login.html" data-bs-dismiss="modal">Login</a></p>
-                        </div>
                     </form>
-                    <div class="text-center my-3">
-                        <div class="d-flex align-items-center">
-                            <hr class="flex-grow-1">
-                            <span class="px-3 text-muted small">OR</span>
-                            <hr class="flex-grow-1">
-                        </div>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark py-2 rounded-pill">
-                            <i class="fab fa-google me-2 text-danger"></i>Sign up with Google
-                        </button>
-                        <button class="btn btn-outline-primary py-2 rounded-pill">
-                            <i class="fab fa-facebook-f me-2"></i>Sign up with Facebook
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -462,77 +641,22 @@
 
     <!-- Cart Manager and Auth Scripts -->
     <script src="js/auth-helper.js"></script>
+    <script src="js/api-helper.js"></script>
     <script src="js/cart-manager.js"></script>
-    <script src="js/my-account-handler.js"></script>
     <script src="js/user-activity-tracker.js"></script>
 
     <script>
-        // Configuration - API_BASE_URL is already defined in cart-manager.js
+        // API Base configuration
+        const API_BASE = (typeof API_BASE_URL !== 'undefined' && API_BASE_URL) 
+            ? API_BASE_URL 
+            : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/api' : '/api');
         const WHATSAPP_BUSINESS_NUMBER = '+254704546916';
         const STORAGE_KEY = 'awesomeTech_cart';
-        const DELIVERY_FEE = 0; // Free delivery
-        
-        // Load categories and product counts from API
-        async function loadCategories() {
-            try {
-                // Fetch both categories and products to get accurate counts
-                const [catResponse, prodResponse] = await Promise.all([
-                    fetch(`${API_BASE_URL}/categories`),
-                    fetch(`${API_BASE_URL}/products?limit=1000`)
-                ]);
-                
-                if (catResponse.ok && prodResponse.ok) {
-                    const catData = await catResponse.json();
-                    const prodData = await prodResponse.json();
-                    
-                    const categories = catData.categories || catData || [];
-                    const products = prodData.products || prodData || [];
-                    
-                    // Count products per category
-                    const categoryCounts = {};
-                    products.forEach(product => {
-                        const catId = product.category_id;
-                        if (catId) {
-                            categoryCounts[catId] = (categoryCounts[catId] || 0) + 1;
-                        }
-                    });
-                    
-                    // Add counts to categories
-                    const categoriesWithCounts = categories.map(cat => ({
-                        ...cat,
-                        product_count: categoryCounts[cat.id] || 0
-                    }));
-                    
-                    renderCategories(categoriesWithCounts);
-                }
-            } catch (error) {
-                console.error('Error loading categories:', error);
-            }
-        }
-        
-        // Render categories in both desktop and mobile menus
-        function renderCategories(categories) {
-            const desktopList = document.getElementById('desktopCategoryList');
-            const mobileList = document.getElementById('mobileCategoryList');
-            
-            const html = categories.map(cat => `
-                <li>
-                    <div class="categories-bars-item">
-                        <a href="shop-new.html?category=${cat.slug || cat.id}">${cat.name}</a>
-                        <span>(${cat.product_count || 0})</span>
-                    </div>
-                </li>
-            `).join('');
-            
-            if (desktopList) desktopList.innerHTML = html;
-            if (mobileList) mobileList.innerHTML = html;
-        }
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCategories();
-        });
-        
+
+        // Payment state
+        let currentPaymentMode = 'mpesa';
+        let appliedPromo = null; // { code: 'SAVE10', discountPercent: 10, freeDelivery: false }
+
         // Cart Management Class
         class ShoppingCart {
             constructor() {
@@ -540,7 +664,6 @@
                 this.render();
             }
 
-            // Load cart from localStorage
             loadCart() {
                 try {
                     const saved = localStorage.getItem(STORAGE_KEY);
@@ -551,7 +674,6 @@
                 }
             }
 
-            // Save cart to localStorage
             saveCart() {
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
@@ -561,32 +683,27 @@
                 }
             }
 
-            // Add item to cart
-            addItem(product) {
-                const existingItem = this.items.find(item => item.id === product.id);
-                
+            addItem(product, qty = 1) {
+                const existingItem = this.items.find(item => String(item.id) === String(product.id));
                 if (existingItem) {
-                    existingItem.quantity += 1;
+                    existingItem.quantity += qty;
                 } else {
                     this.items.push({
                         ...product,
-                        quantity: 1
+                        quantity: qty
                     });
                 }
-                
                 this.saveCart();
                 this.render();
-                this.showNotification('Item added to cart!', 'Product successfully added');
+                this.showNotification('Added to Cart', `${product.name} added.`);
             }
 
-            // Update item quantity
             updateQuantity(productId, newQuantity) {
                 if (newQuantity < 1) {
                     this.removeItem(productId);
                     return;
                 }
-
-                const item = this.items.find(item => item.id === productId);
+                const item = this.items.find(item => String(item.id) === String(productId));
                 if (item) {
                     item.quantity = newQuantity;
                     this.saveCart();
@@ -594,300 +711,418 @@
                 }
             }
 
-            // Remove item from cart
             removeItem(productId) {
                 const itemElement = document.querySelector(`[data-product-id="${productId}"]`);
                 if (itemElement) {
                     itemElement.classList.add('removing');
                     setTimeout(() => {
-                        this.items = this.items.filter(item => item.id !== productId);
+                        this.items = this.items.filter(item => String(item.id) !== String(productId));
                         this.saveCart();
                         this.render();
-                        this.showNotification('Item removed', 'Product removed from cart');
-                    }, 500);
+                        this.showNotification('Item Removed', 'Item removed from your order');
+                    }, 350);
+                } else {
+                    this.items = this.items.filter(item => String(item.id) !== String(productId));
+                    this.saveCart();
+                    this.render();
                 }
             }
 
-            // Clear entire cart
             clearCart() {
-                if (confirm('Are you sure you want to clear your cart?')) {
+                if (this.items.length === 0) return;
+                if (confirm('Are you sure you want to clear your entire cart?')) {
                     this.items = [];
                     this.saveCart();
                     this.render();
-                    this.showNotification('Cart cleared', 'All items removed from cart');
+                    this.showNotification('Cart Cleared', 'All items removed.');
                 }
             }
 
-            // Calculate totals
             calculateTotals() {
-                const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const discount = this.items.reduce((sum, item) => {
-                    if (item.oldPrice) {
-                        return sum + ((item.oldPrice - item.price) * item.quantity);
+                const subtotal = this.items.reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+                
+                let promoDiscount = 0;
+                let delivery = subtotal >= 2000 || subtotal === 0 ? 0 : 150;
+
+                if (appliedPromo) {
+                    if (appliedPromo.discountPercent) {
+                        promoDiscount = Math.round(subtotal * (appliedPromo.discountPercent / 100));
                     }
-                    return sum;
-                }, 0);
-                const delivery = DELIVERY_FEE;
-                const total = subtotal + delivery;
+                    if (appliedPromo.freeDelivery) {
+                        delivery = 0;
+                    }
+                }
 
-                return { subtotal, discount, delivery, total };
+                const total = Math.max(0, subtotal - promoDiscount + delivery);
+                return { subtotal, discount: promoDiscount, delivery, total };
             }
 
-            // Update cart count badge
             updateCartCount() {
-                const count = this.items.reduce((sum, item) => sum + item.quantity, 0);
-                document.getElementById('cartItemCount').textContent = count;
-                document.getElementById('headerCartCount').textContent = count;
+                const count = this.items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+                const countBadge = document.getElementById('cartCount');
+                const itemCountBadge = document.getElementById('cartItemCount');
+                if (countBadge) countBadge.textContent = count;
+                if (itemCountBadge) itemCountBadge.textContent = count;
             }
 
-            // Render cart
             render() {
                 const container = document.getElementById('cartItemsContainer');
                 const emptyCart = document.getElementById('emptyCart');
+                const customerCard = document.getElementById('customerInfoCard');
                 
                 if (this.items.length === 0) {
-                    container.innerHTML = '';
-                    emptyCart.style.display = 'block';
-                    // Update cart count if method exists
-                    if (typeof this.updateCartCount === 'function') {
-                        this.updateCartCount();
-                    }
+                    if (container) container.innerHTML = '';
+                    if (emptyCart) emptyCart.style.display = 'block';
+                    if (customerCard) customerCard.style.display = 'none';
+                    this.updateCartCount();
                     this.updateSummary();
                     return;
                 }
 
-                emptyCart.style.display = 'none';
-                
-                container.innerHTML = this.items.map(item => {
-                    // Handle images array or single image
-                    let itemImage = 'img/product-1.png';
-                    if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-                        itemImage = item.images[0];
-                    } else if (item.image_url) {
-                        itemImage = item.image_url;
-                    } else if (item.image) {
-                        itemImage = item.image;
-                    }
-                    
-                    // Get description (handle various field names)
-                    const description = item.description || item.short_description || '';
-                    const truncatedDesc = description.length > 120 ? description.substring(0, 120) + '...' : description;
-                    
-                    // Get condition badge
-                    const conditionBadge = item.condition ? `<span class="badge ${item.condition === 'new' ? 'bg-success' : 'bg-warning text-dark'} me-2">${item.condition}</span>` : '';
-                    
-                    // Get category
-                    const category = item.category_name || item.category || '';
-                    
-                    return `
-                    <div class="cart-item" data-product-id="${item.id}">
-                        <div class="row align-items-start g-3">
-                            <div class="col-md-2 col-4">
-                                <img src="${itemImage}" alt="${item.name}" class="cart-item-image" onerror="this.onerror=null; this.src='img/product-1.png'">
-                            </div>
-                            <div class="col-md-5 col-8">
-                                <div class="cart-item-details">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <span class="cart-item-brand">${item.brand || 'Unknown Brand'}</span>
-                                        ${category ? `<span class="badge bg-light text-dark ms-2" style="font-size: 0.7rem;">${category}</span>` : ''}
-                                    </div>
-                                    <h5 class="mb-2">${item.name}</h5>
-                                    <div class="d-flex align-items-center mb-2">
-                                        ${conditionBadge}
-                                        ${item.stock_quantity ? `<small class="text-muted"><i class="fas fa-box me-1"></i>${item.stock_quantity} in stock</small>` : ''}
-                                    </div>
-                                    ${truncatedDesc ? `<p class="cart-item-description text-muted mb-2" style="font-size: 0.85rem; line-height: 1.4;">${truncatedDesc}</p>` : ''}
-                                    ${item.specs ? `
-                                        <div class="cart-item-specs">
-                                            <small class="d-block"><i class="fas fa-microchip me-1 text-primary"></i>${item.specs.processor || 'N/A'}</small>
-                                            <small class="d-block"><i class="fas fa-memory me-1 text-primary"></i>${item.specs.ram || 'N/A'} | ${item.specs.storage || 'N/A'}</small>
-                                            ${item.specs.display ? `<small class="d-block"><i class="fas fa-desktop me-1 text-primary"></i>${item.specs.display}</small>` : ''}
-                                        </div>
-                                    ` : ''}
+                if (emptyCart) emptyCart.style.display = 'none';
+                if (customerCard) customerCard.style.display = 'block';
+
+                if (container) {
+                    container.innerHTML = this.items.map(item => {
+                        let itemImage = 'img/product-1.png';
+                        if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+                            itemImage = item.images[0];
+                        } else if (item.image_url) {
+                            itemImage = item.image_url;
+                        } else if (item.image) {
+                            itemImage = item.image;
+                        }
+
+                        const category = (item.categories && item.categories.name) || item.category || 'Groceries';
+                        const itemTotal = (Number(item.price) || 0) * (Number(item.quantity) || 1);
+
+                        return `
+                        <div class="cart-item" data-product-id="${item.id}">
+                            <div class="row align-items-center g-3">
+                                <div class="col-auto">
+                                    <img src="${itemImage}" alt="${item.name}" class="cart-item-image" onerror="this.src='img/product-1.png'">
                                 </div>
-                            </div>
-                            <div class="col-md-2 col-6">
-                                <div class="quantity-control">
-                                    <button class="quantity-btn" onclick="cart.updateQuantity('${item.id}', ${item.quantity - 1})">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="number" class="quantity-value" value="${item.quantity}" min="1" onchange="cart.updateQuantity('${item.id}', parseInt(this.value) || 1)">
-                                    <button class="quantity-btn" onclick="cart.updateQuantity('${item.id}', ${item.quantity + 1})">
-                                        <i class="fas fa-plus"></i>
+                                <div class="col">
+                                    <div class="cart-item-details">
+                                        <span class="cart-item-brand"><i class="fas fa-tag me-1"></i>${category}</span>
+                                        <h5 class="mb-1">${item.name}</h5>
+                                        <small class="text-muted">KSh ${(Number(item.price) || 0).toLocaleString()} each</small>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="quantity-control">
+                                        <button class="quantity-btn" onclick="cart.updateQuantity('${item.id}', ${(Number(item.quantity) || 1) - 1})" title="Decrease">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" class="quantity-value" value="${item.quantity}" readonly>
+                                        <button class="quantity-btn" onclick="cart.updateQuantity('${item.id}', ${(Number(item.quantity) || 1) + 1})" title="Increase">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end" style="min-width: 120px;">
+                                    <div class="item-price">KSh ${itemTotal.toLocaleString()}</div>
+                                </div>
+                                <div class="col-auto text-end">
+                                    <button class="btn-remove" onclick="cart.removeItem('${item.id}')" title="Remove item">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
-                            </div>
-                            <div class="col-md-2 col-4">
-                                <div class="item-price">
-                                    KSh ${(item.price * item.quantity).toLocaleString()}
-                                </div>
-                                ${item.oldPrice || item.old_price ? `
-                                    <div class="item-old-price">
-                                        KSh ${((item.oldPrice || item.old_price) * item.quantity).toLocaleString()}
-                                    </div>
-                                    <div class="text-success" style="font-size: 0.8rem;">
-                                        <i class="fas fa-tag me-1"></i>Save KSh ${(((item.oldPrice || item.old_price) - item.price) * item.quantity).toLocaleString()}
-                                    </div>
-                                ` : ''}
-                                <div class="text-muted mt-1" style="font-size: 0.75rem;">
-                                    KSh ${item.price.toLocaleString()} each
-                                </div>
-                            </div>
-                            <div class="col-md-1 col-2 text-end">
-                                <button class="btn-remove" onclick="cart.removeItem('${item.id}')" title="Remove item">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                             </div>
                         </div>
-                    </div>
-                `;
-                }).join('');
-
-                // Update cart count if method exists
-                if (typeof this.updateCartCount === 'function') {
-                    this.updateCartCount();
+                        `;
+                    }).join('');
                 }
+
+                this.updateCartCount();
                 this.updateSummary();
+                calculatePosChange();
             }
 
-            // Update summary section
             updateSummary() {
                 const { subtotal, discount, delivery, total } = this.calculateTotals();
 
-                document.getElementById('subtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
-                document.getElementById('discount').textContent = discount > 0 ? `- KSh ${discount.toLocaleString()}` : 'KSh 0';
-                document.getElementById('delivery').textContent = delivery === 0 ? 'Free' : `KSh ${delivery.toLocaleString()}`;
-                document.getElementById('total').textContent = `KSh ${total.toLocaleString()}`;
-
-                // Show savings badge if there's a discount
+                const subtotalEl = document.getElementById('subtotal');
+                const discountEl = document.getElementById('discount');
+                const deliveryEl = document.getElementById('delivery');
+                const totalEl = document.getElementById('total');
                 const savingsInfo = document.getElementById('savingsInfo');
-                if (discount > 0) {
-                    document.getElementById('savingsAmount').textContent = discount.toLocaleString();
-                    savingsInfo.style.display = 'block';
-                } else {
-                    savingsInfo.style.display = 'none';
-                }
-            }
+                const savingsAmount = document.getElementById('savingsAmount');
 
-            // Generate WhatsApp message
-            generateWhatsAppMessage() {
-                if (this.items.length === 0) {
-                    alert('Your cart is empty!');
-                    return null;
-                }
+                if (subtotalEl) subtotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
+                if (discountEl) discountEl.textContent = discount > 0 ? `- KSh ${discount.toLocaleString()}` : 'KSh 0';
+                if (deliveryEl) deliveryEl.textContent = delivery === 0 ? 'Free' : `KSh ${delivery.toLocaleString()}`;
+                if (totalEl) totalEl.textContent = `KSh ${total.toLocaleString()}`;
 
-                const { subtotal, discount, total } = this.calculateTotals();
-                
-                let message = "Hello! I would like to order:\n\n";
-                
-                // Add each item
-                this.items.forEach((item, index) => {
-                    message += `${index + 1}. ${item.quantity}x ${item.name} (${item.brand})`;
-                    message += ` - KSh ${(item.price * item.quantity).toLocaleString()}`;
-                    if (item.specs) {
-                        message += `\n   Specs: ${item.specs.processor || ''}, ${item.specs.ram || ''}, ${item.specs.storage || ''}`;
+                if (savingsInfo && savingsAmount) {
+                    if (discount > 0) {
+                        savingsAmount.textContent = discount.toLocaleString();
+                        savingsInfo.style.display = 'block';
+                    } else {
+                        savingsInfo.style.display = 'none';
                     }
-                    message += "\n\n";
-                });
-
-                // Add pricing summary
-                message += "═══════════════════\n";
-                message += `Subtotal: KSh ${subtotal.toLocaleString()}\n`;
-                if (discount > 0) {
-                    message += `Discount: - KSh ${discount.toLocaleString()}\n`;
                 }
-                message += `Delivery: Free\n`;
-                message += `═══════════════════\n`;
-                message += `*Total: KSh ${total.toLocaleString()}*\n\n`;
-                message += "Is this available? When can I expect delivery?";
-
-                return message;
             }
 
-            // Checkout via WhatsApp
-            checkoutViaWhatsApp() {
-                const message = this.generateWhatsAppMessage();
-                if (!message) return;
-
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/${WHATSAPP_BUSINESS_NUMBER.replace('+', '')}?text=${encodedMessage}`;
-                
-                // Open WhatsApp in new window
-                window.open(whatsappUrl, '_blank');
-                
-                // Optional: Show confirmation
-                this.showNotification('Redirecting to WhatsApp', 'Your order details have been prepared!');
-            }
-
-            // Show notification
             showNotification(title, message) {
                 const toast = document.getElementById('toastNotification');
-                document.getElementById('toastTitle').textContent = title;
-                document.getElementById('toastMessage').textContent = message;
-                
-                toast.classList.add('show');
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
+                const toastTitle = document.getElementById('toastTitle');
+                const toastMessage = document.getElementById('toastMessage');
+                if (toast && toastTitle && toastMessage) {
+                    toastTitle.textContent = title;
+                    toastMessage.textContent = message;
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 3000);
+                }
             }
         }
 
-        // Initialize cart - use global CartManager if available, otherwise create new ShoppingCart
+        // Initialize Cart instance
         let cart;
         if (window.cartManager) {
-            // Use global CartManager
             cart = window.cartManager;
-            // Add render method to CartManager
             if (!cart.render) {
                 cart.render = ShoppingCart.prototype.render;
                 cart.calculateTotals = ShoppingCart.prototype.calculateTotals;
-                cart.showNotification = ShoppingCart.prototype.showNotification;
-                cart.checkoutViaWhatsApp = ShoppingCart.prototype.checkoutViaWhatsApp;
-                cart.updateCartCount = ShoppingCart.prototype.updateCartCount;
                 cart.updateSummary = ShoppingCart.prototype.updateSummary;
-                cart.generateWhatsAppMessage = ShoppingCart.prototype.generateWhatsAppMessage;
+                cart.updateCartCount = ShoppingCart.prototype.updateCartCount;
+                cart.showNotification = ShoppingCart.prototype.showNotification;
+                cart.updateQuantity = ShoppingCart.prototype.updateQuantity;
+                cart.removeItem = ShoppingCart.prototype.removeItem;
+                cart.clearCart = ShoppingCart.prototype.clearCart;
             }
-            // Initial render
             cart.render();
         } else {
-            // Fallback to standalone ShoppingCart
             cart = new ShoppingCart();
         }
-
-        // Global functions
-        function checkoutViaWhatsApp() {
-            cart.checkoutViaWhatsApp();
-        }
-
-        function applyPromoCode() {
-            const code = document.getElementById('promoCode').value.trim();
-            if (!code) {
-                alert('Please enter a promo code');
-                return;
-            }
-            
-            // TODO: Implement promo code validation
-            cart.showNotification('Promo code', 'This feature is coming soon!');
-        }
-
-        // Export cart for use in other pages
-        window.ShoppingCart = ShoppingCart;
         window.cart = cart;
 
-        // Sample product helper removed — cart now uses real products from the API.
-        window.addSampleProducts = function() {
-            console.warn('addSampleProducts() removed — use admin to upload products or add items from the shop.');
-        };
+        // Payment Mode Switcher
+        function selectPaymentMode(mode) {
+            currentPaymentMode = mode;
+            document.querySelectorAll('.pay-tile').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
 
-        // ========== SEARCH FUNCTIONALITY ==========
+            const tile = document.getElementById(`tile-${mode}`);
+            const panel = document.getElementById(`panel-${mode}`);
+            if (tile) tile.classList.add('active');
+            if (panel) panel.classList.add('active');
+
+            if (mode === 'cash') {
+                calculatePosChange();
+            }
+        }
+
+        // Quick Cash Buttons
+        function setQuickCashAmount(amount) {
+            const input = document.getElementById('cashTenderedInput');
+            const current = Number(input.value) || 0;
+            input.value = current + amount;
+            calculatePosChange();
+        }
+
+        function setExactCash() {
+            const { total } = cart.calculateTotals();
+            const input = document.getElementById('cashTenderedInput');
+            input.value = total;
+            calculatePosChange();
+        }
+
+        function calculatePosChange() {
+            const input = document.getElementById('cashTenderedInput');
+            const changeDisplay = document.getElementById('posChangeValue');
+            if (!input || !changeDisplay) return;
+
+            const tendered = Number(input.value) || 0;
+            const { total } = cart.calculateTotals();
+            const change = tendered - total;
+
+            if (tendered === 0) {
+                changeDisplay.textContent = 'KSh 0';
+                changeDisplay.style.color = '#15803d';
+            } else if (change >= 0) {
+                changeDisplay.textContent = `KSh ${change.toLocaleString()}`;
+                changeDisplay.style.color = '#15803d';
+            } else {
+                changeDisplay.textContent = `Short by KSh ${Math.abs(change).toLocaleString()}`;
+                changeDisplay.style.color = '#dc2626';
+            }
+        }
+
+        // Phone number sync for M-Pesa
+        function syncMpesaPhone(val) {
+            const mpesaInput = document.getElementById('mpesaPromptPhone');
+            if (mpesaInput) mpesaInput.value = val;
+        }
+
+        // Promo Code
+        function applyPromoCode() {
+            const codeInput = document.getElementById('promoCode');
+            const msg = document.getElementById('promoMessage');
+            if (!codeInput) return;
+
+            const code = codeInput.value.trim().toUpperCase();
+            if (!code) {
+                if (msg) {
+                    msg.innerHTML = '<span class="text-danger">Please enter a coupon code</span>';
+                    msg.style.display = 'block';
+                }
+                return;
+            }
+
+            if (code === 'SAVE10' || code === 'DENLA10') {
+                appliedPromo = { code, discountPercent: 10 };
+                cart.updateSummary();
+                if (msg) {
+                    msg.innerHTML = '<span class="text-success"><i class="fas fa-check-circle me-1"></i>10% Discount Applied!</span>';
+                    msg.style.display = 'block';
+                }
+                cart.showNotification('Promo Applied', '10% discount has been applied to your order.');
+            } else if (code === 'FREEDEL') {
+                appliedPromo = { code, freeDelivery: true };
+                cart.updateSummary();
+                if (msg) {
+                    msg.innerHTML = '<span class="text-success"><i class="fas fa-check-circle me-1"></i>Free Delivery Applied!</span>';
+                    msg.style.display = 'block';
+                }
+                cart.showNotification('Promo Applied', 'Free delivery unlocked!');
+            } else {
+                if (msg) {
+                    msg.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle me-1"></i>Invalid promo code</span>';
+                    msg.style.display = 'block';
+                }
+            }
+        }
+
+        // POS Checkout & Receipt Generation
+        function processPOSCheckout() {
+            if (cart.items.length === 0) {
+                alert('Your cart is empty! Please add products before checking out.');
+                return;
+            }
+
+            const customerName = document.getElementById('posCustomerName')?.value.trim() || 'Guest Customer';
+            const customerPhone = document.getElementById('posCustomerPhone')?.value.trim() || document.getElementById('mpesaPromptPhone')?.value.trim() || 'N/A';
+            const { subtotal, discount, delivery, total } = cart.calculateTotals();
+
+            // Populate Receipt Modal
+            const rcptNo = '#DD-' + Math.floor(100000 + Math.random() * 900000);
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            document.getElementById('rcptNumber').textContent = rcptNo;
+            document.getElementById('rcptDateTime').textContent = dateStr;
+            document.getElementById('rcptCustomer').textContent = customerName;
+            document.getElementById('rcptPayMethod').textContent = currentPaymentMode.toUpperCase();
+
+            // Populate Items table
+            const tbody = document.getElementById('rcptItemsBody');
+            tbody.innerHTML = cart.items.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td class="text-center">${item.quantity}</td>
+                    <td class="text-end">${Number(item.price).toLocaleString()}</td>
+                    <td class="text-end">${(Number(item.price) * Number(item.quantity)).toLocaleString()}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('rcptSubtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
+            
+            const discountRow = document.getElementById('rcptDiscountRow');
+            if (discount > 0) {
+                document.getElementById('rcptDiscount').textContent = `- KSh ${discount.toLocaleString()}`;
+                discountRow.style.display = 'flex';
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            document.getElementById('rcptDelivery').textContent = delivery === 0 ? 'Free' : `KSh ${delivery.toLocaleString()}`;
+            document.getElementById('rcptGrandTotal').textContent = `KSh ${total.toLocaleString()}`;
+
+            // Handle cash details on receipt
+            const cashRow = document.getElementById('rcptCashRow');
+            const changeRow = document.getElementById('rcptChangeRow');
+            if (currentPaymentMode === 'cash') {
+                const tendered = Number(document.getElementById('cashTenderedInput')?.value) || total;
+                const change = Math.max(0, tendered - total);
+                document.getElementById('rcptCashTendered').textContent = `KSh ${tendered.toLocaleString()}`;
+                document.getElementById('rcptChangeGiven').textContent = `KSh ${change.toLocaleString()}`;
+                cashRow.style.display = 'flex';
+                changeRow.style.display = 'flex';
+            } else {
+                cashRow.style.display = 'none';
+                changeRow.style.display = 'none';
+            }
+
+            // Show Receipt Modal
+            const receiptModal = new bootstrap.Modal(document.getElementById('receiptModal'));
+            receiptModal.show();
+        }
+
+        // New POS Sale
+        function startNewPosSale() {
+            const receiptModalEl = document.getElementById('receiptModal');
+            const modalInstance = bootstrap.Modal.getInstance(receiptModalEl);
+            if (modalInstance) modalInstance.hide();
+
+            cart.items = [];
+            cart.saveCart();
+            cart.render();
+            appliedPromo = null;
+
+            if (document.getElementById('posCustomerName')) document.getElementById('posCustomerName').value = '';
+            if (document.getElementById('posCustomerPhone')) document.getElementById('posCustomerPhone').value = '';
+            if (document.getElementById('posDeliveryAddress')) document.getElementById('posDeliveryAddress').value = '';
+            if (document.getElementById('cashTenderedInput')) document.getElementById('cashTenderedInput').value = '';
+            if (document.getElementById('promoCode')) document.getElementById('promoCode').value = '';
+            if (document.getElementById('promoMessage')) document.getElementById('promoMessage').style.display = 'none';
+        }
+
+        // WhatsApp Checkout
+        function checkoutViaWhatsApp() {
+            if (cart.items.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const { subtotal, discount, delivery, total } = cart.calculateTotals();
+            const customerName = document.getElementById('posCustomerName')?.value.trim() || 'Valued Customer';
+            const customerPhone = document.getElementById('posCustomerPhone')?.value.trim() || '';
+            const deliveryLocation = document.getElementById('posDeliveryAddress')?.value.trim() || 'Store Pickup';
+
+            let msg = `*NEW ORDER - DENLA DISCOUNT*\n`;
+            msg += `─────────────────────────\n`;
+            msg += `Customer: *${customerName}*\n`;
+            if (customerPhone) msg += `Phone: *${customerPhone}*\n`;
+            msg += `Location: *${deliveryLocation}*\n`;
+            msg += `Payment: *${currentPaymentMode.toUpperCase()}*\n`;
+            msg += `─────────────────────────\n`;
+            msg += `*ORDERED ITEMS:*\n`;
+
+            cart.items.forEach((item, idx) => {
+                msg += `${idx + 1}. ${item.quantity}x ${item.name} - KSh ${(Number(item.price) * Number(item.quantity)).toLocaleString()}\n`;
+            });
+
+            msg += `─────────────────────────\n`;
+            msg += `Subtotal: KSh ${subtotal.toLocaleString()}\n`;
+            if (discount > 0) msg += `Discount: - KSh ${discount.toLocaleString()}\n`;
+            msg += `Delivery: ${delivery === 0 ? 'Free' : 'KSh ' + delivery.toLocaleString()}\n`;
+            msg += `*TOTAL AMOUNT: KSh ${total.toLocaleString()}*\n`;
+            msg += `─────────────────────────\n`;
+            msg += `Please confirm my order and dispatch details.`;
+
+            const encoded = encodeURIComponent(msg);
+            const url = `https://wa.me/${WHATSAPP_BUSINESS_NUMBER.replace(/[^0-9]/g, '')}?text=${encoded}`;
+            window.open(url, '_blank');
+        }
+
+        // Search in Cart
         let searchTimeout = null;
         let allProducts = [];
 
-        // Fetch all products for search
         async function fetchProductsForSearch() {
             try {
-                const response = await fetch('http://localhost:5000/api/products?limit=1000');
+                const response = await fetch(`${API_BASE}/products?limit=1000`);
                 if (response.ok) {
                     const data = await response.json();
                     allProducts = Array.isArray(data.data) ? data.data : Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
@@ -896,11 +1131,8 @@
                 console.warn('Could not fetch products for search:', error);
             }
         }
-
-        // Initialize product search on page load
         fetchProductsForSearch();
 
-        // Handle search input with debounce
         function handleCartSearch(event) {
             clearTimeout(searchTimeout);
             const query = event.target.value.trim();
@@ -911,7 +1143,7 @@
             }
 
             if (query.length < 2) {
-                hideSearchResults();
+                document.getElementById('searchResultsDropdown').style.display = 'none';
                 return;
             }
 
@@ -920,357 +1152,184 @@
             }, 300);
         }
 
-        // Show search results dropdown
         function showSearchResults(query) {
             const dropdown = document.getElementById('searchResultsDropdown');
             const resultsList = document.getElementById('searchResultsList');
             const lowerQuery = query.toLowerCase();
 
-            // Search in cart items first
-            const cartMatches = cart.items.filter(item => 
-                item.name.toLowerCase().includes(lowerQuery) ||
-                (item.brand && item.brand.toLowerCase().includes(lowerQuery)) ||
-                (item.description && item.description.toLowerCase().includes(lowerQuery))
-            );
-
-            // Search in all products
             const productMatches = allProducts.filter(product => 
-                product.name.toLowerCase().includes(lowerQuery) ||
-                (product.brand && product.brand.toLowerCase().includes(lowerQuery)) ||
-                (product.description && product.description.toLowerCase().includes(lowerQuery))
-            ).slice(0, 8); // Limit to 8 results
+                (product.name && product.name.toLowerCase().includes(lowerQuery)) ||
+                (product.brand && product.brand.toLowerCase().includes(lowerQuery))
+            ).slice(0, 8);
 
-            let html = '';
-
-            // Show cart matches first
-            if (cartMatches.length > 0) {
-                html += '<div class="p-2 bg-light"><small class="text-muted fw-bold">IN YOUR CART</small></div>';
-                cartMatches.forEach(item => {
-                    const itemImage = item.images?.[0] || item.image || 'img/product-1.png';
-                    html += `
-                        <div class="search-result-item" onclick="scrollToCartItem('${item.id}')">
-                            <img src="${itemImage}" alt="${item.name}" class="search-result-image" onerror="this.src='img/product-1.png'">
-                            <div class="search-result-info">
-                                <div class="search-result-name">${highlightMatch(item.name, query)}</div>
-                                <div class="search-result-price">KSh ${item.price.toLocaleString()}</div>
-                            </div>
-                            <span class="badge bg-success search-result-badge">In Cart</span>
-                        </div>
-                    `;
-                });
-            }
-
-            // Show product matches
-            if (productMatches.length > 0) {
-                html += '<div class="p-2 bg-light"><small class="text-muted fw-bold">PRODUCTS</small></div>';
-                productMatches.forEach(product => {
-                    const productImage = product.images?.[0] || product.image_url || 'img/product-1.png';
-                    const inCart = cart.items.some(item => item.id === product.id);
-                    html += `
-                        <div class="search-result-item" onclick="goToProduct('${product.id}')">
-                            <img src="${productImage}" alt="${product.name}" class="search-result-image" onerror="this.src='img/product-1.png'">
-                            <div class="search-result-info">
-                                <div class="search-result-name">${highlightMatch(product.name, query)}</div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="search-result-price">KSh ${product.price.toLocaleString()}</span>
-                                    ${product.brand ? `<small class="text-muted">${product.brand}</small>` : ''}
-                                </div>
-                            </div>
-                            ${inCart ? '<span class="badge bg-success search-result-badge">In Cart</span>' : '<span class="badge bg-primary search-result-badge">View</span>'}
-                        </div>
-                    `;
-                });
-            }
-
-            // No results
-            if (cartMatches.length === 0 && productMatches.length === 0) {
-                html = `
+            if (productMatches.length === 0) {
+                dropdown.innerHTML = `
                     <div class="search-no-results">
                         <i class="fas fa-search"></i>
-                        <p>No results found for "${query}"</p>
-                        <small>Try different keywords or browse our shop</small>
+                        <p>No products found for "${query}"</p>
                     </div>
                 `;
-            }
-
-            // Add view all link
-            html += `<a href="shop-new.html?search=${encodeURIComponent(query)}" class="search-view-all">
-                <i class="fas fa-external-link-alt me-2"></i>Search "${query}" in Shop
-            </a>`;
-
-            resultsList.innerHTML = html;
-            dropdown.style.display = 'block';
-        }
-
-        // Highlight matching text
-        function highlightMatch(text, query) {
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<mark style="background: #fff3cd; padding: 0 2px;">$1</mark>');
-        }
-
-        // Hide search results
-        function hideSearchResults() {
-            document.getElementById('searchResultsDropdown').style.display = 'none';
-        }
-
-        // Scroll to cart item
-        function scrollToCartItem(productId) {
-            hideSearchResults();
-            const cartItem = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
-            if (cartItem) {
-                cartItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                cartItem.style.animation = 'pulse 0.5s ease 2';
-                setTimeout(() => {
-                    cartItem.style.animation = '';
-                }, 1000);
-            }
-        }
-
-        // Go to product in shop
-        function goToProduct(productId) {
-            window.location.href = `shop-new.html?product=${productId}`;
-        }
-
-        // Perform full search (redirect to shop)
-        function performCartSearch() {
-            const query = document.getElementById('cartSearchInput').value.trim();
-            if (query) {
-                window.location.href = `shop-new.html?search=${encodeURIComponent(query)}`;
-            }
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const searchContainer = document.querySelector('.position-relative');
-            if (searchContainer && !searchContainer.contains(event.target)) {
-                hideSearchResults();
-            }
-        });
-
-        // Mobile Search functionality for cart.html
-        let mobileCart2SearchTimeout;
-
-        function handleMobileCart2Search(event) {
-            clearTimeout(mobileCart2SearchTimeout);
-            const query = event.target.value.trim();
-
-            if (query.length === 0) {
-                document.getElementById('mobileCart2SearchDropdown').style.display = 'none';
+                dropdown.style.display = 'block';
                 return;
             }
 
-            if (event.key === 'Enter') {
-                performMobileCart2Search();
-                return;
-            }
-
-            mobileCart2SearchTimeout = setTimeout(() => {
-                performMobileCart2Search();
-            }, 300);
-        }
-
-        async function performMobileCart2Search() {
-            const query = document.getElementById('mobileCart2SearchInput').value.trim();
-            const dropdown = document.getElementById('mobileCart2SearchDropdown');
-
-            if (!query) {
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            try {
-                const response = await fetch(`http://localhost:5000/api/products?search=${encodeURIComponent(query)}&limit=10`);
-                const data = await response.json();
-                const products = Array.isArray(data.data) ? data.data : Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
-
-                if (!products || products.length === 0) {
-                    dropdown.innerHTML = `
-                        <div class="search-no-results">
-                            <i class="fas fa-search"></i>
-                            <p>No products found for "${query}"</p>
-                        </div>
-                    `;
-                    dropdown.style.display = 'block';
-                    return;
-                }
-
-                let html = products.map(product => {
-                    let productImage = 'img/product-1.png';
-                    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
-                        productImage = product.images[0];
-                    } else if (product.image_url) {
-                        productImage = product.image_url;
-                    } else if (product.image) {
-                        productImage = product.image;
-                    }
-
-                    return `
-                    <div class="search-result-item" onclick="window.location.href='product-detail.html?id=${product.id}'">
-                        <img src="${productImage}" alt="${product.name}" class="search-result-image">
+            resultsList.innerHTML = productMatches.map(product => {
+                const productImage = product.images?.[0] || product.image_url || 'img/product-1.png';
+                return `
+                    <div class="search-result-item" onclick="cart.addItem({ id: '${product.id}', name: '${product.name.replace(/'/g, "\\'")}', price: ${product.price}, images: ['${productImage}'] })">
+                        <img src="${productImage}" alt="${product.name}" class="search-result-image" onerror="this.src='img/product-1.png'">
                         <div class="search-result-info">
                             <div class="search-result-name">${product.name}</div>
                             <div class="search-result-price">KSh ${Number(product.price).toLocaleString()}</div>
                         </div>
-                        ${product.stock > 0 ? '<span class="badge bg-success search-result-badge">In Stock</span>' : '<span class="badge bg-danger search-result-badge">Out of Stock</span>'}
+                        <span class="badge bg-primary search-result-badge"><i class="fas fa-plus me-1"></i> Add</span>
                     </div>
                 `;
-                }).join('');
+            }).join('') + `<a href="shop.html?search=${encodeURIComponent(query)}" class="search-view-all">View in Shop <i class="fas fa-arrow-right ms-1"></i></a>`;
 
-                html += `<a href="shop.html?search=${encodeURIComponent(query)}" class="search-view-all">
-                    View All Results <i class="fas fa-arrow-right ms-2"></i>
-                </a>`;
+            dropdown.style.display = 'block';
+        }
 
-                dropdown.innerHTML = html;
-                dropdown.style.display = 'block';
-            } catch (error) {
-                console.error('Mobile cart search error:', error);
-                dropdown.innerHTML = `
-                    <div class="search-no-results">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>Error performing search. Please try again.</p>
-                    </div>
-                `;
-                dropdown.style.display = 'block';
+        function performCartSearch() {
+            const query = document.getElementById('cartSearchInput')?.value.trim();
+            if (query) {
+                window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
             }
         }
 
-        // Close mobile dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            const mobileDropdown = document.getElementById('mobileCart2SearchDropdown');
-            const mobileSearchInput = document.getElementById('mobileCart2SearchInput');
+            const dropdown = document.getElementById('searchResultsDropdown');
+            const input = document.getElementById('cartSearchInput');
+            if (dropdown && input && !dropdown.contains(e.target) && e.target !== input) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Load Categories for Navbar
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/products?limit=1000`);
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const products = data.products || data.data || (Array.isArray(data) ? data : []);
+
+                const categoryCounts = {};
+                products.forEach(product => {
+                    const categoryName = (product.categories && product.categories.name) || product.category || 'Uncategorized';
+                    categoryCounts[categoryName] = (categoryCounts[categoryName] || 0) + 1;
+                });
+
+                const desktopList = document.getElementById('desktopCategoryList');
+                const mobileList = document.getElementById('mobileCategoryList');
+
+                const sorted = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+                const html = sorted.map(([cat, count]) => `
+                    <li>
+                        <div class="categories-bars-item">
+                            <a href="shop.html?category=${encodeURIComponent(cat)}">${cat}</a>
+                            <span>(${count})</span>
+                        </div>
+                    </li>
+                `).join('');
+
+                if (desktopList) desktopList.innerHTML = html;
+                if (mobileList) mobileList.innerHTML = html;
+            } catch (err) {
+                console.warn('Error loading categories:', err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            if (window.authHelper) {
+                window.authHelper.updateAuthUI();
+            }
         });
     </script>
 
     <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
-        <div class="container py-5">
+        <div class="container py-4">
             <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
                             <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Kisii Branch</h4>
-                            <p class="mb-2">Kisii Town, Kisii County, Kenya</p>
+                            <h5 class="text-white fw-bold">Kisii Main Branch</h5>
+                            <p class="mb-0 text-white-50 small">Kisii Town, Opposite Posta</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-store fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Nairobi Branch</h4>
-                            <p class="mb-2">Nairobi CBD, Nairobi, Kenya</p>
+                            <h5 class="text-white fw-bold">Nairobi Hub</h5>
+                            <p class="mb-0 text-white-50 small">Nairobi CBD, Kenya</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
                             <i class="fas fa-envelope fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Email Us</h4>
-                            <p class="mb-2">info@awesometech.co.ke</p>
+                            <h5 class="text-white fw-bold">Email Us</h5>
+                            <p class="mb-0 text-white-50 small">info@denladiscount.co.ke</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
                             <i class="fa fa-phone-alt fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Call Us</h4>
-                            <p class="mb-2">+254 704 546 916</p>
+                            <h5 class="text-white fw-bold">Call & WhatsApp</h5>
+                            <p class="mb-0 text-white-50 small">+254 704 546 916</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <div class="footer-item">
-                            <h4 class="text-primary mb-4">Awesome Technologies</h4>
-                            <p class="mb-3">Your trusted partner for quality laptops, phones, accessories, and tech solutions in Kenya. We deliver excellence with every purchase.</p>
-                            <div class="position-relative mx-auto rounded-pill">
-                                <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
-                                    placeholder="Enter your email">
-                                <button type="button"
-                                    class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
-                            </div>
-                        </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-primary mb-3 fw-bold">Denla Discount Store</h5>
+                    <p class="text-white-50 small mb-3">Your premier destination for fresh groceries, bakery, dairy, beverages, household essentials, and personal care at unbeatable prices.</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-primary mb-3 fw-bold">Quick Links</h5>
+                    <div class="d-flex flex-column gap-2 small">
+                        <a href="index.html" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 text-primary"></i>Home</a>
+                        <a href="shop.html" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 text-primary"></i>Shop Groceries</a>
+                        <a href="cart.html" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 text-primary"></i>POS Cart & Checkout</a>
+                        <a href="contact.html" class="text-white-50 text-decoration-none"><i class="fas fa-chevron-right me-2 text-primary"></i>Contact Us</a>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Customer Service</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Returns</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
-                        <a href="#" class="" id="myAccountLinkFooter"><i class="fas fa-angle-right me-2"></i> My Account</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe Notification</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Information</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Seller Login</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Extras</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Wishlist</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
-                    </div>
+                <div class="col-lg-4 col-md-12">
+                    <h5 class="text-primary mb-3 fw-bold">Store Hours</h5>
+                    <p class="text-white-50 small mb-1"><i class="fas fa-clock text-primary me-2"></i>Mon - Sat: 7:00 AM - 9:00 PM</p>
+                    <p class="text-white-50 small"><i class="fas fa-clock text-primary me-2"></i>Sunday: 8:00 AM - 8:00 PM</p>
                 </div>
             </div>
         </div>
     </div>
     <!-- Footer End -->
 
-
     <!-- Copyright Start -->
-    <div class="container-fluid copyright py-4">
-        <div class="container">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-md-0">
-                    <span class="text-white"><a href="#" class="border-bottom text-white"><i
-                                class="fas fa-copyright text-light me-2"></i>Awesome Technologies</a>, All rights reserved.</span>
-                </div>
-                <div class="col-md-6 text-center text-md-end text-white">
-                    Designed & Developed By <i class="fas  text-danger"><a href="https://drewsky-ltd.vercel.app/"><i class="fas fa-code text-white">DrewSky Softwares LTD</i></a></i> 
-                </div>
-            </div>
+    <div class="container-fluid copyright py-3 bg-dark">
+        <div class="container text-center text-white-50 small">
+            &copy; 2026 Denla Discount Store. All Rights Reserved.
         </div>
     </div>
     <!-- Copyright End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
-
 </body>
-
 </html>

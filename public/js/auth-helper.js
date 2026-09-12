@@ -1,5 +1,5 @@
 /**
- * Awesome Technologies - Authentication Helper
+ * Denla Discount - Authentication Helper
  * Manages user authentication state and events
  */
 
@@ -46,9 +46,7 @@ class AuthHelper {
     // Login user
     async login(username, password) {
         try {
-            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : '/api';
+            const API_URL = '/api';
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -85,9 +83,7 @@ class AuthHelper {
     // Register user
     async register(userData) {
         try {
-            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : '/api';
+            const API_URL = '/api';
             const response = await fetch(`${API_URL}/auth/register`, {
                 method: 'POST',
                 headers: {
@@ -167,9 +163,7 @@ class AuthHelper {
         }
 
         try {
-            const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : '/api';
+            const API_URL = '/api';
             const response = await fetch(`${API_URL}/auth/verify`, {
                 method: 'GET',
                 headers: this.getAuthHeaders()

@@ -13,24 +13,30 @@
 // ============================================
 
 const API_CONFIG = {
-    BASE_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5000/api'
-        : '/api'
+    BASE_URL: '/api'
 };
 
 // ============================================
 // AUTHENTICATION
 // ============================================
 
-// Check if user is authenticated and is admin
+// Check if user is authenticated and has administrative role
 function checkAdminAuth() {
     const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userStr = localStorage.getItem('user');
+    let user = null;
+    
+    try {
+        user = userStr ? JSON.parse(userStr) : null;
+    } catch (e) {
+        user = null;
+    }
 
-    if (!token || !user || user.role !== 'admin') {
-        // Redirect to homepage if not admin
-        console.warn('Unauthorized access attempt - redirecting to homepage');
-        window.location.href = 'index.html';
+    const allowedRoles = ['admin', 'manager', 'inventory_clerk'];
+
+    if (!token || !user || !allowedRoles.includes(user.role)) {
+        console.warn('Unauthorized access attempt - redirecting to login');
+        window.location.href = 'login.html?redirect=admin-dashboard.html';
         return false;
     }
 
@@ -47,21 +53,31 @@ function checkAdminAuth() {
 
 // Logout function
 function logout() {
-    Swal.fire({
-        title: 'Logout',
-        text: 'Are you sure you want to logout?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, logout',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#dc3545'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'index.html';
+    const doLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html?redirect=admin-dashboard.html&logout=true';
+    };
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Logout',
+            text: 'Are you sure you want to logout?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, logout',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#dc3545'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                doLogout();
+            }
+        });
+    } else {
+        if (confirm('Are you sure you want to logout?')) {
+            doLogout();
         }
-    });
+    }
 }
 
 // ============================================
@@ -109,14 +125,28 @@ async function apiRequest(endpoint, options = {}) {
 
     try {
         const response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}`, config);
-        const data = await response.json();
+        
+        let data;
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            try {
+                data = await response.json();
+            } catch (jsonErr) {
+                data = { message: 'Invalid JSON received from server' };
+            }
+        } else {
+            const rawText = await response.text().catch(() => '');
+            data = { message: rawText || `Server responded with HTTP ${response.status}` };
+        }
 
         if (!response.ok) {
             // Handle error types
-            if (response.status === 401) {
+            if (response.status === 429) {
+                throw new Error('Too many requests. Please wait a moment and try again.');
+            } else if (response.status === 401) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                window.location.href = 'index.html';
+                window.location.href = 'login.html?redirect=admin-dashboard.html&msg=session_expired';
                 throw new Error('Session expired. Please login again.');
             } else if (response.status === 403) {
                 throw new Error('Access denied. Insufficient permissions.');

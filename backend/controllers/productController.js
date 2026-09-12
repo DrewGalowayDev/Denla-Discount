@@ -19,7 +19,12 @@ exports.getAllProducts = async (req, res, next) => {
 
         // Get products with categories
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug, c.icon as category_icon, c.color as category_color
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug, 
+                   c.icon as category_icon, 
+                   c.color as category_color
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.is_active = TRUE
@@ -49,7 +54,10 @@ exports.searchProducts = async (req, res, next) => {
         const { q } = req.query;
 
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE (p.name LIKE ? OR p.description LIKE ? OR p.brand LIKE ?)
@@ -84,7 +92,10 @@ exports.filterProducts = async (req, res, next) => {
         } = req.query;
 
         let sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.is_active = TRUE
@@ -135,7 +146,11 @@ exports.getProductById = async (req, res, next) => {
     try {
         // Get product with category
         const productSql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug, c.icon as category_icon
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug, 
+                   c.icon as category_icon
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.id = ? AND p.is_active = TRUE
@@ -178,7 +193,10 @@ exports.getProductById = async (req, res, next) => {
 exports.getProductsByCategory = async (req, res, next) => {
     try {
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.category_id = ? AND p.is_active = TRUE
@@ -203,7 +221,10 @@ exports.getProductsByCategory = async (req, res, next) => {
 exports.getProductsByBrand = async (req, res, next) => {
     try {
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.brand = ? AND p.is_active = TRUE
@@ -228,7 +249,10 @@ exports.getProductsByBrand = async (req, res, next) => {
 exports.getFeaturedProducts = async (req, res, next) => {
     try {
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.is_featured = TRUE AND p.is_active = TRUE
@@ -254,11 +278,15 @@ exports.getFeaturedProducts = async (req, res, next) => {
 exports.getDealsProducts = async (req, res, next) => {
     try {
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   p.cost_price as old_price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.old_price IS NOT NULL AND p.is_active = TRUE
-            ORDER BY (p.old_price - p.price) DESC
+            WHERE p.cost_price IS NOT NULL AND p.is_active = TRUE
+            ORDER BY (p.cost_price - p.selling_price) DESC
             LIMIT 8
         `;
         
@@ -280,7 +308,10 @@ exports.getDealsProducts = async (req, res, next) => {
 exports.getNewArrivals = async (req, res, next) => {
     try {
         const sql = `
-            SELECT p.*, c.name as category_name, c.slug as category_slug
+            SELECT p.*, 
+                   p.selling_price as price,
+                   c.name as category_name, 
+                   c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE p.is_active = TRUE

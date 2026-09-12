@@ -66,9 +66,9 @@ function buildMessage(product) {
     }
 
     msg += `\n✅ In Stock\n` +
-        `🚚 Free Delivery\n\n` +
+        `🚚 Fast Delivery\n\n` +
         `Order now and don't miss out!\n\n` +
-        `Awesome Technologies 🎯`;
+        `Denla Discount 🎯`;
 
     return msg;
 }
@@ -151,7 +151,7 @@ function sendBroadcast() {
             }[target];
 
             let sentCount = 0;
-            const fullMessage = `${message}\n\n_Sent from Awesome Technologies_`;
+            const fullMessage = `${message}\n\n_Sent from Denla Discount_`;
 
             customers.forEach((phone, index) => {
                 setTimeout(() => {
@@ -173,9 +173,9 @@ function sendBroadcast() {
 
 // Quick WhatsApp Templates
 const whatsappTemplates = {
-    newArrival: `🎉 New Arrival Alert!\n\nCheck out our latest products at amazing prices! Limited stock available.\n\nVisit our store today! 🛍️`,
+    newArrival: `🎉 New Arrival Alert!\n\nCheck out our fresh groceries and discounted essentials! Limited stock available.\n\nVisit Denla Discount today! 🛍️`,
 
-    promotion: `💥 FLASH SALE!\n\nUp to 40% OFF on selected items!\nOffer valid for 48 hours only.\n\nDon't miss out! 🏃‍♂️`,
+    promotion: `💥 FLASH SALE!\n\nUp to 30% OFF on selected household and food items!\nOffer valid while stocks last.\n\nDon't miss out! 🏃‍♂️`,
 
-    thankYou: `Thank you for shopping with us! 💖\n\nYour order has been confirmed and will be delivered soon.\n\nAwesome Technologies - Your Tech Partner! ✨`
+    thankYou: `Thank you for shopping with us! 💖\n\nYour order has been confirmed and will be delivered soon.\n\nDenla Discount - Groceries & Household Essentials! ✨`
 };

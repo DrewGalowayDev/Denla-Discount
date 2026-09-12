@@ -133,16 +133,16 @@ function renderProductsTable() {
                 <span class="status-badge ${product.condition}">${product.condition}</span>
             </td>
             <td>
-                <button class="action-btn edit" onclick="editProduct('${product.id}')" title="Edit">
+                <button type="button" class="action-btn edit" data-action="edit" data-id="${product.id}" onclick="editProduct('${product.id}')" title="Edit">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="action-btn view" onclick="viewProduct('${product.id}')" title="View">
+                <button type="button" class="action-btn view" data-action="view" data-id="${product.id}" onclick="viewProduct('${product.id}')" title="View">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="action-btn delete" onclick="deleteProduct('${product.id}')" title="Delete">
+                <button type="button" class="action-btn delete" data-action="delete" data-id="${product.id}" onclick="deleteProduct('${product.id}')" title="Delete">
                     <i class="fas fa-trash"></i>
                 </button>
-                <button class="action-btn" onclick="sendProductWhatsApp('${product.id}')" title="Share via WhatsApp">
+                <button type="button" class="action-btn" data-action="whatsapp" data-id="${product.id}" onclick="sendProductWhatsApp('${product.id}')" title="Share via WhatsApp">
                     <i class="fab fa-whatsapp text-success"></i>
                 </button>
             </td>
@@ -165,18 +165,24 @@ function getStockBadgeClass(stock) {
 // ============================================
 
 function showAddProductModal() {
-    const modal = new bootstrap.Modal(document.getElementById('addProductModal'));
-    document.getElementById('addProductForm').reset();
+    const modalEl = document.getElementById('addProductModal');
+    if (!modalEl) {
+        console.error('Modal #addProductModal not found');
+        return;
+    }
+    const form = document.getElementById('addProductForm');
+    if (form) form.reset();
 
     // Populate category dropdown
     populateCategoryDropdown('addProductForm');
 
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
     modal.show();
 }
 
 function populateCategoryDropdown(formId) {
     const select = document.querySelector(`#${formId} select[name="category"]`);
-    if (select && categoriesData.length > 0) {
+    if (select && categoriesData && categoriesData.length > 0) {
         select.innerHTML = '<option value="">Select category...</option>' +
             categoriesData.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
     }
@@ -224,13 +230,19 @@ async function saveProduct() {
         old_price: formData.get('oldPrice') ? parseFloat(formData.get('oldPrice')) : null,
         stock: parseInt(formData.get('stock')) || 0,
         category_id: formData.get('category') || null,
-        condition: formData.get('condition') || 'new',
+        condition: formData.get('condition') || 'Standard / Fresh Pack',
+        spec: formData.get('spec') || '',
+        sku: formData.get('sku') || '',
         description: formData.get('description') || '',
         is_featured: formData.get('featured') === 'on',
         is_new_arrival: formData.get('newArrival') === 'on',
         is_deal: formData.get('deal') === 'on',
         images: [imageUrl],
-        specifications: {}
+        specifications: {
+            unit_size: formData.get('spec') || '',
+            barcode_sku: formData.get('sku') || '',
+            grade: formData.get('condition') || 'Standard / Fresh Pack'
+        }
     };
 
     console.log('Sending product data:', JSON.stringify(productData, null, 2));
@@ -262,8 +274,8 @@ async function saveProduct() {
             // Show success notification
             Swal.fire({
                 icon: 'success',
-                title: 'Product Added!',
-                text: `"${productData.name}" has been added successfully.`,
+                title: 'Grocery Item Added!',
+                text: `"${productData.name}" has been added to the store.`,
                 timer: 2500,
                 showConfirmButton: false,
                 timerProgressBar: true
@@ -277,7 +289,7 @@ async function saveProduct() {
                 icon: 'warning',
                 title: 'Unexpected Response',
                 text: response.error || 'Product may have been added. Please refresh to check.',
-                confirmButtonColor: '#3085d6'
+                confirmButtonColor: '#FF6B35'
             });
         }
     } catch (error) {
@@ -302,49 +314,107 @@ async function saveProduct() {
 // ============================================
 
 function editProduct(productId) {
-    const product = productsData.find(p => p.id === productId);
-    if (!product) return;
+    const product = productsData.find(p => String(p.id) === String(productId));
+    if (!product) {
+        console.warn('Product not found for edit:', productId);
+        return;
+    }
+
+    const currentImage = product.image || 'img/product-1.png';
 
     Swal.fire({
-        title: 'Edit Product',
+        title: 'Edit Store Item',
         html: `
             <form id="editProductForm" class="text-start">
+
+                <!-- Product Photo Section -->
                 <div class="mb-3">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" class="form-control" value="${product.name}" id="editName" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Brand</label>
-                    <input type="text" class="form-control" value="${product.brand}" id="editBrand" required>
-                </div>
-                <div class="row">
-                    <div class="col-6 mb-3">
-                        <label class="form-label">Price (KSh)</label>
-                        <input type="number" class="form-control" value="${product.price}" id="editPrice" required>
+                    <label class="form-label small fw-bold">Product Photo</label>
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="position:relative; width:90px; height:90px; flex-shrink:0;">
+                            <img id="editImagePreview"
+                                 src="${currentImage}"
+                                 alt="Product Image"
+                                 onerror="this.src='img/product-1.png'"
+                                 style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:2px solid #dee2e6;cursor:pointer;"
+                                 onclick="document.getElementById('editImageInput').click()"
+                                 title="Click to change photo">
+                            <span style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.55);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="document.getElementById('editImageInput').click()">
+                                <i class="fas fa-camera"></i>
+                            </span>
+                        </div>
+                        <div style="flex:1;">
+                            <input type="file" id="editImageInput" accept="image/*" class="form-control form-control-sm"
+                                   onchange="
+                                       const f = this.files[0];
+                                       if (f) {
+                                           const r = new FileReader();
+                                           r.onload = e => document.getElementById('editImagePreview').src = e.target.result;
+                                           r.readAsDataURL(f);
+                                       }
+                                   ">
+                            <div class="form-text mt-1"><i class="fas fa-info-circle text-muted me-1"></i>Click the image or browse to replace it. Leave blank to keep current photo.</div>
+                        </div>
                     </div>
-                    <div class="col-6 mb-3">
-                        <label class="form-label">Stock</label>
-                        <input type="number" class="form-control" value="${product.stock}" id="editStock" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Item Name &amp; Details</label>
+                    <input type="text" class="form-control" value="${product.name || ''}" id="editName" required>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Brand / Producer</label>
+                        <input type="text" class="form-control" value="${product.brand || ''}" id="editBrand" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Unit / Packaging Size</label>
+                        <input type="text" class="form-control" value="${product.spec || (product.specifications && product.specifications.unit_size) || ''}" id="editSpec" placeholder="e.g. 2 Litres / 1 Kg">
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Price (KSh)</label>
+                        <input type="number" class="form-control" value="${product.price || 0}" id="editPrice" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Stock Quantity</label>
+                        <input type="number" class="form-control" value="${product.stock || 0}" id="editStock" required>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Description</label>
+                    <label class="form-label small fw-bold">Product &amp; Storage Description</label>
                     <textarea class="form-control" id="editDescription" rows="3">${product.description || ''}</textarea>
                 </div>
             </form>
         `,
-        width: 600,
+        width: 680,
         showCancelButton: true,
-        confirmButtonText: 'Save Changes',
-        confirmButtonColor: '#2575fc',
+        confirmButtonText: '<i class="fas fa-save me-1"></i> Save Changes',
+        confirmButtonColor: '#FF6B35',
+        cancelButtonText: 'Cancel',
         preConfirm: async () => {
+            // Handle image: check if a new file was selected
+            let imageUrl = currentImage;
+            const imageInput = document.getElementById('editImageInput');
+            if (imageInput && imageInput.files && imageInput.files[0]) {
+                try {
+                    imageUrl = await fileToBase64(imageInput.files[0]);
+                } catch (err) {
+                    Swal.showValidationMessage('Failed to process image. Please try again.');
+                    return false;
+                }
+            }
+
             const updatedData = {
                 name: document.getElementById('editName').value,
-                slug: document.getElementById('editName').value.toLowerCase().replace(/\s+/g, '-'),
+                slug: document.getElementById('editName').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
                 brand: document.getElementById('editBrand').value,
+                spec: document.getElementById('editSpec').value,
                 price: parseFloat(document.getElementById('editPrice').value),
                 stock: parseInt(document.getElementById('editStock').value),
-                description: document.getElementById('editDescription').value
+                description: document.getElementById('editDescription').value,
+                images: [imageUrl]
             };
 
             try {
@@ -356,6 +426,9 @@ function editProduct(productId) {
                 if (response.success) {
                     await loadProducts();
                     showToast('success', 'Product updated successfully!');
+                } else {
+                    Swal.showValidationMessage(response.error || 'Update failed. Please try again.');
+                    return false;
                 }
             } catch (error) {
                 Swal.showValidationMessage(`Error: ${error.message}`);
@@ -370,25 +443,33 @@ function editProduct(productId) {
 // ============================================
 
 function viewProduct(productId) {
-    const product = productsData.find(p => p.id === productId);
-    if (!product) return;
+    const product = productsData.find(p => String(p.id) === String(productId));
+    if (!product) {
+        console.warn('Product not found for view:', productId);
+        return;
+    }
 
-    const categoryName = categoriesData.find(c => c.id === product.category)?.name || 'N/A';
+    const categoryName = categoriesData.find(c => c.id === product.category)?.name || product.category || 'General';
+    const unitSpec = product.spec || (product.specifications && product.specifications.unit_size) || 'Standard Pack';
 
     Swal.fire({
         title: product.name,
         html: `
             <div class="text-start">
-                <img src="${product.image}" alt="${product.name}" class="img-fluid mb-3 rounded" 
-                     onerror="this.src='img/product-1.png'">
-                <p><strong>Brand:</strong> ${product.brand}</p>
-                <p><strong>Price:</strong> ${formatCurrency(product.price)}</p>
-                ${product.oldPrice ? `<p><strong>Old Price:</strong> ${formatCurrency(product.oldPrice)}</p>` : ''}
-                <p><strong>Stock:</strong> ${product.stock} units</p>
-                <p><strong>Category:</strong> ${categoryName}</p>
-                <p><strong>Condition:</strong> ${product.condition}</p>
-                ${product.description ? `<p><strong>Description:</strong> ${product.description}</p>` : ''}
-                ${product.featured ? '<span class="badge bg-warning">Featured Product</span>' : ''}
+                <img src="${product.image || 'img/product-1.png'}" alt="${product.name}" class="img-fluid mb-3 rounded shadow-sm d-block mx-auto" 
+                     style="max-height: 200px; object-fit: cover;" onerror="this.src='img/product-1.png'">
+                <p class="mb-2"><strong>Brand:</strong> ${product.brand || 'N/A'}</p>
+                <p class="mb-2"><strong>Packaging / Unit:</strong> <span class="badge bg-primary">${unitSpec}</span></p>
+                <p class="mb-2"><strong>Price:</strong> <span class="text-success fw-bold">${formatCurrency(product.price)}</span></p>
+                ${product.oldPrice ? `<p class="mb-2"><strong>Old Price:</strong> <del class="text-muted">${formatCurrency(product.oldPrice)}</del></p>` : ''}
+                <p class="mb-2"><strong>Stock Available:</strong> ${product.stock} units</p>
+                <p class="mb-2"><strong>Category:</strong> ${categoryName}</p>
+                ${product.description ? `<p class="mb-2"><strong>Storage & Notes:</strong> ${product.description}</p>` : ''}
+                <div class="d-flex gap-2 mt-3">
+                    ${product.featured ? '<span class="badge bg-warning text-dark"><i class="fas fa-star me-1"></i>Featured</span>' : ''}
+                    ${product.newArrival ? '<span class="badge bg-success"><i class="fas fa-sparkles me-1"></i>New Fresh</span>' : ''}
+                    ${product.deal ? '<span class="badge bg-danger"><i class="fas fa-fire me-1"></i>On Offer</span>' : ''}
+                </div>
             </div>
         `,
         showCloseButton: true,
@@ -402,8 +483,11 @@ function viewProduct(productId) {
 // ============================================
 
 function deleteProduct(productId) {
-    const product = productsData.find(p => p.id === productId);
-    if (!product) return;
+    const product = productsData.find(p => String(p.id) === String(productId));
+    if (!product) {
+        console.warn('Product not found for delete:', productId);
+        return;
+    }
 
     Swal.fire({
         title: 'Delete Product',
@@ -437,8 +521,11 @@ function deleteProduct(productId) {
 // ============================================
 
 function sendProductWhatsApp(productId) {
-    const product = productsData.find(p => p.id === productId);
-    if (!product) return;
+    const product = productsData.find(p => String(p.id) === String(productId));
+    if (!product) {
+        console.warn('Product not found for WhatsApp:', productId);
+        return;
+    }
 
     Swal.fire({
         title: 'Share Product',
@@ -580,10 +667,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 function showSpinner(show) {
-    const spinner = document.getElementById('spinner');
+    const spinner = document.getElementById('productsSpinner');
     if (spinner) {
         spinner.style.display = show ? 'flex' : 'none';
     }
+}
+
+// ============================================
+// EVENT DELEGATION FOR TABLE ACTION BUTTONS
+// Handles clicks on dynamically rendered table rows reliably
+// ============================================
+
+function initProductTableDelegation() {
+    if (window._productTableDelegationInit) return;
+    window._productTableDelegationInit = true;
+
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('#productsTable [data-action]');
+        if (!btn) return;
+
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        if (!id) return;
+
+        console.log(`Product table action triggered: ${action} for ID ${id}`);
+
+        switch (action) {
+            case 'edit':      editProduct(id);           break;
+            case 'view':      viewProduct(id);           break;
+            case 'delete':    deleteProduct(id);         break;
+            case 'whatsapp':  sendProductWhatsApp(id);   break;
+        }
+    });
 }
 
 // Export functions to global scope for onclick handlers
@@ -595,3 +710,10 @@ window.viewProduct = viewProduct;
 window.sendProductWhatsApp = sendProductWhatsApp;
 window.exportProducts = exportProducts;
 window.loadProducts = loadProducts;
+
+// Initialize event delegation immediately or on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductTableDelegation);
+} else {
+    initProductTableDelegation();
+}

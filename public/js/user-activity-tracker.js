@@ -7,9 +7,7 @@
 const ACTIVITY_TRACKER_CONFIG = {
     HEARTBEAT_INTERVAL: 30000, // 30 seconds - send activity ping
     ONLINE_THRESHOLD: 120000,  // 2 minutes - user is "online"
-    API_BASE: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5000/api'
-        : '/api',
+    API_BASE: '/api',
     ENABLED: false // Disable activity tracking if API endpoints don't exist
 };
 
