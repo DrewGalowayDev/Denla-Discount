@@ -12,7 +12,7 @@ COPY package*.json ./
 
 # Install backend dependencies
 WORKDIR /app/backend
-RUN npm ci --only=production
+RUN npm install --production
 
 # Copy application files
 WORKDIR /app
