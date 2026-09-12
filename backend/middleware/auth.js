@@ -29,7 +29,7 @@ exports.protect = async (req, res, next) => {
 
             // Get user from database
             const user = await queryOne(
-                'SELECT id, name, email, phone, role, is_active FROM users WHERE id = ?',
+                'SELECT id, first_name, last_name, email, phone, role, is_active FROM users WHERE id = ?',
                 [decoded.id]
             );
 
@@ -47,6 +47,9 @@ exports.protect = async (req, res, next) => {
                     message: 'User account is deactivated'
                 });
             }
+
+            // Add name field for compatibility
+            user.name = `${user.first_name || ''} ${user.last_name || ''}`.trim();
 
             // Attach user to request
             req.user = user;
