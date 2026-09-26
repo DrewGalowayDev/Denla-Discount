@@ -13,6 +13,31 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Denla Discount">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/img/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/img/icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="/img/icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/img/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="384x384" href="/img/icons/icon-384x384.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/img/icons/icon-512x512.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/icon-72x72.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/icon-72x72.png">
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +59,9 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css?v=20260926_buynow_v2" rel="stylesheet">
+    
+    <!-- PWA Stylesheet -->
+    <link href="css/pwa.css" rel="stylesheet">
     
 </head>
 
@@ -1737,6 +1765,9 @@
         <script src="js/api-helper.js"></script>
         <script src="js/load-products.js?v=20260926_buynow"></script>
         <script src="js/instant-buy.js?v=20260926_buynow"></script>
+        
+        <!-- PWA Installation Script -->
+        <script src="js/pwa-install.js"></script>
 </body>
 
 </html>
