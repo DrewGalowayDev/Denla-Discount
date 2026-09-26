@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Checkout & POS Payment - Denla Discount</title>
+    <title>Fast Checkout & In-Store Pickup - Denla Discount</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="checkout, POS payment, groceries, food stuffs, Denla Discount, Kenya" name="keywords">
-    <meta content="Secure checkout and instant POS payment for fresh groceries and household essentials at Denla Discount." name="description">
+    <meta content="checkout, M-Pesa STK push, store pickup, groceries, Denla Discount, Kenya" name="keywords">
+    <meta content="Quick checkout with instant M-Pesa STK push payment and store pickup at Denla Discount." name="description">
 
     <!-- Security Meta Tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -27,6 +27,53 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .checkout-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 30px 0 25px;
+            color: #fff;
+            border-bottom: 3px solid #FF6B35;
+        }
+        .pay-tile-simple {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fff;
+            margin-bottom: 10px;
+        }
+        .pay-tile-simple:hover {
+            border-color: #FF6B35;
+            background: #fff8f5;
+        }
+        .pay-tile-simple.active {
+            border-color: #28a745;
+            background: #f0fdf4;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+        }
+        .pay-tile-simple.active.cash-active {
+            border-color: #FF6B35;
+            background: #fff8f5;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        }
+        .pay-tile-simple.active.wa-active {
+            border-color: #25D366;
+            background: #f0fdf4;
+        }
+        .stk-modal-pulse {
+            animation: pulse-ring 1.8s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+    </style>
 </head>
 
 <body>
@@ -34,13 +81,13 @@
     <div class="container-fluid px-5 border-bottom bg-light shop-top-strip">
         <div class="d-flex align-items-center justify-content-end py-1" style="min-height: 32px;">
             <div class="d-inline-flex align-items-center gap-3 ms-auto">
-                <a href="#" class="top-strip-link" title="Wishlist">
-                    <i class="fas fa-heart text-danger"></i>
-                    <span class="d-none d-sm-inline">Wishlist</span>
+                <a href="shop.html" class="top-strip-link" title="Shop">
+                    <i class="fas fa-store text-primary"></i>
+                    <span class="d-none d-sm-inline">Store</span>
                 </a>
-                <a href="cart.html" class="top-strip-link active" title="Shopping Cart">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="d-none d-sm-inline">Cart</span>
+                <a href="cheackout.html" class="top-strip-link active" title="Checkout">
+                    <i class="fas fa-shopping-basket text-primary"></i>
+                    <span class="d-none d-sm-inline">Items in Order</span>
                     <span class="badge bg-primary rounded-pill ms-1" id="cartCount">0</span>
                 </a>
             </div>
@@ -66,64 +113,23 @@
             <div class="col-lg-5 px-3">
                 <div class="position-relative" style="max-width: 540px; margin: 0 auto;">
                     <div class="d-flex border rounded-pill bg-white shadow-sm overflow-hidden header-search-box">
-                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="cartSearchInput" placeholder="Search cart items or shop products..." onkeyup="handleCartSearch(event)">
+                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="cartSearchInput" placeholder="Search for products to add..." onkeyup="handleCartSearch(event)">
                         <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performCartSearch()">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <!-- Search Results Dropdown -->
-                    <div id="searchResultsDropdown" class="search-results-dropdown" style="display: none;">
-                        <div id="searchResultsList"></div>
-                    </div>
                 </div>
             </div>
 
-            <!-- User Auth & Dashboard Actions -->
+            <!-- User Actions -->
             <div class="col-lg-4 text-end">
                 <div class="d-inline-flex align-items-center gap-3">
-                    <!-- Currency Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fas fa-coins text-warning me-1"></i>KSh</a>
-                        <div class="dropdown-menu rounded shadow-sm">
-                            <a href="#" class="dropdown-item small">KSh - Kenyan Shilling</a>
-                            <a href="#" class="dropdown-item small">USD - US Dollar</a>
-                        </div>
-                    </div>
-
-                    <!-- Dashboard Dropdown -->
-                    <div class="dropdown" id="authDropdown">
-                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fa fa-home text-primary me-1"></i>My Dashboard</a>
-                        <div class="dropdown-menu rounded shadow-sm">
-                            <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i class="fas fa-sign-in-alt me-2"></i> Login</a>
-                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i class="fas fa-user-plus me-2"></i> Sign Up</a>
-                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                            <div class="dropdown-divider" id="authDivider"></div>
-                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log Out</a>
-                        </div>
-                    </div>
-
-                    <!-- Login Button -->
-                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 shadow-sm fw-semibold" id="loginBtn">
-                        <i class="fas fa-user me-2"></i>Login
+                    <span class="badge bg-light text-dark border px-3 py-2 fw-semibold">
+                        <i class="fas fa-store text-success me-1"></i> In-Store Pickup & STK Push
+                    </span>
+                    <a href="tel:+254704546916" class="btn btn-outline-primary rounded-pill py-2 px-3 fw-semibold small">
+                        <i class="fas fa-phone-alt me-1"></i> +254 704 546 916
                     </a>
-                    
-                    <!-- Dashboard Button -->
-                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 shadow-sm fw-semibold" id="dashboardBtn" style="display: none;">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-                    
-                    <!-- User Menu -->
-                    <div class="dropdown" id="userMenuDropdown" style="display: none;">
-                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle shadow-sm fw-semibold" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i><span id="userMenuName">User</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                            <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="#" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -133,40 +139,24 @@
     <!-- Navbar Start -->
     <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
         <div class="row gx-0 bg-primary px-5 align-items-center">
-            <div class="col-lg-3 d-none d-lg-block">
-                <nav class="navbar navbar-light position-relative" style="width: 250px;">
-                    <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#allCat">
-                        <h4 class="m-0 text-white"><i class="fa fa-bars me-2"></i>All Categories</h4>
-                    </button>
-                    <div class="collapse navbar-collapse rounded-bottom" id="allCat">
-                        <div class="navbar-nav ms-auto py-0">
-                            <ul class="list-unstyled categories-bars" id="desktopCategoryList">
-                                <!-- Categories loaded dynamically -->
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="col-12 col-lg-9">
-                <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-light py-2" style="background: transparent;">
                     <a href="index.html" class="navbar-brand d-block d-lg-none">
-                        <img src="img/logo.jpg" alt="Denla Discount" style="height: 45px; width: auto; border-radius: 6px;">
+                        <h3 class="m-0 text-white"><i class="fas fa-store me-2"></i>Denla Discount</h3>
                     </a>
                     <button class="navbar-toggler ms-auto text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars fa-1x"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto py-0">
-                            <a href="index.html" class="nav-item nav-link text-white-50 fw-semibold">Home</a>
-                            <a href="shop.html" class="nav-item nav-link text-white-50 fw-semibold">Shop</a>
-                            <a href="cart.html" class="nav-item nav-link text-white-50 fw-semibold">Shop Cart</a>
+                        <div class="navbar-nav py-0">
+                            <a href="index.html" class="nav-item nav-link text-white fw-semibold">Home</a>
+                            <a href="shop.html" class="nav-item nav-link text-white fw-semibold">Shop</a>
                             <a href="cheackout.html" class="nav-item nav-link active fw-bold text-white">Checkout</a>
-                            <a href="#" class="nav-item nav-link text-white-50 fw-semibold" id="myAccountLink">My Account</a>
-                            <a href="contact.html" class="nav-item nav-link text-white-50 fw-semibold me-2">Contact</a>
+                            <a href="contact.html" class="nav-item nav-link text-white fw-semibold me-2">Contact</a>
                         </div>
-                        <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm text-white">
-                            <i class="fa fa-mobile-alt me-2"></i>+254 704 546 916
-                        </a>
+                        <div class="ms-auto d-none d-lg-flex align-items-center text-white small">
+                            <i class="fas fa-shield-alt text-warning me-2"></i> Pay securely from home or at the shop till
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -174,47 +164,54 @@
     </div>
     <!-- Navbar End -->
 
-    <!-- Single Page Header start -->
-    <div class="container-fluid page-header py-4 mb-4">
-        <h1 class="text-center text-white display-6 wow fadeInUp mb-1" data-wow-delay="0.1s">POS Checkout & Order</h1>
-        <p class="text-center text-white-50 mb-2 wow fadeInUp" data-wow-delay="0.2s">Fast Multi-Payment Order Processing &bull; M-Pesa Express &bull; Cash POS &bull; WhatsApp</p>
-        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="shop.html">Shop</a></li>
-            <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
-            <li class="breadcrumb-item active text-white">Checkout</li>
-        </ol>
+    <!-- Header Start -->
+    <div class="container-fluid checkout-hero mb-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="text-white fw-bold mb-1"><i class="fas fa-bolt text-warning me-2"></i>Quick Shop Checkout</h2>
+                    <p class="text-white-50 mb-0">Pay online from anywhere via M-Pesa STK Push or pay cash when collecting at our store counter.</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <ol class="breadcrumb justify-content-md-end mb-0">
+                        <li class="breadcrumb-item"><a href="index.html" class="text-white-50">Home</a></li>
+                        <li class="breadcrumb-item"><a href="shop.html" class="text-white-50">Shop</a></li>
+                        <li class="breadcrumb-item active text-white">Checkout</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Single Page Header End --> 
+    <!-- Header End --> 
 
-    <!-- Cart & POS Content -->
-    <div class="container cart-container mb-5">
+    <!-- Main Checkout Content -->
+    <div class="container mb-5">
         <div class="row g-4">
-            <!-- Cart Items & Customer Info (Left Column) -->
-            <div class="col-lg-7 col-xl-8">
-                <!-- POS Control Bar -->
-                <div class="pos-control-bar">
+            <!-- Left Column: Items in Order & Simple Customer Contact -->
+            <div class="col-lg-7 col-xl-7">
+                <!-- Control Bar -->
+                <div class="pos-control-bar bg-white p-3 rounded-4 shadow-sm border mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">
                             <i class="fas fa-shopping-basket me-1"></i> <span id="cartItemCount">0</span> Items
                         </span>
-                        <span class="text-muted small d-none d-sm-inline">in your order</span>
+                        <span class="text-muted small">Selected for your order</span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                             <i class="fas fa-plus me-1"></i> Add More Items
                         </a>
                         <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="cart.clearCart()">
-                            <i class="fas fa-trash-alt me-1"></i> Clear Cart
+                            <i class="fas fa-trash-alt me-1"></i> Clear
                         </button>
                     </div>
                 </div>
 
                 <!-- Empty Cart Message -->
-                <div id="emptyCart" class="empty-cart shadow-sm" style="display: none;">
-                    <i class="fas fa-shopping-basket text-muted"></i>
-                    <h3 class="fw-bold">Your cart is empty</h3>
-                    <p class="text-muted mb-4">Browse our fresh groceries, beverages, dairy, and household essentials to start your order!</p>
+                <div id="emptyCart" class="empty-cart shadow-sm p-5 text-center bg-white rounded-4 border" style="display: none;">
+                    <i class="fas fa-shopping-basket fa-4x text-muted mb-3"></i>
+                    <h4 class="fw-bold">Your order is empty</h4>
+                    <p class="text-muted mb-4">Select fresh groceries and household essentials from the shop to start your order.</p>
                     <a href="shop.html" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
                         <i class="fas fa-store me-2"></i>Go to Shop
                     </a>
@@ -222,240 +219,231 @@
 
                 <!-- Cart Items Container -->
                 <div id="cartItemsContainer">
-                    <!-- Items loaded dynamically -->
+                    <!-- Items rendered dynamically -->
                 </div>
 
-                <!-- Customer Details Panel (POS Delivery & Order Info) -->
+                <!-- Simplified Customer Pickup Info Card -->
                 <div class="card border-0 shadow-sm rounded-4 mt-4 p-4" id="customerInfoCard">
-                    <h5 class="fw-bold mb-3 text-dark">
-                        <i class="fas fa-user-circle text-primary me-2"></i>Customer & Delivery Details
-                    </h5>
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-dark">
+                            <i class="fas fa-user-tag text-primary me-2"></i>Customer & Pickup Details
+                        </h5>
+                        <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill small">
+                            <i class="fas fa-check me-1"></i> In-Store Pickup (Free)
+                        </span>
+                    </div>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Customer Name</label>
+                            <label class="form-label small fw-bold text-muted">Your Name <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
-                                <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. Jane Mwangi">
+                                <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. John Mwangi" required>
                             </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Used to label your package at the shop counter</small>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">M-Pesa / Phone Number <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold text-muted">M-Pesa Phone Number <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-success"></i></span>
-                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="e.g. 0712345678" oninput="syncMpesaPhone(this.value)">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-mobile-alt text-success"></i></span>
+                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="07XXXXXXXX or 254..." oninput="syncMpesaPhone(this.value)" required>
                             </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Your phone will receive the M-Pesa PIN prompt</small>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">County / Region</label>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-muted">Pickup Time / Special Note (Optional)</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-map text-muted"></i></span>
-                                <select class="form-select border-start-0" id="posCountySelect">
-                                    <option value="Kisii">Kisii County</option>
-                                    <option value="Nairobi">Nairobi County</option>
-                                    <option value="Kiambu">Kiambu County</option>
-                                    <option value="Kisumu">Kisumu County</option>
-                                    <option value="Mombasa">Mombasa County</option>
-                                    <option value="Nakuru">Nakuru County</option>
-                                    <option value="Other">Other Region</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Specific Town / Street / Counter Note</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-map-marker-alt text-danger"></i></span>
-                                <input type="text" class="form-control border-start-0" id="posDeliveryAddress" placeholder="e.g. Kisii CBD, Next to Posta">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-comment-alt text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0" id="posDeliveryAddress" placeholder="e.g. Will pick up around 3:00 PM / Paying at counter">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- POS Payment Station & Summary (Right Column) -->
-            <div class="col-lg-5 col-xl-4">
-                <div class="pos-payment-station">
-                    <h4><i class="fas fa-cash-register text-primary me-2"></i>Payment & Summary</h4>
+            <!-- Right Column: Simple Payment Station & Total -->
+            <div class="col-lg-5 col-xl-5">
+                <div class="pos-payment-station bg-white p-4 rounded-4 shadow-sm border sticky-top" style="top: 80px;">
+                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-dark">
+                            <i class="fas fa-receipt text-primary me-2"></i>Payment & Summary
+                        </h5>
+                        <span class="badge bg-primary text-white rounded-pill px-3 py-1 small">Instant</span>
+                    </div>
 
                     <!-- Payment Mode Selector -->
-                    <label class="form-label small fw-bold text-muted mb-2">SELECT PAYMENT METHOD</label>
-                    <div class="payment-methods-grid">
-                        <div class="pay-tile active mpesa-tile" id="tile-mpesa" onclick="selectPaymentMode('mpesa')">
-                            <i class="fas fa-mobile-alt text-success"></i>
-                            <span>M-Pesa</span>
+                    <label class="form-label small fw-bold text-muted mb-2">CHOOSE HOW TO PAY</label>
+                    
+                    <!-- 1. M-Pesa STK Option -->
+                    <div class="pay-tile-simple active" id="tile-mpesa" onclick="selectPaymentMode('mpesa')">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="fas fa-mobile-alt fa-lg"></i>
                         </div>
-                        <div class="pay-tile" id="tile-cash" onclick="selectPaymentMode('cash')">
-                            <i class="fas fa-money-bill-wave text-primary"></i>
-                            <span>Cash (POS)</span>
-                        </div>
-                        <div class="pay-tile" id="tile-card" onclick="selectPaymentMode('card')">
-                            <i class="fas fa-credit-card text-info"></i>
-                            <span>Card / Bank</span>
-                        </div>
-                        <div class="pay-tile" id="tile-whatsapp" onclick="selectPaymentMode('whatsapp')">
-                            <i class="fab fa-whatsapp text-success"></i>
-                            <span>WhatsApp</span>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong class="text-dark">M-Pesa Express (STK Push)</strong>
+                                <span class="badge bg-success">Recommended</span>
+                            </div>
+                            <small class="text-muted d-block">Automatic PIN prompt sent straight to your phone</small>
                         </div>
                     </div>
 
-                    <!-- M-Pesa Panel -->
-                    <div class="pay-panel active" id="panel-mpesa">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <strong class="text-success small"><i class="fas fa-bolt me-1"></i> M-Pesa Express / STK Push</strong>
-                            <span class="badge bg-success">Instant</span>
+                    <!-- 2. Cash at Counter Option -->
+                    <div class="pay-tile-simple" id="tile-cash" onclick="selectPaymentMode('cash')">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="fas fa-money-bill-wave fa-lg"></i>
                         </div>
-                        <p class="small text-muted mb-2">Enter your Safaricom number to receive an instant PIN prompt on your phone:</p>
+                        <div class="flex-grow-1">
+                            <strong class="text-dark">Pay Cash at Shop Counter</strong>
+                            <small class="text-muted d-block">Collect your goods and pay cash at the till</small>
+                        </div>
+                    </div>
+
+                    <!-- 3. WhatsApp Option -->
+                    <div class="pay-tile-simple" id="tile-whatsapp" onclick="selectPaymentMode('whatsapp')">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background-color: #25D366 !important;">
+                            <i class="fab fa-whatsapp fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong class="text-dark">Order via WhatsApp</strong>
+                            <small class="text-muted d-block">Send this order directly to our shop WhatsApp</small>
+                        </div>
+                    </div>
+
+                    <!-- M-Pesa Input Panel -->
+                    <div class="pay-panel active p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-mpesa">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="small fw-bold text-success"><i class="fas fa-bolt me-1"></i> Phone to Receive M-Pesa Prompt</span>
+                            <span class="badge bg-success-subtle text-success border border-success">Till: 4123456</span>
+                        </div>
                         <div class="input-group mb-2">
                             <span class="input-group-text bg-white"><i class="fas fa-phone text-success"></i></span>
-                            <input type="tel" class="form-control" id="mpesaPromptPhone" placeholder="07XXXXXXXX" value="">
+                            <input type="tel" class="form-control fw-bold text-dark" id="mpesaPromptPhone" placeholder="07XXXXXXXX">
                         </div>
-                        <div class="alert alert-light border small py-2 mb-0 text-muted">
-                            <i class="fas fa-info-circle text-primary me-1"></i> Or Pay via <strong>Till No: 4123456</strong> (Denla Discount)
-                        </div>
+                        <p class="small text-muted mb-0" style="font-size: 0.78rem;">
+                            <i class="fas fa-info-circle text-primary me-1"></i> Once you click pay, unlock your phone to enter your <strong>M-Pesa PIN</strong>.
+                        </p>
                     </div>
 
-                    <!-- Cash Panel with Live POS Change Calculator -->
-                    <div class="pay-panel" id="panel-cash">
+                    <!-- Cash Panel -->
+                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-cash" style="display: none;">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                            <strong class="text-primary small"><i class="fas fa-calculator me-1"></i> Cash Tendered & Change</strong>
-                            <span class="badge bg-primary">POS Mode</span>
+                            <span class="small fw-bold text-primary"><i class="fas fa-calculator me-1"></i> Shop Counter / Cash Change</span>
                         </div>
-                        <label class="form-label small fw-bold text-muted mb-1">Cash Tendered (KSh)</label>
-                        <input type="number" class="form-control mb-2 fw-bold" id="cashTenderedInput" placeholder="Enter amount received" oninput="calculatePosChange()">
-                        
-                        <div class="quick-cash-row">
-                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(500)">+ KSh 500</button>
-                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(1000)">+ KSh 1,000</button>
-                            <button type="button" class="btn-quick-cash" onclick="setQuickCashAmount(2000)">+ KSh 2,000</button>
-                            <button type="button" class="btn-quick-cash" onclick="setExactCash()">Exact</button>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text bg-white">KSh</span>
+                            <input type="number" class="form-control fw-bold" id="cashTenderedInput" placeholder="Cash tendered (optional)" oninput="calculatePosChange()">
                         </div>
-
-                        <div class="pos-change-display" id="posChangeBox">
-                            <span>Change Due to Customer</span>
-                            <span class="pos-change-amount" id="posChangeValue">KSh 0</span>
-                        </div>
-                    </div>
-
-                    <!-- Card Panel -->
-                    <div class="pay-panel" id="panel-card">
-                        <strong class="text-info small d-block mb-2"><i class="fas fa-credit-card me-1"></i> Debit or Credit Card</strong>
-                        <div class="mb-2">
-                            <input type="text" class="form-control form-control-sm" placeholder="Card Number (4XXX XXXX XXXX XXXX)">
-                        </div>
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <input type="text" class="form-control form-control-sm" placeholder="MM/YY">
-                            </div>
-                            <div class="col-6">
-                                <input type="password" class="form-control form-control-sm" maxlength="3" placeholder="CVV">
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center p-2 rounded bg-white border">
+                            <small class="text-muted">Change to return:</small>
+                            <strong class="text-success" id="posChangeValue">KSh 0</strong>
                         </div>
                     </div>
 
                     <!-- WhatsApp Panel -->
-                    <div class="pay-panel" id="panel-whatsapp">
-                        <strong class="text-success small d-block mb-1"><i class="fab fa-whatsapp me-1"></i> Direct WhatsApp Order</strong>
-                        <p class="small text-muted mb-0">Your entire cart and customer details will be pre-formatted into a direct order sent to our official WhatsApp line.</p>
+                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-whatsapp" style="display: none;">
+                        <p class="small text-muted mb-0">
+                            <i class="fab fa-whatsapp text-success me-1"></i> Clicking order will format your full order and send it to <strong>+254 704 546 916</strong> on WhatsApp.
+                        </p>
                     </div>
 
-                    <!-- Promo Code Section -->
-                    <div class="promo-code-section">
-                        <label class="form-label small fw-bold text-muted mb-1"><i class="fas fa-ticket-alt text-primary me-1"></i> Coupon / Promo Code</label>
-                        <div class="promo-input-group">
-                            <input type="text" class="form-control" id="promoCode" placeholder="Try SAVE10 or FREEDEL">
-                            <button class="btn btn-outline-primary" onclick="applyPromoCode()">Apply</button>
+                    <!-- Summary Calculation -->
+                    <div class="border-top pt-3 mt-3">
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Subtotal (<span id="summaryCount">0</span> items):</span>
+                            <strong class="text-dark" id="subtotal">KSh 0</strong>
                         </div>
-                        <div id="promoMessage" class="small mt-1" style="display: none;"></div>
-                    </div>
-
-                    <!-- Summary Rows -->
-                    <div class="summary-row">
-                        <span>Items Subtotal:</span>
-                        <span id="subtotal">KSh 0</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Discount:</span>
-                        <span id="discount" class="text-success">KSh 0</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Delivery Fee:</span>
-                        <span id="delivery">Free</span>
-                    </div>
-
-                    <div id="savingsInfo" style="display: none;">
-                        <div class="savings-badge">
-                            <i class="fas fa-gift me-1"></i> You Save KSh <span id="savingsAmount">0</span>
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Pickup / Collection Fee:</span>
+                            <span class="badge bg-success-subtle text-success border border-success">FREE</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-success mb-2" id="discountRow" style="display: none;">
+                            <span>Discount:</span>
+                            <strong id="discount">- KSh 0</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2 mb-3">
+                            <span class="fs-5 fw-bold text-dark">Total Amount:</span>
+                            <span class="fs-4 fw-bold" style="color: #FF6B35;" id="total">KSh 0</span>
                         </div>
                     </div>
 
-                    <div class="summary-row total-row">
-                        <span>Total Due:</span>
-                        <span id="total">KSh 0</span>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <button class="btn-pos-checkout" onclick="processPOSCheckout()">
-                        <i class="fas fa-receipt me-2"></i> Complete Order & Print Receipt
+                    <!-- Primary Action Button -->
+                    <button class="btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2" id="mainPayBtn" onclick="executeCheckout()">
+                        <i class="fas fa-mobile-alt me-2"></i> Pay with M-Pesa STK Push
                     </button>
 
-                    <button class="btn-whatsapp-checkout" onclick="checkoutViaWhatsApp()">
-                        <i class="fab fa-whatsapp fa-lg me-2"></i> Order via WhatsApp
+                    <button class="btn btn-outline-success w-100 py-2 rounded-pill fw-semibold mb-2" onclick="checkoutViaWhatsApp()">
+                        <i class="fab fa-whatsapp me-2"></i> Or Send Order via WhatsApp
                     </button>
 
-                    <!-- Trust Guarantees -->
-                    <div class="mt-4 pt-3 border-top">
-                        <div class="row g-2 text-center text-muted" style="font-size: 0.78rem;">
-                            <div class="col-4">
-                                <i class="fas fa-shield-alt text-success fa-lg d-block mb-1"></i>
-                                <span>M-Pesa Verified</span>
-                            </div>
-                            <div class="col-4">
-                                <i class="fas fa-print text-primary fa-lg d-block mb-1"></i>
-                                <span>Instant Receipt</span>
-                            </div>
-                            <div class="col-4">
-                                <i class="fas fa-truck-fast text-warning fa-lg d-block mb-1"></i>
-                                <span>Fast Delivery</span>
-                            </div>
-                        </div>
+                    <div class="text-center mt-3 pt-2 border-top">
+                        <small class="text-muted">
+                            <i class="fas fa-store text-primary me-1"></i> Denla Discount Shop • Pick up anytime during shop hours
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- POS Printable Thermal Receipt Modal -->
+    <!-- STK Push Waiting Animation Modal -->
+    <div class="modal fade" id="stkModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 text-center p-4">
+                <div class="modal-body">
+                    <div class="mb-3 stk-modal-pulse">
+                        <span class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="fas fa-mobile-alt fa-3x"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">M-Pesa STK Prompt Sent!</h4>
+                    <p class="text-muted mb-3">A payment request of <strong class="text-dark" id="stkModalAmount">KSh 0</strong> has been sent to phone <strong class="text-success" id="stkModalPhone">07XXXXXXXX</strong>.</p>
+                    <div class="alert alert-success border-0 py-2 small mb-4">
+                        <i class="fas fa-key me-1"></i> Please check your phone screen and enter your <strong>M-Pesa PIN</strong> to complete your purchase.
+                    </div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary rounded-pill px-4" onclick="openReceiptModal()">
+                            <i class="fas fa-receipt me-1"></i> View Order Receipt
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Receipt Modal -->
     <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-check-circle text-success me-2"></i>Order Completed!</h5>
+                    <h5 class="modal-title fw-bold text-dark"><i class="fas fa-check-circle text-success me-2"></i>Order Received!</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <!-- Thermal Receipt Paper -->
-                    <div class="pos-receipt-container" id="printableReceiptArea">
-                        <div class="receipt-header">
-                            <div class="receipt-title">DENLA DISCOUNT</div>
-                            <div class="receipt-meta">Groceries & Home Store</div>
-                            <div class="receipt-meta">Kisii & Nairobi, Kenya | Tel: +254 704 546 916</div>
-                            <div class="receipt-divider"></div>
-                            <div class="d-flex justify-content-between receipt-meta">
-                                <span>Rcpt: <strong id="rcptNumber">#DD-8942</strong></span>
-                                <span id="rcptDateTime">2026-09-12 10:30</span>
+                    <div class="pos-receipt-container bg-white p-3 border rounded shadow-sm" id="printableReceiptArea" style="font-family: 'Roboto Mono', monospace; font-size: 0.85rem;">
+                        <div class="text-center mb-3 pb-2 border-bottom">
+                            <h5 class="fw-bold mb-0">DENLA DISCOUNT</h5>
+                            <small class="text-muted">Groceries & Household Store</small><br>
+                            <small class="text-muted">Tel: +254 704 546 916</small>
+                            <div class="d-flex justify-content-between mt-2 pt-2 border-top small">
+                                <span>Order: <strong id="rcptNumber">#DD-8942</strong></span>
+                                <span id="rcptDateTime">2026-09-26</span>
                             </div>
-                            <div class="d-flex justify-content-between receipt-meta">
+                            <div class="d-flex justify-content-between small">
                                 <span>Customer: <strong id="rcptCustomer">Guest</strong></span>
                                 <span>Pay: <strong id="rcptPayMethod">M-PESA</strong></span>
                             </div>
                         </div>
 
                         <!-- Itemized Table -->
-                        <table class="receipt-table">
+                        <table class="table table-sm table-borderless mb-2">
                             <thead>
-                                <tr>
+                                <tr class="border-bottom">
                                     <th>Item</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-end">Price</th>
                                     <th class="text-end">Total</th>
                                 </tr>
                             </thead>
@@ -465,39 +453,24 @@
                         </table>
 
                         <!-- Totals -->
-                        <div class="receipt-totals">
-                            <div class="receipt-total-row">
+                        <div class="border-top pt-2">
+                            <div class="d-flex justify-content-between">
                                 <span>Subtotal:</span>
                                 <span id="rcptSubtotal">KSh 0</span>
                             </div>
-                            <div class="receipt-total-row text-success" id="rcptDiscountRow" style="display: none;">
-                                <span>Discount:</span>
-                                <span id="rcptDiscount">- KSh 0</span>
+                            <div class="d-flex justify-content-between">
+                                <span>Store Pickup:</span>
+                                <span class="text-success">FREE</span>
                             </div>
-                            <div class="receipt-total-row">
-                                <span>Delivery / Shipping:</span>
-                                <span id="rcptDelivery">KSh 0</span>
-                            </div>
-                            <div class="receipt-total-row receipt-grand-total">
-                                <span>GRAND TOTAL:</span>
+                            <div class="d-flex justify-content-between fs-6 fw-bold border-top pt-1 mt-1">
+                                <span>TOTAL AMOUNT:</span>
                                 <span id="rcptGrandTotal">KSh 0</span>
-                            </div>
-                            <div class="receipt-total-row" id="rcptCashRow" style="display: none;">
-                                <span>Cash Tendered:</span>
-                                <span id="rcptCashTendered">KSh 0</span>
-                            </div>
-                            <div class="receipt-total-row" id="rcptChangeRow" style="display: none;">
-                                <span>Change Given:</span>
-                                <span id="rcptChangeGiven">KSh 0</span>
-                            </div>
-                            <div class="receipt-meta mt-1 text-center" style="font-size: 0.72rem;">
-                                <span>(16% VAT Inclusive where applicable)</span>
                             </div>
                         </div>
 
-                        <div class="receipt-footer">
-                            <p class="mb-1 fw-bold">THANK YOU FOR SHOPPING WITH US!</p>
-                            <p class="mb-0 text-muted" style="letter-spacing: 2px;">||||| | |||| |||||| | |||||||</p>
+                        <div class="text-center mt-3 pt-2 border-top small text-muted">
+                            <p class="mb-1 fw-bold">THANK YOU FOR SHOPPING AT DENLA DISCOUNT!</p>
+                            <p class="mb-0">Please present this receipt when picking up your package.</p>
                         </div>
                     </div>
                 </div>
@@ -530,64 +503,11 @@
     </div>
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Denla Discount</h4>
-                        <p class="mb-4">Your trusted neighborhood and online grocery store in Kenya. High quality food stuffs, beverages, dairy, and household essentials at discount prices.</p>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-map-marker-alt text-primary me-3"></i>
-                            <p class="text-white mb-0">Kisii & Nairobi, Kenya</p>
-                        </div>
-                        <div class="d-flex align-items-center mt-2">
-                            <i class="fas fa-phone-alt text-primary me-3"></i>
-                            <p class="text-white mb-0">+254 704 546 916</p>
-                        </div>
-                        <div class="d-flex align-items-center mt-2">
-                            <i class="fas fa-envelope text-primary me-3"></i>
-                            <p class="text-white mb-0">info@denladiscount.co.ke</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Grocery Categories</h4>
-                        <a class="btn-link" href="shop.html?category=groceries">Cooking Essentials</a>
-                        <a class="btn-link" href="shop.html?category=groceries">Grains & Flour</a>
-                        <a class="btn-link" href="shop.html?category=beverages">Beverages & Teas</a>
-                        <a class="btn-link" href="shop.html?category=dairy">Dairy & Fresh Eggs</a>
-                        <a class="btn-link" href="shop.html?category=household">Household & Cleaning</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Customer Care</h4>
-                        <a class="btn-link" href="contact.html">Contact Us</a>
-                        <a class="btn-link" href="cart.html">Shopping Cart</a>
-                        <a class="btn-link" href="cheackout.html">POS Checkout</a>
-                        <a class="btn-link" href="login.html">My Account</a>
-                        <a class="btn-link" href="#">Privacy Policy</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Payment Options</h4>
-                        <p>We accept safe and fast payment methods across Kenya:</p>
-                        <div class="d-flex gap-2 flex-wrap text-white">
-                            <span class="badge bg-success py-2 px-3"><i class="fas fa-mobile-alt me-1"></i> M-Pesa</span>
-                            <span class="badge bg-primary py-2 px-3"><i class="fas fa-money-bill-wave me-1"></i> Cash</span>
-                            <span class="badge bg-info py-2 px-3"><i class="fas fa-credit-card me-1"></i> Card</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid copyright bg-dark py-4">
-            <div class="container text-center">
-                <p class="text-white-50 mb-0">&copy; <span id="currentYear">2026</span> <strong class="text-white">Denla Discount</strong>. All rights reserved.</p>
-            </div>
+    <div class="container-fluid bg-dark text-white-50 footer pt-4 mt-5">
+        <div class="container py-4 text-center">
+            <h5 class="text-white fw-bold mb-2">Denla Discount Store</h5>
+            <p class="text-white-50 mb-3">Fresh Groceries • Beverages • Dairy Products • Household Essentials</p>
+            <p class="small text-white-50 mb-0">&copy; <span id="currentYear">2026</span> Denla Discount. Designed & Developed by DrewSky Softwares LTD</p>
         </div>
     </div>
     <!-- Footer End -->
@@ -599,11 +519,9 @@
     <script src="js/cart-manager.js"></script>
     <script src="js/auth-helper.js"></script>
 
-    <!-- POS Checkout Application Script -->
+    <!-- Checkout Application Script -->
     <script>
         let currentPaymentMode = 'mpesa';
-        let appliedDiscountPercent = 0;
-        let appliedDiscountAmount = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderPosCart();
@@ -614,23 +532,23 @@
                 renderPosCart();
             });
 
-            // Update footer year
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
         });
 
         function setupCustomerSync() {
-            // Pre-fill user if logged in
-            const currentUser = authHelper ? authHelper.getCurrentUser() : null;
-            if (currentUser) {
-                const nameEl = document.getElementById('posCustomerName');
-                const phoneEl = document.getElementById('posCustomerPhone');
-                if (nameEl && !nameEl.value) nameEl.value = currentUser.name || currentUser.username || '';
-                if (phoneEl && !phoneEl.value) {
-                    phoneEl.value = currentUser.phone || '';
-                    syncMpesaPhone(currentUser.phone || '');
+            try {
+                const currentUser = authHelper ? authHelper.getCurrentUser() : null;
+                if (currentUser) {
+                    const nameEl = document.getElementById('posCustomerName');
+                    const phoneEl = document.getElementById('posCustomerPhone');
+                    if (nameEl && !nameEl.value) nameEl.value = currentUser.name || currentUser.username || '';
+                    if (phoneEl && !phoneEl.value) {
+                        phoneEl.value = currentUser.phone || '';
+                        syncMpesaPhone(currentUser.phone || '');
+                    }
                 }
-            }
+            } catch (e) {}
         }
 
         function syncMpesaPhone(val) {
@@ -648,60 +566,60 @@
             currentPaymentMode = mode;
             
             // Update tile states
-            document.querySelectorAll('.pay-tile').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.pay-tile-simple').forEach(el => {
+                el.classList.remove('active', 'cash-active', 'wa-active');
+            });
+            
             const activeTile = document.getElementById(`tile-${mode}`);
-            if (activeTile) activeTile.classList.add('active');
+            if (activeTile) {
+                activeTile.classList.add('active');
+                if (mode === 'cash') activeTile.classList.add('cash-active');
+                if (mode === 'whatsapp') activeTile.classList.add('wa-active');
+            }
 
             // Update panel states
-            document.querySelectorAll('.pay-panel').forEach(el => el.classList.remove('active'));
-            const activePanel = document.getElementById(`panel-${mode}`);
-            if (activePanel) activePanel.classList.add('active');
+            const panelMpesa = document.getElementById('panel-mpesa');
+            const panelCash = document.getElementById('panel-cash');
+            const panelWa = document.getElementById('panel-whatsapp');
+            const mainPayBtn = document.getElementById('mainPayBtn');
 
-            if (mode === 'cash') {
-                calculatePosChange();
-            }
-        }
+            if (panelMpesa) panelMpesa.style.display = (mode === 'mpesa') ? 'block' : 'none';
+            if (panelCash) panelCash.style.display = (mode === 'cash') ? 'block' : 'none';
+            if (panelWa) panelWa.style.display = (mode === 'whatsapp') ? 'block' : 'none';
 
-        function setQuickCashAmount(extra) {
-            const total = cart ? cart.getTotal() - appliedDiscountAmount : 0;
-            const input = document.getElementById('cashTenderedInput');
-            if (input) {
-                input.value = Math.ceil((total + extra) / 100) * 100;
-                calculatePosChange();
-            }
-        }
-
-        function setExactCash() {
-            const total = cart ? Math.max(0, cart.getTotal() - appliedDiscountAmount) : 0;
-            const input = document.getElementById('cashTenderedInput');
-            if (input) {
-                input.value = total;
-                calculatePosChange();
+            if (mainPayBtn) {
+                if (mode === 'mpesa') {
+                    mainPayBtn.className = 'btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
+                    mainPayBtn.innerHTML = `<i class="fas fa-mobile-alt me-2"></i> Pay with M-Pesa STK Push`;
+                } else if (mode === 'cash') {
+                    mainPayBtn.className = 'btn btn-primary btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
+                    mainPayBtn.innerHTML = `<i class="fas fa-store me-2"></i> Place In-Store Pickup Order`;
+                    calculatePosChange();
+                } else if (mode === 'whatsapp') {
+                    mainPayBtn.className = 'btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
+                    mainPayBtn.style.backgroundColor = '#25D366';
+                    mainPayBtn.innerHTML = `<i class="fab fa-whatsapp me-2"></i> Complete via WhatsApp`;
+                }
             }
         }
 
         function calculatePosChange() {
-            const total = cart ? Math.max(0, cart.getTotal() - appliedDiscountAmount) : 0;
+            const total = cart ? cart.getTotal() : 0;
             const input = document.getElementById('cashTenderedInput');
             const tendered = parseFloat(input ? input.value : 0) || 0;
             const change = tendered - total;
             
             const changeValEl = document.getElementById('posChangeValue');
-            const changeBox = document.getElementById('posChangeBox');
-
             if (changeValEl) {
                 if (tendered > 0 && change >= 0) {
                     changeValEl.textContent = `KSh ${change.toLocaleString()}`;
-                    changeBox.style.background = '#e8f5e9';
-                    changeBox.style.color = '#2e7d32';
+                    changeValEl.className = 'text-success fw-bold';
                 } else if (tendered > 0 && change < 0) {
                     changeValEl.textContent = `Short KSh ${Math.abs(change).toLocaleString()}`;
-                    changeBox.style.background = '#ffebee';
-                    changeBox.style.color = '#c62828';
+                    changeValEl.className = 'text-danger fw-bold';
                 } else {
                     changeValEl.textContent = 'KSh 0';
-                    changeBox.style.background = '#f8f9fa';
-                    changeBox.style.color = '#333';
+                    changeValEl.className = 'text-muted';
                 }
             }
         }
@@ -711,11 +629,12 @@
             const container = document.getElementById('cartItemsContainer');
             const emptyEl = document.getElementById('emptyCart');
             const itemCountEl = document.getElementById('cartItemCount');
+            const summaryCountEl = document.getElementById('summaryCount');
             const customerCard = document.getElementById('customerInfoCard');
 
-            if (itemCountEl) {
-                itemCountEl.textContent = cart ? cart.getItemCount() : 0;
-            }
+            const count = cart ? cart.getItemCount() : 0;
+            if (itemCountEl) itemCountEl.textContent = count;
+            if (summaryCountEl) summaryCountEl.textContent = count;
 
             if (!items || items.length === 0) {
                 if (container) container.innerHTML = '';
@@ -732,28 +651,25 @@
                 container.innerHTML = items.map(item => {
                     const itemTotal = (item.price || 0) * (item.quantity || 1);
                     return `
-                        <div class="pos-item-card">
-                            <img src="${item.image || 'img/product-1.png'}" alt="${item.name || 'Product'}" class="pos-item-img" onerror="this.src='img/product-1.png'">
-                            <div class="pos-item-details">
-                                <h6 class="pos-item-name">${item.name || 'Grocery Item'}</h6>
-                                <div class="pos-item-meta">
-                                    <span><i class="fas fa-tag me-1 text-primary"></i>${item.spec || item.category || 'Standard Pack'}</span>
-                                    <span>Unit: <strong>KSh ${(item.price || 0).toLocaleString()}</strong></span>
-                                </div>
+                        <div class="pos-item-card bg-white p-3 rounded-4 shadow-sm border mb-2 d-flex align-items-center justify-content-between gap-3">
+                            <img src="${item.image || 'img/product-1.png'}" alt="${item.name || 'Product'}" style="width: 56px; height: 56px; object-fit: cover; border-radius: 8px;" onerror="this.src='img/product-1.png'">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold text-dark">${item.name || 'Grocery Item'}</h6>
+                                <small class="text-muted">KSh ${(item.price || 0).toLocaleString()} per unit</small>
                             </div>
-                            <div class="pos-qty-control">
-                                <button class="pos-qty-btn" onclick="updateItemQuantity(${item.id}, ${(item.quantity || 1) - 1})">
-                                    <i class="fas fa-minus"></i>
+                            <div class="d-flex align-items-center border rounded-pill bg-light px-2 py-1">
+                                <button class="btn btn-sm btn-link text-dark p-0 px-2" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) - 1})">
+                                    <i class="fas fa-minus small"></i>
                                 </button>
-                                <span class="pos-qty-val">${item.quantity || 1}</span>
-                                <button class="pos-qty-btn" onclick="updateItemQuantity(${item.id}, ${(item.quantity || 1) + 1})">
-                                    <i class="fas fa-plus"></i>
+                                <span class="fw-bold px-2">${item.quantity || 1}</span>
+                                <button class="btn btn-sm btn-link text-dark p-0 px-2" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) + 1})">
+                                    <i class="fas fa-plus small"></i>
                                 </button>
                             </div>
-                            <div class="pos-item-subtotal">
+                            <div class="fw-bold text-dark text-end" style="min-width: 90px;">
                                 KSh ${itemTotal.toLocaleString()}
                             </div>
-                            <button class="pos-remove-btn" onclick="removeItemFromCart(${item.id})" title="Remove">
+                            <button class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="removeItemFromCart('${item.id}')" title="Remove">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -776,90 +692,93 @@
         function removeItemFromCart(productId) {
             if (cart) {
                 cart.removeItem(productId);
-                showToast('Removed', 'Item removed from your cart');
+                showToast('Removed', 'Item removed from your order');
             }
-        }
-
-        function applyPromoCode() {
-            const codeInput = document.getElementById('promoCode');
-            const msgEl = document.getElementById('promoMessage');
-            if (!codeInput || !msgEl) return;
-
-            const code = codeInput.value.trim().toUpperCase();
-            if (!code) {
-                msgEl.textContent = 'Please enter a promo code';
-                msgEl.className = 'small mt-1 text-danger';
-                msgEl.style.display = 'block';
-                return;
-            }
-
-            if (code === 'SAVE10') {
-                appliedDiscountPercent = 0.10;
-                msgEl.textContent = '🎉 10% Discount Applied!';
-                msgEl.className = 'small mt-1 text-success fw-bold';
-                msgEl.style.display = 'block';
-                showToast('Promo Code Applied', '10% discount applied to your order!');
-            } else if (code === 'FREEDEL') {
-                appliedDiscountPercent = 0.05;
-                msgEl.textContent = '🚚 Free Express Delivery Voucher Applied!';
-                msgEl.className = 'small mt-1 text-success fw-bold';
-                msgEl.style.display = 'block';
-                showToast('Promo Code Applied', 'Free delivery perk activated!');
-            } else {
-                appliedDiscountPercent = 0;
-                msgEl.textContent = 'Invalid promo code. Try SAVE10 or FREEDEL';
-                msgEl.className = 'small mt-1 text-danger';
-                msgEl.style.display = 'block';
-            }
-
-            renderPosCart();
         }
 
         function updateSummary(rawTotal) {
             const subtotalEl = document.getElementById('subtotal');
-            const discountEl = document.getElementById('discount');
             const totalEl = document.getElementById('total');
-            const savingsInfo = document.getElementById('savingsInfo');
-            const savingsAmount = document.getElementById('savingsAmount');
-
-            appliedDiscountAmount = Math.round(rawTotal * appliedDiscountPercent);
-            const grandTotal = Math.max(0, rawTotal - appliedDiscountAmount);
 
             if (subtotalEl) subtotalEl.textContent = `KSh ${rawTotal.toLocaleString()}`;
-            if (discountEl) discountEl.textContent = `- KSh ${appliedDiscountAmount.toLocaleString()}`;
-            if (totalEl) totalEl.textContent = `KSh ${grandTotal.toLocaleString()}`;
-
-            if (appliedDiscountAmount > 0) {
-                if (savingsInfo) savingsInfo.style.display = 'block';
-                if (savingsAmount) savingsAmount.textContent = appliedDiscountAmount.toLocaleString();
-            } else {
-                if (savingsInfo) savingsInfo.style.display = 'none';
-            }
+            if (totalEl) totalEl.textContent = `KSh ${rawTotal.toLocaleString()}`;
 
             if (currentPaymentMode === 'cash') {
                 calculatePosChange();
             }
         }
 
-        function processPOSCheckout() {
+        async function executeCheckout() {
             const items = cart ? cart.getItems() : [];
             if (!items || items.length === 0) {
-                alert('Your cart is empty! Please add items from the shop before completing an order.');
+                alert('Your order is empty! Please add items before checking out.');
                 return;
             }
 
-            const custName = document.getElementById('posCustomerName')?.value.trim() || 'Walk-in Customer';
-            const custPhone = document.getElementById('posCustomerPhone')?.value.trim() || document.getElementById('mpesaPromptPhone')?.value.trim() || '';
-            const county = document.getElementById('posCountySelect')?.value || 'Kisii';
-            const deliveryNote = document.getElementById('posDeliveryAddress')?.value.trim() || 'Counter Pickup / Standard Delivery';
+            const custName = document.getElementById('posCustomerName')?.value.trim();
+            const custPhone = document.getElementById('posCustomerPhone')?.value.trim() || document.getElementById('mpesaPromptPhone')?.value.trim();
 
-            if (currentPaymentMode === 'mpesa' && !custPhone) {
-                alert('Please enter a valid M-Pesa phone number to receive the payment prompt.');
+            if (!custName) {
+                alert('Please enter your Name for in-store order pickup.');
+                document.getElementById('posCustomerName')?.focus();
+                return;
+            }
+
+            if (!custPhone) {
+                alert('Please enter your Phone number.');
                 document.getElementById('posCustomerPhone')?.focus();
                 return;
             }
 
-            // Fill Receipt Data
+            const totalAmount = cart ? cart.getTotal() : 0;
+
+            if (currentPaymentMode === 'mpesa') {
+                // Trigger STK Push Prompt
+                const stkPhone = document.getElementById('mpesaPromptPhone')?.value.trim() || custPhone;
+                
+                // Show waiting STK modal
+                document.getElementById('stkModalAmount').textContent = `KSh ${totalAmount.toLocaleString()}`;
+                document.getElementById('stkModalPhone').textContent = stkPhone;
+                const stkModalEl = document.getElementById('stkModal');
+                const stkModal = new bootstrap.Modal(stkModalEl);
+                stkModal.show();
+
+                // Send STK Push request to backend
+                try {
+                    fetch('/api/mpesa/stkpush', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            phoneNumber: stkPhone,
+                            amount: totalAmount,
+                            accountReference: `DENLA-${Date.now().toString().slice(-4)}`,
+                            transactionDesc: `Denla Grocery Order - ${custName}`
+                        })
+                    }).then(r => r.json()).then(data => {
+                        console.log('STK push response:', data);
+                    }).catch(err => {
+                        console.warn('STK push request error:', err);
+                    });
+                } catch (e) {}
+
+            } else if (currentPaymentMode === 'whatsapp') {
+                checkoutViaWhatsApp();
+            } else {
+                // Cash on pickup
+                openReceiptModal();
+            }
+        }
+
+        function openReceiptModal() {
+            // Close STK modal if open
+            const stkModalEl = document.getElementById('stkModal');
+            if (stkModalEl) {
+                const inst = bootstrap.Modal.getInstance(stkModalEl);
+                if (inst) inst.hide();
+            }
+
+            const items = cart ? cart.getItems() : [];
+            const custName = document.getElementById('posCustomerName')?.value.trim() || 'Walk-in Customer';
             const rcptNum = `#DD-${Math.floor(1000 + Math.random() * 9000)}`;
             const now = new Date();
             const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -875,44 +794,18 @@
                     <tr>
                         <td>${it.name || 'Item'}</td>
                         <td class="text-center">${it.quantity || 1}</td>
-                        <td class="text-end">${(it.price || 0).toLocaleString()}</td>
-                        <td class="text-end">${((it.price || 0) * (it.quantity || 1)).toLocaleString()}</td>
+                        <td class="text-end">KSh ${((it.price || 0) * (it.quantity || 1)).toLocaleString()}</td>
                     </tr>
                 `).join('');
             }
 
             const rawTotal = cart ? cart.getTotal() : 0;
-            const grandTotal = Math.max(0, rawTotal - appliedDiscountAmount);
-
             document.getElementById('rcptSubtotal').textContent = `KSh ${rawTotal.toLocaleString()}`;
-            document.getElementById('rcptGrandTotal').textContent = `KSh ${grandTotal.toLocaleString()}`;
+            document.getElementById('rcptGrandTotal').textContent = `KSh ${rawTotal.toLocaleString()}`;
 
-            const discountRow = document.getElementById('rcptDiscountRow');
-            if (appliedDiscountAmount > 0) {
-                if (discountRow) discountRow.style.display = 'flex';
-                document.getElementById('rcptDiscount').textContent = `- KSh ${appliedDiscountAmount.toLocaleString()}`;
-            } else if (discountRow) {
-                discountRow.style.display = 'none';
-            }
-
-            const cashRow = document.getElementById('rcptCashRow');
-            const changeRow = document.getElementById('rcptChangeRow');
-            if (currentPaymentMode === 'cash') {
-                const tendered = parseFloat(document.getElementById('cashTenderedInput')?.value || 0) || grandTotal;
-                const change = Math.max(0, tendered - grandTotal);
-                if (cashRow) cashRow.style.display = 'flex';
-                if (changeRow) changeRow.style.display = 'flex';
-                document.getElementById('rcptCashTendered').textContent = `KSh ${tendered.toLocaleString()}`;
-                document.getElementById('rcptChangeGiven').textContent = `KSh ${change.toLocaleString()}`;
-            } else {
-                if (cashRow) cashRow.style.display = 'none';
-                if (changeRow) changeRow.style.display = 'none';
-            }
-
-            // Show Receipt Modal
-            const modalEl = document.getElementById('receiptModal');
-            if (modalEl) {
-                const modal = new bootstrap.Modal(modalEl);
+            const receiptModalEl = document.getElementById('receiptModal');
+            if (receiptModalEl) {
+                const modal = new bootstrap.Modal(receiptModalEl);
                 modal.show();
             }
         }
@@ -921,37 +814,33 @@
             if (cart) {
                 cart.clearCart();
             }
-            appliedDiscountPercent = 0;
-            appliedDiscountAmount = 0;
             const modalEl = document.getElementById('receiptModal');
             if (modalEl) {
                 const modal = bootstrap.Modal.getInstance(modalEl);
                 if (modal) modal.hide();
             }
-            showToast('Ready for New Sale', 'Cart cleared and POS ready for the next order!');
+            window.location.href = 'shop.html';
         }
 
         function checkoutViaWhatsApp() {
             const items = cart ? cart.getItems() : [];
             if (!items || items.length === 0) {
-                alert('Your cart is empty! Please add items first.');
+                alert('Your order is empty! Please add items first.');
                 return;
             }
 
             const custName = document.getElementById('posCustomerName')?.value.trim() || 'Customer';
             const custPhone = document.getElementById('posCustomerPhone')?.value.trim() || '';
-            const county = document.getElementById('posCountySelect')?.value || 'Kisii';
-            const address = document.getElementById('posDeliveryAddress')?.value.trim() || 'N/A';
+            const note = document.getElementById('posDeliveryAddress')?.value.trim() || 'In-Store Pickup';
 
-            let msg = `🛒 *NEW ORDER - DENLA DISCOUNT*\n`;
+            let msg = `🛒 *NEW ORDER - DENLA DISCOUNT SHOP*\n`;
             msg += `--------------------------------\n`;
-            msg += `👤 *Customer:* ${custName}\n`;
-            if (custPhone) msg += `📞 *Phone:* ${custPhone}\n`;
-            msg += `📍 *County:* ${county}\n`;
-            msg += `🏠 *Delivery Note:* ${address}\n`;
-            msg += `💳 *Payment Mode:* ${currentPaymentMode.toUpperCase()}\n`;
+            msg += `👤 *Customer Name:* ${custName}\n`;
+            if (custPhone) msg += `📞 *Phone / M-Pesa:* ${custPhone}\n`;
+            msg += `📍 *Pickup Note:* ${note}\n`;
+            msg += `💳 *Payment Method:* ${currentPaymentMode.toUpperCase()}\n`;
             msg += `--------------------------------\n`;
-            msg += `📦 *ORDER ITEMS:*\n`;
+            msg += `📦 *ITEMS:*\n`;
 
             items.forEach((it, idx) => {
                 const lineTotal = (it.price || 0) * (it.quantity || 1);
@@ -959,15 +848,10 @@
             });
 
             const rawTotal = cart ? cart.getTotal() : 0;
-            const grandTotal = Math.max(0, rawTotal - appliedDiscountAmount);
 
             msg += `--------------------------------\n`;
-            msg += `*Subtotal:* KSh ${rawTotal.toLocaleString()}\n`;
-            if (appliedDiscountAmount > 0) {
-                msg += `*Discount:* -KSh ${appliedDiscountAmount.toLocaleString()}\n`;
-            }
-            msg += `💰 *TOTAL DUE:* *KSh ${grandTotal.toLocaleString()}*\n\n`;
-            msg += `Please confirm my order. Thank you!`;
+            msg += `💰 *TOTAL DUE:* *KSh ${rawTotal.toLocaleString()}*\n\n`;
+            msg += `Please prepare my package for pickup at the shop. Thank you!`;
 
             const encoded = encodeURIComponent(msg);
             const whatsappUrl = `https://wa.me/254704546916?text=${encoded}`;
