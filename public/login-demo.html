@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Example - Cart Persistence Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
-    
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="demo-container">
@@ -51,7 +53,8 @@
                 <button class="btn btn-primary btn-demo w-100 mb-2" id="loginBtn" onclick="simulateLogin()">
                     <i class="fas fa-sign-in-alt"></i> Login (Test User)
                 </button>
-                <button class="btn btn-warning btn-demo w-100 mb-2" id="logoutBtn" onclick="simulateLogout()" style="display: none;">
+                <button class="btn btn-warning btn-demo w-100 mb-2" id="logoutBtn" onclick="simulateLogout()"
+                    style="display: none;">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
                 <button class="btn btn-danger btn-demo w-100" onclick="clearCart()">
@@ -81,13 +84,15 @@
                 <div class="col-md-6">
                     <div class="status-card">
                         <strong>LocalStorage Cart:</strong>
-                        <pre id="localStorageCart" class="mt-2 mb-0" style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
+                        <pre id="localStorageCart" class="mt-2 mb-0"
+                            style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="status-card">
                         <strong>User Data:</strong>
-                        <pre id="userData" class="mt-2 mb-0" style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
+                        <pre id="userData" class="mt-2 mb-0"
+                            style="font-size: 0.8rem; max-height: 100px; overflow-y: auto;"></pre>
                     </div>
                 </div>
             </div>
@@ -110,7 +115,7 @@
         const sampleProducts = {
             laptop: {
                 id: 1001,
-                name: "Gaming Laptop Pro",
+                name: "Kabras Sugar 2kg",
                 brand: "TechBrand",
                 price: 85000,
                 oldPrice: 95000,
@@ -127,7 +132,7 @@
             },
             phone: {
                 id: 1002,
-                name: "Smartphone X",
+                name: "Pembe Maize Meal 2kg",
                 brand: "PhoneCo",
                 price: 45000,
                 oldPrice: 50000,
@@ -139,7 +144,7 @@
             },
             headphones: {
                 id: 1003,
-                name: "Wireless Headphones",
+                name: "Brookside Fresh Milk 1L",
                 brand: "SoundPro",
                 price: 8500,
                 oldPrice: 10000,
@@ -185,8 +190,8 @@
             localStorage.setItem('token', mockToken);
 
             // Dispatch login event
-            window.dispatchEvent(new CustomEvent('userLoggedIn', { 
-                detail: { user: mockUser } 
+            window.dispatchEvent(new CustomEvent('userLoggedIn', {
+                detail: { user: mockUser }
             }));
 
             // Update UI
@@ -194,7 +199,7 @@
             document.getElementById('logoutBtn').style.display = 'block';
 
             updateDisplay();
-            
+
             // Show success message
             alert('✅ Logged in as: ' + mockUser.username + '\n\nCart has been merged with your saved cart!');
         }
@@ -208,7 +213,7 @@
             document.getElementById('logoutBtn').style.display = 'none';
 
             updateDisplay();
-            
+
             alert('👋 Logged out!\n\nYour cart is still saved in localStorage.');
         }
 
@@ -226,7 +231,7 @@
             const user = window.authHelper.getCurrentUser();
 
             // Update user status
-            const statusHTML = user 
+            const statusHTML = user
                 ? `<span class="status-badge status-logged-in">
                     <i class="fas fa-user-check"></i> ${user.username}
                    </span>`
@@ -271,17 +276,17 @@
             }
 
             // Update storage info
-            document.getElementById('localStorageCart').textContent = 
+            document.getElementById('localStorageCart').textContent =
                 localStorage.getItem('awesomeTech_cart') || 'null';
-            
-            document.getElementById('userData').textContent = 
+
+            document.getElementById('userData').textContent =
                 localStorage.getItem('user') || 'null';
         }
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             updateDisplay();
-            
+
             // Check if user is logged in
             const user = window.authHelper.getCurrentUser();
             if (user) {
@@ -297,4 +302,5 @@
     </script>
 
 </body>
+
 </html>
