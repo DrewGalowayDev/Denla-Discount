@@ -54,22 +54,22 @@
     <!-- Top Thin Strip End -->
 
     <!-- Main Header Start -->
-    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom shop-main-header">
+    <div class="container-fluid px-3 px-lg-5 py-3 d-none d-lg-block bg-white border-bottom shop-main-header">
         <div class="row gx-4 align-items-center">
             <!-- Brand Logo -->
             <div class="col-lg-3 pe-3">
                 <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
-                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;">
-                    <div>
-                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">Denla Discount</h3>
-                        <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.6px; font-weight: 600;">Groceries & Home Store</small>
+                    <img src="img/logo.jpg" alt="Denla Discount" class="header-logo">
+                    <div class="brand-text">
+                        <h3 class="m-0 fw-bold brand-name">Denla Discount</h3>
+                        <small class="brand-tagline">Groceries & Home Store</small>
                     </div>
                 </a>
             </div>
 
             <!-- Search Bar -->
             <div class="col-lg-5 px-3">
-                <div class="position-relative" style="max-width: 540px; margin: 0 auto;">
+                <div class="position-relative header-search-wrapper">
                     <div class="d-flex border rounded-pill bg-white shadow-sm overflow-hidden header-search-box">
                         <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="searchInput" onkeyup="handleShopSearch(event)" placeholder="Search groceries, beverages, household items...">
                         <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performShopSearch()">
@@ -80,38 +80,12 @@
                 </div>
             </div>
 
-            <!-- User Auth & Dashboard Actions -->
+            <!-- User Actions -->
             <div class="col-lg-4 text-end">
                 <div class="d-inline-flex align-items-center gap-3">
-                    <!-- Currency Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fas fa-coins text-warning me-1"></i>KSh</a>
-                        <div class="dropdown-menu rounded shadow-sm">
-                            <a href="#" class="dropdown-item small">KSh - Kenyan Shilling</a>
-                            <a href="#" class="dropdown-item small">USD - US Dollar</a>
-                        </div>
-                    </div>
-
-                    <!-- Dashboard Dropdown -->
-                    <div class="dropdown" id="authDropdown">
-                        <a href="#" class="dropdown-toggle text-muted small fw-semibold" data-bs-toggle="dropdown"><i class="fa fa-home text-primary me-1"></i>My Dashboard</a>
-                        <div class="dropdown-menu rounded shadow-sm">
-                            <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i class="fas fa-sign-in-alt me-2"></i> Login</a>
-                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i class="fas fa-user-plus me-2"></i> Sign Up</a>
-                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                            <div class="dropdown-divider" id="authDivider"></div>
-                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log Out</a>
-                        </div>
-                    </div>
-
                     <!-- Login Button - shown when not logged in -->
                     <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 shadow-sm fw-semibold" id="loginBtn">
                         <i class="fas fa-user me-2"></i>Login
-                    </a>
-                    
-                    <!-- Dashboard Button - shown when logged in -->
-                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 shadow-sm fw-semibold" id="dashboardBtn" style="display: none;">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
                     
                     <!-- User Menu - shown when logged in -->
@@ -149,12 +123,12 @@
                     </nav>
                 </div>
                 <div class="col-12 col-lg-9">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-                        <a href="index.html" class="navbar-brand d-block d-lg-none">
-                            <img src="img/logo.jpg" alt="Denla Discount" style="height: 50px; width: auto;">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                        <a href="index.html" class="navbar-brand d-block d-lg-none p-2">
+                            <img src="img/logo.jpg" alt="Denla Discount" class="mobile-header-logo">
                         </a>
                         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                            <span class="fa fa-bars fa-1x"></span>
+                            <span class="fa fa-bars fa-1x text-white"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav ms-auto py-0">
@@ -192,8 +166,8 @@
 
 
     <!-- Shop Section -->
-    <div class="container-fluid py-5">
-        <div class="container">
+    <div class="container-fluid px-3 px-xl-4 py-4">
+        <div class="container-fluid px-0">
             <!-- Mobile Filter Toggle -->
             <button class="btn btn-primary filter-toggle-btn" onclick="toggleFilters()">
                 <i class="fas fa-filter me-2"></i>Show Filters
@@ -1138,10 +1112,10 @@
             }
         }
         
-        // Comprehensive Category Structure — Food, Household & Shop Items
+                // Comprehensive Category Structure — Food, Household & Shop Items
         const categoryHierarchy = {
             'fresh-food': {
-                name: 'Fresh Food & Groceries',
+                name: 'Groceries & Foods',
                 icon: 'shopping-basket',
                 subcategories: {
                     'fresh-produce': {
@@ -1155,7 +1129,7 @@
                         items: ['Rice & Grains', 'Flour & Baking', 'Pasta & Noodles', 'Breakfast Cereals', 'Cooking Oils', 'Sugar & Sweeteners', 'Canned Foods', 'Snacks & Crisps']
                     },
                     'meat-fish': {
-                        name: 'Meat, Poultry & Fish',
+                        name: 'Meat & Seafood',
                         icon: 'drumstick-bite',
                         items: ['Beef', 'Chicken', 'Fish & Seafood', 'Pork', 'Sausages & Processed Meat']
                     }
@@ -1171,7 +1145,7 @@
                         items: ['Sodas & Fizzy Drinks', 'Fruit Juices', 'Energy Drinks', 'Water & Sparkling Water', 'Squash & Cordials']
                     },
                     'hot-drinks': {
-                        name: 'Hot Drinks',
+                        name: 'Hot Beverages',
                         icon: 'mug-hot',
                         items: ['Tea & Herbal Tea', 'Coffee & Instant Coffee', 'Hot Chocolate', 'Milk Powders']
                     }
@@ -1194,7 +1168,7 @@
                 }
             },
             'household-care': {
-                name: 'Household & Home Care',
+                name: 'Household & Care',
                 icon: 'home',
                 subcategories: {
                     'cleaning': {
@@ -1210,7 +1184,7 @@
                 }
             },
             'personal-care': {
-                name: 'Personal Care & Beauty',
+                name: 'Personal Care',
                 icon: 'spa',
                 subcategories: {
                     'bath-body': {
@@ -1219,7 +1193,7 @@
                         items: ['Bath Soap & Body Wash', 'Shampoo & Conditioner', 'Deodorants & Antiperspirants', 'Body Lotion & Creams', 'Hand Sanitizers']
                     },
                     'grooming': {
-                        name: 'Grooming & Oral Care',
+                        name: 'Grooming & Oral',
                         icon: 'tooth',
                         items: ['Toothpaste & Toothbrushes', 'Shaving Products', 'Hair Care Accessories', 'Nail Care', 'Cotton Wool & Swabs']
                     }
@@ -1233,6 +1207,7 @@
         // Populate hierarchical category filters
         function populateCategoryFilters(products) {
             const categoryContainer = document.getElementById('categoryFilters');
+            if (!categoryContainer) return;
             
             // Pre-compute all category counts at once (much faster)
             categoryCountsCache = preComputeCategoryCounts(products);
@@ -1242,19 +1217,24 @@
             Object.entries(categoryHierarchy).forEach(([mainId, mainCat]) => {
                 html += `
                     <div class="category-group">
-                        <div class="category-main-header" onclick="toggleCategoryGroup('${mainId}')">
-                            <span><i class="fas fa-${mainCat.icon} me-2"></i>${mainCat.name}</span>
-                            <i class="fas fa-chevron-down"></i>
+                        <div class="category-main-header" onclick="toggleCategoryGroup('${mainId}')" title="${mainCat.name}">
+                            <div class="cat-label-wrap">
+                                <i class="fas fa-${mainCat.icon} cat-icon"></i>
+                                <span class="cat-title">${mainCat.name}</span>
+                            </div>
+                            <i class="fas fa-chevron-down cat-chevron"></i>
                         </div>
                         <div id="${mainId}-content" class="category-subcategory">
                 `;
 
                 Object.entries(mainCat.subcategories).forEach(([subId, subCat]) => {
                     html += `
-                        <div class="subcategory-header" onclick="toggleSubcategory('${mainId}-${subId}')">
-                            <i class="fas fa-chevron-down me-2"></i>
-                            <i class="fas fa-${subCat.icon} me-2"></i>
-                            ${subCat.name}
+                        <div class="subcategory-header" onclick="toggleSubcategory('${mainId}-${subId}')" title="${subCat.name}">
+                            <div class="cat-label-wrap">
+                                <i class="fas fa-${subCat.icon} cat-subicon"></i>
+                                <span class="cat-subtitle">${subCat.name}</span>
+                            </div>
+                            <i class="fas fa-chevron-down cat-subchevron"></i>
                         </div>
                         <div id="${mainId}-${subId}-items" class="subcategory-items">
                     `;
@@ -1263,16 +1243,17 @@
                         const itemSlug = item.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                         const count = categoryCountsCache[item] || 0;
                         
-                        // Show all category items (even with 0 products)
                         html += `
                             <div class="category-item">
-                                <div class="form-check">
-                                    <input class="form-check-input category-filter" type="checkbox" 
-                                           value="${itemSlug}" id="cat-${itemSlug}" onchange="applyFilters()"${count === 0 ? ' disabled' : ''}>
-                                    <label class="form-check-label${count === 0 ? ' text-muted' : ''}" for="cat-${itemSlug}">
-                                        <span>${item}</span>
-                                        <span class="category-count">(${count})</span>
-                                    </label>
+                                <div class="form-check d-flex align-items-center justify-content-between w-100 m-0">
+                                    <div class="d-flex align-items-center gap-2 text-truncate me-2" style="min-width: 0;">
+                                        <input class="form-check-input category-filter flex-shrink-0 m-0" type="checkbox" 
+                                               value="${itemSlug}" id="cat-${itemSlug}" onchange="applyFilters()"${count === 0 ? ' disabled' : ''}>
+                                        <label class="form-check-label text-truncate${count === 0 ? ' text-muted opacity-50' : ''}" for="cat-${itemSlug}" title="${item}">
+                                            ${item}
+                                        </label>
+                                    </div>
+                                    <span class="category-count flex-shrink-0">${count}</span>
                                 </div>
                             </div>
                         `;
