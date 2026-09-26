@@ -46,8 +46,10 @@ app.use(cors({
             'http://localhost:5000',
             'http://127.0.0.1:5500',  // Live Server
             'http://localhost:5500',   // Live Server alternative
-            'http://5nvzq8z6cxtm4hgmb4t8zd8o.169.58.244.109.sslip.io', // Deployed frontend
+            'http://5nvzq8z6cxtm4hgmb4t8zd8o.169.58.244.109.sslip.io', // Deployed frontend (Coolify)
             'http://169.58.244.109', // Server IP
+            'https://denladiscount.work.gd', // Custom domain
+            'http://denladiscount.work.gd',  // Custom domain (HTTP)
             'null'
         ];
 
@@ -56,6 +58,7 @@ app.use(cors({
             origin.startsWith('http://localhost') || 
             origin.startsWith('http://127.0.0.1') || 
             origin.startsWith('http://169.58.244.109') ||
+            origin.includes('denladiscount.work.gd') ||
             origin === 'null') {
             callback(null, true);
         } else {
