@@ -123,6 +123,9 @@ class MpesaService {
             // Ensure amount is an integer >= 1
             const amountInt = Math.max(1, Math.round(parseFloat(amount)));
 
+            const safeAccountRef = (accountReference || 'DD').toString().replace(/[^a-zA-Z0-9]/g, '').substring(0, 12) || 'DENLA';
+            const safeTransDesc = (transactionDesc || 'Order').toString().replace(/[^a-zA-Z0-9]/g, '').substring(0, 12) || 'Order';
+
             const payload = {
                 BusinessShortCode: config.shortcode,
                 Password: password,
@@ -133,8 +136,8 @@ class MpesaService {
                 PartyB: config.shortcode,
                 PhoneNumber: formattedPhone,
                 CallBackURL: config.callbackURL,
-                AccountReference: (accountReference || 'DENLA').substring(0, 12),
-                TransactionDesc: (transactionDesc || 'Denla Store Order').substring(0, 13)
+                AccountReference: safeAccountRef,
+                TransactionDesc: safeTransDesc
             };
 
             console.log('📱 Initiating Safaricom M-Pesa STK Push:', {

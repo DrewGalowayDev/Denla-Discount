@@ -36,25 +36,42 @@ function safeHideModal(modalEl) {
     if (!modalEl) return;
     try {
         if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-            const inst = bootstrap.Modal.getInstance(modalEl);
-            if (inst) { inst.hide(); return; }
+            const inst = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+            if (inst && typeof inst.hide === 'function') {
+                inst.hide();
+            }
         }
-        if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
-            $(modalEl).modal('hide');
-            return;
-        }
-        // Vanilla fallback
-        modalEl.classList.remove('show');
-        modalEl.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) backdrop.remove();
     } catch (e) {
-        modalEl.classList.remove('show');
-        modalEl.style.display = 'none';
-        document.body.classList.remove('modal-open');
+        console.warn('Bootstrap modal hide error:', e);
+    }
+
+    // Comprehensive fallback cleanup to ensure modal ALWAYS closes
+    modalEl.classList.remove('show');
+    modalEl.style.display = 'none';
+    modalEl.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+}
+
+function closeInstantBuyModal() {
+    hideInstantStkOverlay();
+    const modalEl = document.getElementById('instantBuyModal');
+    if (modalEl) {
+        safeHideModal(modalEl);
     }
 }
+
+function closeInstantReceiptModal() {
+    const modalEl = document.getElementById('instantReceiptModal');
+    if (modalEl) {
+        safeHideModal(modalEl);
+    }
+}
+
+window.closeInstantBuyModal = closeInstantBuyModal;
+window.closeInstantReceiptModal = closeInstantReceiptModal;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
