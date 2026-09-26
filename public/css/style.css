@@ -3419,16 +3419,35 @@ a.text-muted:has(.fa-shopping-cart):hover .btn-md-square.border {
 /* --------------------------------------------------------------------------
    3. SHOP PAGE & FILTER SIDEBAR
    -------------------------------------------------------------------------- */
+/* Remove left padding from sidebar column to reach screen edge */
+.col-lg-3:has(.filter-sidebar) {
+    padding-left: 0 !important;
+}
+
+@media (min-width: 992px) {
+    /* On desktop, make the filter sidebar column extend to left edge */
+    .row:has(.filter-sidebar) {
+        margin-left: calc(-1 * var(--bs-gutter-x, 1.5rem));
+    }
+    
+    .col-lg-3:has(.filter-sidebar) {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+}
+
 .filter-sidebar {
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 0 8px 8px 0;
     padding: 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
     position: sticky;
     top: 20px;
     max-height: calc(100vh - 40px);
     overflow-y: auto;
     border: 1px solid #e5e7eb;
+    border-left: 3px solid var(--bs-primary);
+    margin-left: 0;
 }
 
 .filter-sidebar::-webkit-scrollbar {
@@ -4134,6 +4153,7 @@ a.text-muted:has(.fa-shopping-cart):hover .btn-md-square.border {
         transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         background: #ffffff;
         box-shadow: 5px 0 25px rgba(0, 0, 0, 0.2);
+        border-left: 3px solid var(--bs-primary);
     }
 
     .filter-sidebar.show {
@@ -4142,6 +4162,11 @@ a.text-muted:has(.fa-shopping-cart):hover .btn-md-square.border {
 
     .filter-overlay.show {
         display: block;
+    }
+    
+    /* Reset column padding on mobile */
+    .col-lg-3:has(.filter-sidebar) {
+        padding-left: var(--bs-gutter-x, 1.5rem) !important;
     }
 }
 
