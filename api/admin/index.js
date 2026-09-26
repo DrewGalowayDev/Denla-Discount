@@ -3,15 +3,22 @@ const { query } = require('../../backend/config/database');
 const { setCorsHeaders, handleOptions } = require('../_utils/cors');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+const JWT_SECRET = process.env.JWT_SECRET || 'N8J3VJy23YmMifhOE0ai7g7AWuiOP9BYmxDaB1gU0pY=';
 
 function verifyAdmin(req) {
     const authHeader = req.headers.authorization;
     if (!authHeader) return null;
     const token = authHeader.replace('Bearer ', '');
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (decoded.role !== 'admin') return null;
+        let decoded;
+        try {
+            decoded = jwt.verify(token, JWT_SECRET);
+        } catch (e) {
+            decoded = jwt.verify(token, 'your-secret-key-change-this');
+        }
+        const role = (decoded.role || '').toLowerCase();
+        const allowedRoles = ['admin', 'manager', 'inventory_clerk', 'cashier'];
+        if (!allowedRoles.includes(role)) return null;
         return decoded;
     } catch (error) {
         return null;

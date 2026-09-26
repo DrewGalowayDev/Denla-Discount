@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+const JWT_SECRET = process.env.JWT_SECRET || 'N8J3VJy23YmMifhOE0ai7g7AWuiOP9BYmxDaB1gU0pY=';
 const { setCorsHeaders, handleOptions } = require('../_utils/cors');
 
 function createEmailTransporter() {
@@ -89,7 +89,7 @@ module.exports = async (req, res) => {
                     user = await queryOne('SELECT * FROM users WHERE id = ? LIMIT 1', [id]);
                 }
             }
-            const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+            const token = jwt.sign({ id: user.id, userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
             return res.status(200).json({ success: true, token, user: { id: user.id, email: user.email, name: user.name, role: user.role, avatar_url: user.avatar_url } });
         } catch (error) {
             console.error('Google sign-in error:', error);
@@ -208,7 +208,7 @@ module.exports = async (req, res) => {
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) return res.status(401).json({ success: false, message: 'Invalid credentials' });
 
-            const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+            const token = jwt.sign({ id: user.id, userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
             return res.status(200).json({ success: true, message: 'Login successful', token, user: { id: user.id, email: user.email, name: user.name, role: user.role, avatar_url: user.avatar_url } });
         } catch (error) {
             console.error('Login error:', error);
@@ -235,7 +235,7 @@ module.exports = async (req, res) => {
                 [id, email, hashedPassword, name || email.split('@')[0], 'user']
             );
             const newUser = await queryOne('SELECT id, email, name, role FROM users WHERE id = ? LIMIT 1', [id]);
-            const token = jwt.sign({ userId: newUser.id, email: newUser.email, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
+            const token = jwt.sign({ id: newUser.id, userId: newUser.id, email: newUser.email, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
             return res.status(201).json({ success: true, message: 'User created successfully', token, user: { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role } });
         } else if (authAction === 'login') {
             const user = await queryOne('SELECT * FROM users WHERE email = ? LIMIT 1', [email]);
@@ -244,7 +244,7 @@ module.exports = async (req, res) => {
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) return res.status(401).json({ success: false, message: 'Invalid credentials' });
 
-            const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+            const token = jwt.sign({ id: user.id, userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
             return res.status(200).json({ success: true, message: 'Login successful', token, user: { id: user.id, email: user.email, name: user.name, role: user.role, avatar_url: user.avatar_url } });
         } else {
             return res.status(400).json({ success: false, message: 'Invalid action' });

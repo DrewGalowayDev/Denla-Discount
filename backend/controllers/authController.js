@@ -4,10 +4,13 @@ const { query, queryOne, generateUUID } = require('../config/database');
 const { findByField } = require('../utils/dbHelpers');
 
 // Generate JWT token
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE || '7d'
-    });
+const generateToken = (id, role = 'user', email = '') => {
+    const secret = process.env.JWT_SECRET || 'N8J3VJy23YmMifhOE0ai7g7AWuiOP9BYmxDaB1gU0pY=';
+    return jwt.sign(
+        { id, userId: id, role, email },
+        secret,
+        { expiresIn: process.env.JWT_EXPIRE || '7d' }
+    );
 };
 
 // @desc    Register user
@@ -51,7 +54,7 @@ exports.register = async (req, res, next) => {
         const user = await queryOne('SELECT id, name, email, role FROM users WHERE id = ?', [userId]);
 
         // Generate token
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.role, user.email);
 
         res.status(201).json({
             success: true,
@@ -128,7 +131,7 @@ exports.login = async (req, res, next) => {
         }
 
         // Generate token
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.role, user.email);
 
         const fullName = user.name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email;
 

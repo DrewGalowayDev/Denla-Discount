@@ -76,6 +76,14 @@ window.closeInstantReceiptModal = closeInstantReceiptModal;
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     fetchMpesaSettings();
+
+    // Global ESC key listener to close modals
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeInstantBuyModal();
+            closeInstantReceiptModal();
+        }
+    });
 });
 
 // Load active M-Pesa settlement settings from backend
