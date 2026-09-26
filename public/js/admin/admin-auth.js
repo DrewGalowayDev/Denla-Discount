@@ -151,6 +151,10 @@ async function apiRequest(endpoint, options = {}) {
             if (response.status === 429) {
                 throw new Error('Too many requests. Please wait a moment and try again.');
             } else if (response.status === 401) {
+                console.error('401 Unauthorized - Token might be invalid or expired');
+                console.log('Failed endpoint:', url);
+                const errorData = await response.json().catch(() => ({}));
+                console.log('Error response:', errorData);
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 window.location.href = 'login.html?redirect=admin-dashboard.html&msg=session_expired';
