@@ -256,7 +256,7 @@
             <!-- Brand Logo -->
             <div class="col-lg-3 text-start">
                 <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
-                    <img src="img/denlalogo.png" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
+                    <img src="img/denlalogo.png?v=2" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
                     <div>
                         <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">
                             Denla Discount
@@ -382,7 +382,7 @@
                 <div class="checkout-card" id="customerInfoCard">
                     <div class="checkout-card-header">
                         <h5 class="checkout-card-title">
-                            <i class="fas fa-user-tag text-primary"></i> Customer & Pickup Info
+                            <i class="fas fa-user-tag text-primary"></i> Customer & Pickup Info <span class="small text-muted fw-normal fs-6">(Optional)</span>
                         </h5>
                         <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill small fw-semibold">
                             <i class="fas fa-check-circle me-1"></i> In-Store Pickup (Free)
@@ -391,20 +391,20 @@
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Full Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold text-dark">Full Name <span class="text-muted fw-normal">(Optional)</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
-                                <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. John Mwangi" required>
+                                <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. John Mwangi (or leave blank)">
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">For identifying your order at the counter</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">Optional for receipt name</small>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">M-Pesa Phone Number <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold text-dark">M-Pesa Phone Number <span class="text-success fw-normal">(For STK Prompt)</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-mobile-alt text-success"></i></span>
-                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="07XXXXXXXX or 01XXXXXXXX" oninput="syncMpesaPhone(this.value)" required>
+                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="07XXXXXXXX or 01XXXXXXXX" oninput="syncMpesaPhone(this.value)">
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">This number will receive the M-Pesa PIN prompt</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">Will receive the M-Pesa PIN prompt</small>
                         </div>
                         <div class="col-12">
                             <label class="form-label small fw-bold text-dark">Pickup Note / Time (Optional)</label>
@@ -674,7 +674,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api-helper.js"></script>
-    <script src="js/cart-manager.js"></script>
+    <script src="js/cart-manager.js?v=20260926_fix3"></script>
     <script src="js/auth-helper.js"></script>
 
     <!-- Checkout Application Script -->
@@ -732,7 +732,16 @@
         let cart = getCartInstance();
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Debug: Log what's in localStorage immediately
+            const rawCart = localStorage.getItem('awesomeTech_cart');
+            console.log('🛒 Checkout loaded. Raw localStorage cart:', rawCart);
+            try {
+                const parsed = JSON.parse(rawCart || '[]');
+                console.log('🛒 Cart items count:', parsed.length, 'Items:', parsed.map(i => i.name + ' (KSh ' + i.price + ' x' + i.quantity + ')'));
+            } catch(e) { console.warn('Could not parse cart:', e); }
+
             cart = getCartInstance();
+            console.log('🛒 Cart instance items:', cart.getItems ? cart.getItems().length : 'N/A');
             renderPosCart();
             setupCustomerSync();
             loadSettlementBadge();
@@ -746,9 +755,16 @@
             // Re-render when window gains focus or storage changes
             window.addEventListener('storage', (e) => {
                 if (e.key === 'awesomeTech_cart') {
+                    console.log('🔄 Storage event detected, re-rendering cart');
                     cart = getCartInstance();
                     renderPosCart();
                 }
+            });
+
+            // Also re-render when tab regains focus (covers same-origin navigation)
+            window.addEventListener('focus', () => {
+                cart = getCartInstance();
+                renderPosCart();
             });
 
             const yearEl = document.getElementById('currentYear');
@@ -783,13 +799,16 @@
 
         function syncMpesaPhone(val) {
             const promptPhone = document.getElementById('mpesaPromptPhone');
-            if (promptPhone && (!promptPhone.dataset.userEdited || promptPhone.dataset.userEdited === 'false')) {
+            if (promptPhone && promptPhone.value !== val) {
                 promptPhone.value = val;
             }
         }
 
-        document.getElementById('mpesaPromptPhone')?.addEventListener('input', () => {
-            document.getElementById('mpesaPromptPhone').dataset.userEdited = 'true';
+        document.getElementById('mpesaPromptPhone')?.addEventListener('input', (e) => {
+            const custPhone = document.getElementById('posCustomerPhone');
+            if (custPhone && custPhone.value !== e.target.value) {
+                custPhone.value = e.target.value;
+            }
         });
 
         function selectPaymentMode(mode) {
@@ -953,25 +972,22 @@
                 return;
             }
 
-            const custName = document.getElementById('posCustomerName')?.value.trim();
-            const custPhone = document.getElementById('posCustomerPhone')?.value.trim() || document.getElementById('mpesaPromptPhone')?.value.trim();
-
-            if (!custName) {
-                alert('Please enter your Name for in-store order pickup.');
-                document.getElementById('posCustomerName')?.focus();
-                return;
-            }
-
-            if (!custPhone) {
-                alert('Please enter your Phone number.');
-                document.getElementById('posCustomerPhone')?.focus();
-                return;
-            }
+            const custName = document.getElementById('posCustomerName')?.value.trim() || 'Customer';
+            const custPhone = document.getElementById('mpesaPromptPhone')?.value.trim() || document.getElementById('posCustomerPhone')?.value.trim();
 
             const totalAmount = cart ? cart.getTotal() : 0;
 
             if (currentPaymentMode === 'mpesa') {
-                const stkPhone = document.getElementById('mpesaPromptPhone')?.value.trim() || custPhone;
+                if (!custPhone) {
+                    alert('Please enter your M-Pesa phone number to receive the payment prompt.');
+                    const phoneInput = document.getElementById('mpesaPromptPhone') || document.getElementById('posCustomerPhone');
+                    if (phoneInput) {
+                        phoneInput.focus();
+                        phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+                const stkPhone = custPhone;
                 
                 // Show waiting STK modal
                 document.getElementById('stkModalAmount').textContent = `KSh ${totalAmount.toLocaleString()}`;

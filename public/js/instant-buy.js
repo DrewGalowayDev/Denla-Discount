@@ -10,6 +10,52 @@ let instantStkPollTimer = null;
 let instantStkCountdownTimer = null;
 let activeMpesaSettings = null;
 
+// Safe modal show/hide helpers
+function safeShowModal(modalEl) {
+    if (!modalEl) return;
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        } else if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
+            $(modalEl).modal('show');
+        } else {
+            modalEl.classList.add('show');
+            modalEl.style.display = 'block';
+            modalEl.removeAttribute('aria-hidden');
+            document.body.classList.add('modal-open');
+        }
+    } catch (e) {
+        console.warn('Modal show fallback:', e);
+        modalEl.classList.add('show');
+        modalEl.style.display = 'block';
+        document.body.classList.add('modal-open');
+    }
+}
+
+function safeHideModal(modalEl) {
+    if (!modalEl) return;
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            const inst = bootstrap.Modal.getInstance(modalEl);
+            if (inst) { inst.hide(); return; }
+        }
+        if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
+            $(modalEl).modal('hide');
+            return;
+        }
+        // Vanilla fallback
+        modalEl.classList.remove('show');
+        modalEl.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+    } catch (e) {
+        modalEl.classList.remove('show');
+        modalEl.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     fetchMpesaSettings();
@@ -132,9 +178,39 @@ async function openInstantBuyModal(productId) {
     // Recalculate totals
     updateInstantTotals();
 
-    // Show modal
-    const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-    bsModal.show();
+    // Show modal — with robust fallback chain
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            bsModal.show();
+            console.log('✅ Instant Buy modal opened via Bootstrap 5');
+        } else if (typeof $ !== 'undefined' && $.fn && $.fn.modal) {
+            $('#instantBuyModal').modal('show');
+            console.log('✅ Instant Buy modal opened via jQuery');
+        } else {
+            // Vanilla fallback
+            modalEl.classList.add('show');
+            modalEl.style.display = 'block';
+            modalEl.removeAttribute('aria-hidden');
+            modalEl.setAttribute('aria-modal', 'true');
+            modalEl.setAttribute('role', 'dialog');
+            document.body.classList.add('modal-open');
+            // Add backdrop
+            let backdrop = document.querySelector('.modal-backdrop');
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+            }
+            console.log('✅ Instant Buy modal opened via vanilla fallback');
+        }
+    } catch (modalErr) {
+        console.error('❌ Failed to open instant buy modal:', modalErr);
+        // Last resort vanilla fallback
+        modalEl.classList.add('show');
+        modalEl.style.display = 'block';
+        document.body.classList.add('modal-open');
+    }
 }
 
 // Adjust quantity
@@ -235,20 +311,10 @@ async function executeInstantOrder() {
     const deliveryRadio = document.querySelector('input[name="instantDeliveryType"]:checked');
     const notesInput = document.getElementById('instantOrderNotes');
 
-    const custName = (nameInput?.value || '').trim();
+    const custName = (nameInput?.value || '').trim() || 'Customer';
     let custPhone = (phoneInput?.value || '').trim();
     const deliveryType = deliveryRadio?.value || 'pickup';
     const notes = (notesInput?.value || '').trim();
-
-    if (!custName) {
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({ icon: 'warning', title: 'Name Required', text: 'Please enter your name for the order.' });
-        } else {
-            alert('Please enter your name.');
-        }
-        nameInput?.focus();
-        return;
-    }
 
     if (!custPhone) {
         if (typeof Swal !== 'undefined') {
@@ -301,8 +367,7 @@ async function executeInstantOrder() {
         // Close modal
         const modalEl = document.getElementById('instantBuyModal');
         if (modalEl) {
-            const inst = bootstrap.Modal.getInstance(modalEl);
-            if (inst) inst.hide();
+            safeHideModal(modalEl);
         }
         return;
     }
@@ -467,8 +532,7 @@ function recordOrder({ orderNumber, customerName, customerPhone, deliveryType, n
     // Hide Buy Modal
     const buyModalEl = document.getElementById('instantBuyModal');
     if (buyModalEl) {
-        const inst = bootstrap.Modal.getInstance(buyModalEl);
-        if (inst) inst.hide();
+        safeHideModal(buyModalEl);
     }
 
     // Populate Receipt Modal
@@ -516,8 +580,7 @@ function recordOrder({ orderNumber, customerName, customerPhone, deliveryType, n
     if (rcptTotal) rcptTotal.textContent = `KSh ${totalAmount.toLocaleString()}`;
 
     // Show Receipt Modal
-    const bsModal = bootstrap.Modal.getOrCreateInstance(rcptModalEl);
-    bsModal.show();
+    safeShowModal(rcptModalEl);
 }
 
 // Print / Download Receipt

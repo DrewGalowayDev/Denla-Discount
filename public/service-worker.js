@@ -1,40 +1,34 @@
-const CACHE_NAME = 'denla-discount-v1';
-const DYNAMIC_CACHE = 'denla-discount-dynamic-v1';
+const CACHE_NAME = 'denla-discount-v3';
+const DYNAMIC_CACHE = 'denla-discount-dynamic-v3';
 
 // Assets to cache on install
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/shop.html',
-  '/cart.html',
+  '/cheackout.html',
   '/contact.html',
-  '/login.html',
-  '/dashboard.html',
-  '/css/bootstrap.min.css',
-  '/css/style.css',
-  '/js/main.js',
   '/manifest.json'
 ];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing...');
+  console.log('[Service Worker] Installing v3...');
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[Service Worker] Caching static assets');
         return cache.addAll(STATIC_ASSETS.map(url => new Request(url, {cache: 'reload'})));
       })
-      .then(() => self.skipWaiting())
       .catch((error) => {
-        console.error('[Service Worker] Cache failed:', error);
+        console.warn('[Service Worker] Cache failed:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating...');
+  console.log('[Service Worker] Activating v3...');
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
@@ -51,7 +45,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - Network-First for HTML/JS, cache as fallback
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -66,7 +60,6 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // Clone and cache successful responses
           if (response.ok) {
             const responseClone = response.clone();
             caches.open(DYNAMIC_CACHE).then((cache) => {
@@ -76,14 +69,33 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Fallback to cache if network fails
           return caches.match(request);
         })
     );
     return;
   }
 
-  // Static assets - Cache first, network as fallback
+  // HTML / Navigation / JS - Network First (always get freshest updates)
+  if (request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('.js')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok && request.method === 'GET') {
+            const responseClone = response.clone();
+            caches.open(DYNAMIC_CACHE).then((cache) => {
+              cache.put(request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(request);
+        })
+    );
+    return;
+  }
+
+  // Other Static assets (images, fonts, css) - Cache first, network as fallback
   event.respondWith(
     caches.match(request)
       .then((cachedResponse) => {
@@ -91,10 +103,8 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        // Not in cache, fetch from network
         return fetch(request)
           .then((response) => {
-            // Cache successful responses
             if (response.ok && request.method === 'GET') {
               const responseClone = response.clone();
               caches.open(DYNAMIC_CACHE).then((cache) => {
@@ -104,8 +114,6 @@ self.addEventListener('fetch', (event) => {
             return response;
           })
           .catch((error) => {
-            console.error('[Service Worker] Fetch failed:', error);
-            // Return offline page for navigation requests
             if (request.mode === 'navigate') {
               return caches.match('/index.html');
             }

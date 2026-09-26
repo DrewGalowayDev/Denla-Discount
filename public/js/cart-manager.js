@@ -354,10 +354,18 @@ class CartManager {
 
     // Add item to cart
     addItem(product, quantity = 1) {
+        // Normalize price to a number (API may return string like "50.00")
+        const normalizedPrice = parseFloat(product.price) || parseFloat(product.selling_price) || 0;
+        const normalizedOldPrice = parseFloat(product.old_price) || parseFloat(product.oldPrice) || null;
+
         const existingItem = this.findItem(product.id);
 
         if (existingItem) {
             existingItem.quantity += quantity;
+            // Also fix price if it was stored as string previously
+            if (typeof existingItem.price === 'string') {
+                existingItem.price = parseFloat(existingItem.price) || 0;
+            }
             this.showNotification('Updated cart', `${product.name} quantity increased`);
         } else {
             // Handle images array or single image
@@ -374,8 +382,8 @@ class CartManager {
                 id: product.id,
                 name: product.name,
                 brand: product.brand || 'Unknown',
-                price: product.price,
-                oldPrice: product.old_price || product.oldPrice || null,
+                price: normalizedPrice,
+                oldPrice: normalizedOldPrice,
                 image: productImage,
                 images: product.images || [productImage],
                 description: product.description || product.short_description || '',
@@ -390,16 +398,19 @@ class CartManager {
 
         this.saveToStorage();
         this.updateCartBadge();
+        console.log('✅ Cart updated:', this.items.length, 'items, localStorage key:', CART_STORAGE_KEY);
         return true;
     }
 
     // Add to cart by product ID (fetches product from cache or API)
     async addToCart(productId, quantity = 1) {
         try {
-            // Try to get product from global cache first
-            let product = window._productCache && window._productCache[productId];
+            console.log('🛒 addToCart called with ID:', productId);
+            // Try to get product from global cache first (try both raw and String versions)
+            let product = window._productCache && (window._productCache[productId] || window._productCache[String(productId)]);
             
             if (!product) {
+                console.log('🔍 Product not in cache, fetching from API...');
                 // Fetch from API
                 const response = await fetch(`${API_BASE_URL}/products/${productId}`);
                 if (!response.ok) {
@@ -412,11 +423,18 @@ class CartManager {
                 // Cache it
                 if (!window._productCache) window._productCache = {};
                 window._productCache[productId] = product;
+            } else {
+                console.log('✓ Product found in cache:', product.name);
+            }
+            
+            // Ensure product has a usable price (API may return selling_price instead of price)
+            if (!product.price && product.selling_price) {
+                product.price = product.selling_price;
             }
             
             return this.addItem(product, quantity);
         } catch (error) {
-            console.error('Error adding to cart:', error);
+            console.error('❌ Error adding to cart:', error);
             this.showNotification('Error', 'Failed to add product to cart', 'error');
             return false;
         }

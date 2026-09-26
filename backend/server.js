@@ -145,9 +145,9 @@ app.use('/lib/bootstrap-icons', express.static(path.join(__dirname, '../public/l
 // Other libraries with standard cache
 app.use('/lib', express.static(path.join(__dirname, '../public/lib'), SHORT_CACHE));
 
-// CSS and JS with 1-day cache
-app.use('/css', express.static(path.join(__dirname, '../public/css'), SHORT_CACHE));
-app.use('/js', express.static(path.join(__dirname, '../public/js'), SHORT_CACHE));
+// CSS and JS with 0 cache during active updates
+app.use('/css', express.static(path.join(__dirname, '../public/css'), { maxAge: 0 }));
+app.use('/js', express.static(path.join(__dirname, '../public/js'), { maxAge: 0 }));
 
 // Images with moderate cache
 app.use('/img', express.static(path.join(__dirname, '../public/img'), { maxAge: '7d' }));
@@ -191,6 +191,11 @@ app.use('/api/activity', activityRoutes);
 // Root endpoint - Serve index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Checkout routes aliases
+app.get(['/checkout', '/checkout.html', '/cheackout'], (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/cheackout.html'));
 });
 
 // API documentation endpoint
