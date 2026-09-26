@@ -71,6 +71,9 @@ function loadSectionData(section) {
         case 'products':
             if (typeof loadProducts === 'function') loadProducts();
             break;
+        case 'stock':
+            if (typeof loadStockSection === 'function') loadStockSection();
+            break;
         case 'orders':
             if (typeof loadOrders === 'function') loadOrders();
             break;

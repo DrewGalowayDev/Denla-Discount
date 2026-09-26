@@ -23,6 +23,8 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const mpesaRoutes = require('./mpesa/mpesa.routes');
 const contactRoutes = require('./routes/contactRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const activityRoutes = require('./routes/activityRoutes');
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -35,37 +37,40 @@ app.use(helmet({
 }));
 
 // CORS configuration
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
+    'https://denladiscount.work.gd',
+    'http://denladiscount.work.gd',
+    process.env.FRONTEND_URL,
+    process.env.CORS_ORIGIN,
+    process.env.APP_URL
+].filter(Boolean);
+
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
+        // Allow requests with no origin (e.g. mobile apps, curl, same-origin)
         if (!origin) return callback(null, true);
 
-        // Allow localhost, local file system, and deployed domains
-        const allowedOrigins = [
-            'http://localhost:3000',
-            'http://localhost:5000',
-            'http://127.0.0.1:5500',  // Live Server
-            'http://localhost:5500',   // Live Server alternative
-            'http://5nvzq8z6cxtm4hgmb4t8zd8o.169.58.244.109.sslip.io', // Deployed frontend (Coolify)
-            'http://169.58.244.109', // Server IP
-            'https://denladiscount.work.gd', // Custom domain
-            'http://denladiscount.work.gd',  // Custom domain (HTTP)
-            'null'
-        ];
-
-        // Check if origin matches allowed origins or starts with localhost/127.0.0.1
-        if (allowedOrigins.indexOf(origin) !== -1 || 
-            origin.startsWith('http://localhost') || 
-            origin.startsWith('http://127.0.0.1') || 
-            origin.startsWith('http://169.58.244.109') ||
+        const isAllowed = 
+            allowedOrigins.includes(origin) ||
+            origin.startsWith('http://localhost') ||
+            origin.startsWith('http://127.0.0.1') ||
             origin.includes('denladiscount.work.gd') ||
-            origin === 'null') {
+            origin === 'null';
+
+        if (isAllowed) {
             callback(null, true);
         } else {
+            console.warn(`⚠️ CORS blocked request from origin: ${origin}`);
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With']
 }));
 
 // ─── Tiered Rate Limiting ────────────────────────────────────────────────────
@@ -180,6 +185,8 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/mpesa', mpesaRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/activity', activityRoutes);
 
 // Root endpoint - Serve index.html
 app.get('/', (req, res) => {

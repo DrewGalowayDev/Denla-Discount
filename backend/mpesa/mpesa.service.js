@@ -23,14 +23,14 @@ class MpesaService {
         const consumerSecret = dbSettings.mpesa_consumer_secret || process.env.MPESA_CONSUMER_SECRET || '';
         const shortcode = dbSettings.mpesa_shortcode || process.env.MPESA_SHORTCODE || '';
         const passkey = dbSettings.mpesa_passkey || process.env.MPESA_PASSKEY || '';
-        const environment = (dbSettings.mpesa_environment || process.env.MPESA_ENVIRONMENT || 'sandbox').toLowerCase();
-        const transactionType = dbSettings.mpesa_transaction_type || process.env.MPESA_TRANSACTION_TYPE || 'CustomerPayBillOnline';
+        const environment = (dbSettings.mpesa_environment || process.env.MPESA_ENV || process.env.MPESA_ENVIRONMENT || 'production').toLowerCase();
+        const transactionType = dbSettings.mpesa_transaction_type || process.env.MPESA_STK_TRANSACTION_TYPE || process.env.MPESA_TRANSACTION_TYPE || 'CustomerPayBillOnline';
         
         const baseURL = environment === 'production' 
             ? (process.env.MPESA_BASE_URL_PRODUCTION || 'https://api.safaricom.co.ke')
             : (process.env.MPESA_BASE_URL_SANDBOX || 'https://sandbox.safaricom.co.ke');
 
-        const callbackURL = dbSettings.mpesa_callback_url || process.env.MPESA_CALLBACK_URL || 'https://your-domain.com/api/mpesa/callback';
+        const callbackURL = dbSettings.mpesa_callback_url || process.env.MPESA_CALLBACK_URL || 'https://denladiscount.work.gd/api/mpesa/stk/callback';
 
         return {
             consumerKey,

@@ -28,11 +28,30 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- Instant Theme Initializer (Prevents Flash) -->
+    <!-- Instant Theme & Role-Based Auth Initializer (Prevents Flash) -->
     <script>
         (function() {
             const savedTheme = localStorage.getItem('dash_theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
+
+            try {
+                const userStr = localStorage.getItem('user');
+                const token = localStorage.getItem('token');
+                if (!userStr || !token) {
+                    window.location.href = 'login.html?redirect=dashboard.html';
+                    return;
+                }
+                const user = JSON.parse(userStr);
+                const role = (user && user.role ? user.role : '').toLowerCase();
+                const adminRoles = ['admin', 'manager', 'inventory_clerk'];
+                
+                // If administrator accesses customer portal, promptly redirect to Administrator Portal
+                if (adminRoles.includes(role)) {
+                    window.location.href = 'admin-dashboard.html';
+                }
+            } catch (e) {
+                console.error('Customer dashboard auth check error:', e);
+            }
         })();
     </script>
 </head>
@@ -530,19 +549,29 @@
             }
         }
 
-        // Check authentication
+        // Check authentication & Role Redirection
         function checkAuth() {
             const userStr = localStorage.getItem('user');
-            if (!userStr) {
-                window.location.href = 'index.html';
+            const token = localStorage.getItem('token');
+            if (!userStr || !token) {
+                window.location.href = 'login.html?redirect=dashboard.html';
                 return;
             }
             try {
                 currentUser = JSON.parse(userStr);
+                const role = ((currentUser && currentUser.role) || '').toLowerCase();
+                const adminRoles = ['admin', 'manager', 'inventory_clerk'];
+
+                // Promptly redirect administrators to Administrator Portal
+                if (adminRoles.includes(role)) {
+                    window.location.href = 'admin-dashboard.html';
+                    return;
+                }
+
                 updateUserInfo();
             } catch (e) {
                 console.error('Invalid user session:', e);
-                window.location.href = 'index.html';
+                window.location.href = 'login.html?redirect=dashboard.html';
             }
         }
 

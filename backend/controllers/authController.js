@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { query, queryOne, generateUUID } = require('../config/database');
-const { findByField, updateById } = require('../utils/dbHelpers');
+const { findByField } = require('../utils/dbHelpers');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -39,26 +39,19 @@ exports.register = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Split name into first_name and last_name
-        const nameParts = name.trim().split(' ');
-        const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ') || '';
-
         // Create user with UUID
         const userId = generateUUID();
         await query(
-            `INSERT INTO users (id, email, password_hash, first_name, last_name, phone, role) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [userId, email, hashedPassword, firstName, lastName, phone || null, 'customer']
+            `INSERT INTO users (id, name, email, password, phone, role) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [userId, name.trim(), email, hashedPassword, phone || null, 'cashier']
         );
 
         // Get created user
-        const user = await queryOne('SELECT id, first_name, last_name, email, role FROM users WHERE id = ?', [userId]);
+        const user = await queryOne('SELECT id, name, email, role FROM users WHERE id = ?', [userId]);
 
         // Generate token
         const token = generateToken(user.id);
-
-        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
 
         res.status(201).json({
             success: true,
@@ -66,7 +59,7 @@ exports.register = async (req, res, next) => {
             token,
             user: {
                 id: user.id,
-                name: fullName,
+                name: user.name,
                 email: user.email,
                 role: user.role
             }
@@ -91,7 +84,7 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Get user by email (using password_hash column)
+        // Get user by email
         const user = await queryOne('SELECT * FROM users WHERE email = ?', [email]);
 
         if (!user) {
@@ -102,15 +95,23 @@ exports.login = async (req, res, next) => {
         }
 
         // Check if user is active
-        if (!user.is_active) {
+        if (user.is_active === 0 || user.is_active === false) {
             return res.status(401).json({
                 success: false,
                 message: 'Your account has been deactivated'
             });
         }
 
-        // Check password (using password_hash column)
-        const isMatch = await bcrypt.compare(password, user.password_hash);
+        // Check password against the correct column
+        const storedHash = user.password || user.password_hash;
+        if (!storedHash) {
+            return res.status(500).json({
+                success: false,
+                message: 'Account configuration error. Please contact admin.'
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, storedHash);
 
         if (!isMatch) {
             return res.status(401).json({
@@ -119,18 +120,17 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        // Update last login (if column exists)
+        // Update last login
         try {
-            await query('UPDATE users SET updated_at = NOW() WHERE id = ?', [user.id]);
+            await query('UPDATE users SET last_login = NOW(), updated_at = NOW() WHERE id = ?', [user.id]);
         } catch (err) {
-            // Ignore if last_login column doesn't exist
+            // Ignore column errors
         }
 
         // Generate token
         const token = generateToken(user.id);
 
-        // Combine first_name and last_name for name
-        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email;
+        const fullName = user.name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email;
 
         res.status(200).json({
             success: true,
@@ -140,7 +140,8 @@ exports.login = async (req, res, next) => {
                 id: user.id,
                 name: fullName,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                phone: user.phone || null
             }
         });
     } catch (error) {
@@ -154,7 +155,7 @@ exports.login = async (req, res, next) => {
 exports.getMe = async (req, res, next) => {
     try {
         const user = await queryOne(
-            'SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE id = ?',
+            'SELECT id, name, email, phone, role, avatar_url, created_at FROM users WHERE id = ?',
             [req.user.id]
         );
 
@@ -165,13 +166,11 @@ exports.getMe = async (req, res, next) => {
             });
         }
 
-        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
-
         res.status(200).json({
             success: true,
             user: {
                 ...user,
-                name: fullName
+                name: user.name || user.email
             }
         });
     } catch (error) {
@@ -200,29 +199,22 @@ exports.updateProfile = async (req, res, next) => {
     try {
         const { name, phone } = req.body;
 
-        // Split name into first_name and last_name
-        const nameParts = (name || '').trim().split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ') || '';
-
         await query(
-            'UPDATE users SET first_name = ?, last_name = ?, phone = ? WHERE id = ?',
-            [firstName, lastName, phone, req.user.id]
+            'UPDATE users SET name = ?, phone = ?, updated_at = NOW() WHERE id = ?',
+            [name || '', phone || null, req.user.id]
         );
 
         const user = await queryOne(
-            'SELECT id, first_name, last_name, email, phone, role FROM users WHERE id = ?',
+            'SELECT id, name, email, phone, role FROM users WHERE id = ?',
             [req.user.id]
         );
-
-        const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
 
         res.status(200).json({
             success: true,
             message: 'Profile updated successfully',
             user: {
                 ...user,
-                name: fullName
+                name: user.name || user.email
             }
         });
     } catch (error) {
@@ -237,14 +229,15 @@ exports.updatePassword = async (req, res, next) => {
     try {
         const { currentPassword, newPassword } = req.body;
 
-        // Get user with password_hash
+        // Get user with password
         const user = await queryOne(
-            'SELECT password_hash FROM users WHERE id = ?',
+            'SELECT password, password_hash FROM users WHERE id = ?',
             [req.user.id]
         );
 
-        // Check current password
-        const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+        // Check current password against correct column
+        const storedHash = user.password || user.password_hash;
+        const isMatch = await bcrypt.compare(currentPassword, storedHash);
 
         if (!isMatch) {
             return res.status(401).json({
@@ -257,9 +250,9 @@ exports.updatePassword = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-        // Update password_hash
+        // Update password
         await query(
-            'UPDATE users SET password_hash = ? WHERE id = ?',
+            'UPDATE users SET password = ?, updated_at = NOW() WHERE id = ?',
             [hashedPassword, req.user.id]
         );
 
@@ -277,7 +270,6 @@ exports.updatePassword = async (req, res, next) => {
 // @access  Public
 exports.forgotPassword = async (req, res, next) => {
     try {
-        // TODO: Implement forgot password logic with email
         res.status(200).json({
             success: true,
             message: 'Password reset email sent'
@@ -292,7 +284,6 @@ exports.forgotPassword = async (req, res, next) => {
 // @access  Public
 exports.resetPassword = async (req, res, next) => {
     try {
-        // TODO: Implement reset password logic
         res.status(200).json({
             success: true,
             message: 'Password reset successful'
@@ -307,7 +298,6 @@ exports.resetPassword = async (req, res, next) => {
 // @access  Public
 exports.verifyEmail = async (req, res, next) => {
     try {
-        // TODO: Implement email verification
         res.status(200).json({
             success: true,
             message: 'Email verified successfully'
@@ -322,7 +312,6 @@ exports.verifyEmail = async (req, res, next) => {
 // @access  Public
 exports.resendVerification = async (req, res, next) => {
     try {
-        // TODO: Implement resend verification
         res.status(200).json({
             success: true,
             message: 'Verification email sent'

@@ -6,6 +6,7 @@
 let productsData = [];
 let productsTable = null;
 let categoriesData = [];
+let selectedProductIds = new Set();
 
 // ============================================
 // HELPER FUNCTIONS
@@ -105,13 +106,16 @@ function renderProductsTable() {
                 </td>
             </tr>
         `;
+        updateSelectionUI();
         return;
     }
 
-    tbody.innerHTML = productsData.map(product => `
-        <tr data-product-id="${product.id}">
+    tbody.innerHTML = productsData.map(product => {
+        const isSelected = selectedProductIds.has(product.id);
+        return `
+        <tr data-product-id="${product.id}" class="${isSelected ? 'table-active' : ''}">
             <td>
-                <input type="checkbox" class="product-checkbox" value="${product.id}">
+                <input type="checkbox" class="product-checkbox" value="${product.id}" ${isSelected ? 'checked' : ''}>
             </td>
             <td>
                 <img src="${product.image}" alt="${product.name}" class="product-img" 
@@ -127,7 +131,7 @@ function renderProductsTable() {
                 ${product.oldPrice ? `<br><del class="text-muted small">${formatCurrency(product.oldPrice)}</del>` : ''}
             </td>
             <td>
-                <span class="badge ${getStockBadgeClass(product.stock)}">${product.stock}</span>
+                <span class="badge ${getStockBadgeClass(product.stock)} fs-6">${product.stock}</span>
             </td>
             <td>
                 <span class="status-badge ${product.condition}">${product.condition}</span>
@@ -147,8 +151,6 @@ function renderProductsTable() {
                     <button type="button" class="action-btn" data-action="whatsapp" data-id="${product.id}" onclick="sendProductWhatsApp('${product.id}')" title="Share via WhatsApp">
                         <i class="fab fa-whatsapp text-success"></i>
                     </button>
-                </div>
-                
                 <!-- Mobile: Show dropdown menu -->
                 <div class="action-buttons-mobile d-md-none dropdown">
                     <button type="button" class="action-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -172,10 +174,10 @@ function renderProductsTable() {
                 </div>
             </td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 
-    // Initialize select all checkbox
-    initSelectAll();
+    updateSelectionUI();
 }
 
 // Get stock badge class
@@ -610,18 +612,347 @@ function exportProducts() {
 }
 
 // ============================================
-// SELECT ALL FUNCTIONALITY
+// MULTI-PRODUCT SELECTION & BULK ACTIONS
 // ============================================
 
-function initSelectAll() {
+function initProductSelectionHandlers() {
+    // Select all checkbox handler
     const selectAll = document.getElementById('selectAll');
-    if (!selectAll) return;
-
-    selectAll.addEventListener('change', (e) => {
-        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-            checkbox.checked = e.target.checked;
+    if (selectAll) {
+        selectAll.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            document.querySelectorAll('.product-checkbox').forEach(cb => {
+                const id = String(cb.value).trim();
+                cb.checked = isChecked;
+                const tr = cb.closest('tr');
+                if (isChecked) {
+                    selectedProductIds.add(id);
+                    if (tr) tr.classList.add('table-active');
+                } else {
+                    selectedProductIds.delete(id);
+                    if (tr) tr.classList.remove('table-active');
+                }
+            });
+            updateSelectionUI();
         });
+    }
+
+    // Delegated listener for individual product checkboxes
+    document.addEventListener('change', (e) => {
+        if (e.target && e.target.classList.contains('product-checkbox')) {
+            const id = String(e.target.value).trim();
+            const tr = e.target.closest('tr');
+            if (e.target.checked) {
+                selectedProductIds.add(id);
+                if (tr) tr.classList.add('table-active');
+            } else {
+                selectedProductIds.delete(id);
+                if (tr) tr.classList.remove('table-active');
+            }
+            updateSelectionUI();
+        }
     });
+}
+
+function updateSelectionUI() {
+    const count = selectedProductIds.size;
+    
+    // Update counter badges
+    const countBadge = document.getElementById('selectedProductCount');
+    if (countBadge) countBadge.textContent = count;
+
+    const totalBadge = document.getElementById('totalProductCountBadge');
+    if (totalBadge) totalBadge.textContent = productsData.length;
+
+    const quickBadge = document.getElementById('quickSelectedCountBadge');
+    if (quickBadge) {
+        quickBadge.textContent = `${count} selected`;
+        quickBadge.className = count > 0 ? 'badge bg-success' : 'badge bg-secondary';
+    }
+
+    // Toggle bulk actions bar visibility
+    const bulkBar = document.getElementById('bulkProductsBar');
+    if (bulkBar) {
+        if (count > 0) {
+            bulkBar.classList.remove('d-none');
+        } else {
+            bulkBar.classList.add('d-none');
+        }
+    }
+
+    // Update selectAll checkbox state
+    const selectAll = document.getElementById('selectAll');
+    if (selectAll) {
+        const checkboxes = document.querySelectorAll('.product-checkbox');
+        const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
+        if (checkboxes.length === 0) {
+            selectAll.checked = false;
+            selectAll.indeterminate = false;
+        } else if (checkedBoxes.length === checkboxes.length) {
+            selectAll.checked = true;
+            selectAll.indeterminate = false;
+        } else if (checkedBoxes.length > 0) {
+            selectAll.checked = false;
+            selectAll.indeterminate = true;
+        } else {
+            selectAll.checked = false;
+            selectAll.indeterminate = false;
+        }
+    }
+}
+
+function selectAllProducts() {
+    productsData.forEach(p => selectedProductIds.add(String(p.id).trim()));
+    document.querySelectorAll('.product-checkbox').forEach(cb => {
+        cb.checked = true;
+        const tr = cb.closest('tr');
+        if (tr) tr.classList.add('table-active');
+    });
+    updateSelectionUI();
+    if (typeof showToast === 'function') {
+        showToast('info', `Selected all ${productsData.length} products`);
+    }
+}
+
+function selectOutOfStockProducts() {
+    selectedProductIds.clear();
+    const outOfStock = productsData.filter(p => p.stock === 0);
+    outOfStock.forEach(p => selectedProductIds.add(String(p.id).trim()));
+    
+    document.querySelectorAll('.product-checkbox').forEach(cb => {
+        const id = String(cb.value).trim();
+        const isChecked = selectedProductIds.has(id);
+        cb.checked = isChecked;
+        const tr = cb.closest('tr');
+        if (tr) {
+            if (isChecked) tr.classList.add('table-active');
+            else tr.classList.remove('table-active');
+        }
+    });
+    updateSelectionUI();
+    if (typeof showToast === 'function') {
+        showToast('info', `Selected ${outOfStock.length} out-of-stock products`);
+    }
+}
+
+function selectLowStockProducts() {
+    selectedProductIds.clear();
+    const lowStock = productsData.filter(p => p.stock > 0 && p.stock < 10);
+    lowStock.forEach(p => selectedProductIds.add(String(p.id).trim()));
+    
+    document.querySelectorAll('.product-checkbox').forEach(cb => {
+        const id = String(cb.value).trim();
+        const isChecked = selectedProductIds.has(id);
+        cb.checked = isChecked;
+        const tr = cb.closest('tr');
+        if (tr) {
+            if (isChecked) tr.classList.add('table-active');
+            else tr.classList.remove('table-active');
+        }
+    });
+    updateSelectionUI();
+    if (typeof showToast === 'function') {
+        showToast('info', `Selected ${lowStock.length} low-stock products`);
+    }
+}
+
+function clearProductSelection() {
+    selectedProductIds.clear();
+    document.querySelectorAll('.product-checkbox').forEach(cb => {
+        cb.checked = false;
+        const tr = cb.closest('tr');
+        if (tr) tr.classList.remove('table-active');
+    });
+    updateSelectionUI();
+}
+
+// ============================================
+// BULK STOCK MODAL & UPDATE HANDLERS
+// ============================================
+
+function openBulkStockModal(preferredAction = 'add') {
+    if (selectedProductIds.size === 0) {
+        // If no products currently checked, automatically select all catalog products
+        if (productsData.length > 0) {
+            selectAllProducts();
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'No Products Available',
+                text: 'No products are currently loaded to restock.',
+                confirmButtonColor: '#00A651'
+            });
+            return;
+        }
+    }
+
+    // Set preferred action radio button
+    const actionRadio = document.querySelector(`input[name="bulkStockAction"][value="${preferredAction}"]`);
+    if (actionRadio) {
+        actionRadio.checked = true;
+    }
+
+    // Update count badge in modal header
+    const modalCountBadge = document.getElementById('bulkModalCountBadge');
+    if (modalCountBadge) {
+        modalCountBadge.textContent = `${selectedProductIds.size} products`;
+    }
+
+    updateBulkPreview();
+
+    const modalEl = document.getElementById('bulkStockModal');
+    if (modalEl) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
+}
+
+function setBulkAmountPreset(amount) {
+    const input = document.getElementById('bulkStockAmount');
+    if (input) {
+        input.value = amount;
+        updateBulkPreview();
+    }
+}
+
+function updateBulkPreview() {
+    const action = document.querySelector('input[name="bulkStockAction"]:checked')?.value || 'add';
+    const amountInput = document.getElementById('bulkStockAmount');
+    const amount = parseInt(amountInput?.value, 10) || 0;
+
+    // Update labels and prefix
+    const labelEl = document.getElementById('bulkAmountLabel');
+    const prefixEl = document.getElementById('bulkAmountPrefix');
+
+    if (action === 'add') {
+        if (labelEl) labelEl.textContent = '2. Quantity to Add to Each Product (Units)';
+        if (prefixEl) prefixEl.textContent = '+';
+    } else if (action === 'set') {
+        if (labelEl) labelEl.textContent = '2. Set Fixed Stock Level for Each Product';
+        if (prefixEl) prefixEl.textContent = '=';
+    } else if (action === 'subtract') {
+        if (labelEl) labelEl.textContent = '2. Quantity to Deduct from Each Product (Units)';
+        if (prefixEl) prefixEl.textContent = '-';
+    }
+
+    // Populate preview table
+    const tbody = document.getElementById('bulkPreviewTableBody');
+    if (!tbody) return;
+
+    const selectedProducts = productsData.filter(p => selectedProductIds.has(p.id));
+
+    const summaryText = document.getElementById('previewSummaryText');
+    if (summaryText) {
+        summaryText.textContent = `Showing ${selectedProducts.length} selected items`;
+    }
+
+    if (selectedProducts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-3 text-muted">No items selected</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = selectedProducts.map(p => {
+        let newStock = p.stock;
+        let badgeClass = 'bg-secondary';
+
+        if (action === 'add') {
+            newStock = p.stock + amount;
+            badgeClass = 'bg-success';
+        } else if (action === 'set') {
+            newStock = amount;
+            badgeClass = 'bg-primary';
+        } else if (action === 'subtract') {
+            newStock = Math.max(0, p.stock - amount);
+            badgeClass = newStock === 0 ? 'bg-danger' : 'bg-warning text-dark';
+        }
+
+        return `
+            <tr>
+                <td>
+                    <div class="fw-bold text-truncate" style="max-width: 280px;">${p.name}</div>
+                    <small class="text-muted">${p.brand || 'No brand'}</small>
+                </td>
+                <td class="text-center">
+                    <span class="badge bg-light text-dark border px-2 py-1">${p.stock}</span>
+                </td>
+                <td class="text-center">
+                    <span class="badge ${badgeClass} px-2 py-1 fw-bold fs-6">
+                        ${newStock}
+                    </span>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function executeBulkStockUpdate() {
+    const ids = Array.from(selectedProductIds);
+    if (ids.length === 0) {
+        Swal.fire({ icon: 'warning', title: 'Error', text: 'No products selected.' });
+        return;
+    }
+
+    const action = document.querySelector('input[name="bulkStockAction"]:checked')?.value || 'add';
+    const amount = parseInt(document.getElementById('bulkStockAmount')?.value, 10);
+
+    if (isNaN(amount) || amount < 0) {
+        Swal.fire({ icon: 'warning', title: 'Invalid Quantity', text: 'Please enter a valid stock quantity (0 or greater).' });
+        return;
+    }
+
+    const btn = document.getElementById('confirmBulkStockBtn');
+    const originalHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Updating Stock...';
+    }
+
+    try {
+        const response = await apiRequest('/products/bulk-stock', {
+            method: 'POST',
+            body: JSON.stringify({
+                product_ids: ids,
+                action,
+                amount
+            })
+        });
+
+        if (response.success) {
+            // Close modal
+            const modalEl = document.getElementById('bulkStockModal');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+            }
+
+            // Show success alert
+            let actionDesc = action === 'add' ? `Added +${amount}` : (action === 'set' ? `Set to ${amount}` : `Reduced by -${amount}`);
+            Swal.fire({
+                icon: 'success',
+                title: 'Stock Updated Successfully!',
+                text: `${actionDesc} units across ${ids.length} products.`,
+                confirmButtonColor: '#00A651'
+            });
+
+            // Clear selection and refresh products table
+            clearProductSelection();
+            await loadProducts();
+        } else {
+            throw new Error(response.message || 'Failed to update stock');
+        }
+    } catch (error) {
+        console.error('Error in bulk stock update:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Update Failed',
+            text: error.message || 'An error occurred while updating product stock.'
+        });
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
+    }
 }
 
 // ============================================
@@ -683,6 +1014,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Initialize selection handlers
+    initProductSelectionHandlers();
+
     // Load categories for filter dropdown
     loadCategoriesForProducts();
 });
@@ -735,6 +1069,14 @@ window.viewProduct = viewProduct;
 window.sendProductWhatsApp = sendProductWhatsApp;
 window.exportProducts = exportProducts;
 window.loadProducts = loadProducts;
+window.openBulkStockModal = openBulkStockModal;
+window.setBulkAmountPreset = setBulkAmountPreset;
+window.updateBulkPreview = updateBulkPreview;
+window.executeBulkStockUpdate = executeBulkStockUpdate;
+window.clearProductSelection = clearProductSelection;
+window.selectAllProducts = selectAllProducts;
+window.selectOutOfStockProducts = selectOutOfStockProducts;
+window.selectLowStockProducts = selectLowStockProducts;
 
 // Initialize event delegation immediately or on DOM ready
 if (document.readyState === 'loading') {
@@ -742,3 +1084,4 @@ if (document.readyState === 'loading') {
 } else {
     initProductTableDelegation();
 }
+

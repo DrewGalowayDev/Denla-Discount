@@ -627,11 +627,18 @@ function renderProduct(product, index) {
                 </div>
             </div>
             <div class="product-actions">
-                <button class="btn-cart" onclick="addToCart('${productId}'); return false;">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Add To Cart</span>
-                </button>
+                <div class="product-actions-btns">
+                    <button class="btn-buy-now" onclick="openInstantBuyModal('${productId}'); return false;" title="⚡ Instant Buy & Express Checkout">
+                        <i class="fas fa-bolt"></i>
+                        <span>Buy Now</span>
+                    </button>
+                    <button class="btn-cart" onclick="addToCart('${productId}'); return false;" title="Add to Cart / Save for Later">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Add To Cart</span>
+                    </button>
+                </div>
                 <div class="product-actions-icons">
+                    <button class="btn-icon" title="Quick View" onclick="viewProduct('${productId}'); return false;"><i class="fa fa-eye"></i></button>
                     <button class="btn-icon" title="Compare" onclick="compareProduct('${productId}'); return false;"><i class="fas fa-random"></i></button>
                     <button class="btn-icon" title="Wishlist" onclick="addToWishlistById('${productId}'); return false;"><i class="fas fa-heart"></i></button>
                 </div>
@@ -656,6 +663,7 @@ function renderCarouselProduct(product) {
     const price = product.price || product.selling_price || 0;
     const oldPrice = product.old_price || product.original_price || product.cost_price || price;
     const category = (product.categories && product.categories.name) || product.category_name || product.category || 'Shop Items';
+    const pid = product.id || product._id || '';
 
     return `
     <div class="productImg-item products-mini-item border">
@@ -664,7 +672,7 @@ function renderCarouselProduct(product) {
                 <div class="products-mini-img border-end h-100">
                     <img src="${image}" class="img-fluid w-100 h-100" alt="${title}" loading="lazy" style="object-fit: cover;" onerror="this.src='img/product-1.png'">
                     <div class="products-mini-icon rounded-circle bg-primary">
-                        <a href="#" onclick="viewProduct('${product.id}'); return false;"><i class="fa fa-eye fa-1x text-white"></i></a>
+                        <a href="#" onclick="viewProduct('${pid}'); return false;"><i class="fa fa-eye fa-1x text-white"></i></a>
                     </div>
                 </div>
             </div>
@@ -677,11 +685,18 @@ function renderCarouselProduct(product) {
                 </div>
             </div>
         </div>
-        <div class="products-mini-add border p-3">
-            <a href="#" onclick="addToCart('${product.id}'); return false;" class="btn btn-primary border-secondary rounded-pill py-2 px-4"><i class="fas fa-shopping-cart me-2"></i> Add To Cart</a>
-            <div class="d-flex">
-                <a href="#" onclick="compareProduct('${product.id}'); return false;" class="text-primary d-flex align-items-center justify-content-center me-3"><span class="rounded-circle btn-sm-square border"><i class="fas fa-random"></i></span></a>
-                <a href="#" onclick="addToWishlistById('${product.id}'); return false;" class="text-primary d-flex align-items-center justify-content-center me-0"><span class="rounded-circle btn-sm-square border"><i class="fas fa-heart"></i></span></a>
+        <div class="products-mini-add border p-3 d-flex flex-column gap-2">
+            <div class="d-flex gap-2 w-100">
+                <button type="button" onclick="openInstantBuyModal('${pid}'); return false;" class="btn btn-sm btn-success rounded-pill py-2 px-3 fw-bold flex-grow-1 d-flex align-items-center justify-content-center gap-1">
+                    <i class="fas fa-bolt text-warning"></i> Buy Now
+                </button>
+                <button type="button" onclick="addToCart('${pid}'); return false;" class="btn btn-sm btn-outline-primary rounded-pill py-2 px-3 flex-grow-1 d-flex align-items-center justify-content-center gap-1">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                </button>
+            </div>
+            <div class="d-flex justify-content-center gap-3 pt-1">
+                <a href="#" onclick="compareProduct('${pid}'); return false;" class="text-secondary small d-flex align-items-center gap-1"><i class="fas fa-random"></i> Compare</a>
+                <a href="#" onclick="addToWishlistById('${pid}'); return false;" class="text-danger small d-flex align-items-center gap-1"><i class="fas fa-heart"></i> Wishlist</a>
             </div>
         </div>
     </div>
@@ -843,6 +858,22 @@ function viewProduct(id) {
                 }
             }
             
+            // Setup Buy Now button
+            const buyNowBtn = modalEl.querySelector('.pd-buy-now-btn');
+            if (buyNowBtn) {
+                const newBuyBtn = buyNowBtn.cloneNode(true);
+                buyNowBtn.parentNode.replaceChild(newBuyBtn, buyNowBtn);
+                newBuyBtn.addEventListener('click', () => {
+                    const bsModal = bootstrap.Modal.getInstance(modalEl);
+                    if (bsModal) bsModal.hide();
+                    setTimeout(() => {
+                        if (typeof openInstantBuyModal === 'function') {
+                            openInstantBuyModal(prod.id || prod._id);
+                        }
+                    }, 250);
+                });
+            }
+
             // Setup Add to Cart button
             const addToCartBtn = modalEl.querySelector('.pd-add-to-cart-btn');
             if (addToCartBtn) {

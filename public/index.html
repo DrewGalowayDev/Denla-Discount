@@ -33,7 +33,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css?v=20260926_buynow_v2" rel="stylesheet">
     
 </head>
 
@@ -90,42 +90,30 @@
             </div>
         </div>
     </div>-->
-    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white" style="z-index: 1000;">
-        <div class="row gx-7 align-items-center">
-            <div class="col-lg-2 text-center text-lg-start pe-4">
-                <div class="d-inline-flex align-items-center">
-                    <a href="index.html" class="navbar-brand p-0">
-                        <h2 class="m-0" style="color: #FF6B35; font-weight: bold;">
-                            <i class="fas fa-store me-2"></i>Denla Discount
-                        </h2>
-                    </a>
-                </div>
+    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom" style="z-index: 1000;">
+        <div class="row gx-4 align-items-center">
+            <!-- Brand Logo -->
+            <div class="col-lg-3 text-start">
+                <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
+                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">
+                            Denla Discount
+                        </h3>
+                        <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.6px; font-weight: 600;">Groceries & Home Store</small>
+                    </div>
+                </a>
             </div>
             
-            <div class="col-lg-6 text-center ps-3">
-                
-                <div class="position-relative" style="margin: 0 auto; max-width: 500px;">
-                     <div class="dropdown" id="authDropdown">
-                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i
-                                    class="fa fa-home me-2"></i> My Dashboard</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="login.html" class="dropdown-item" id="loginDropdownItem"><i
-                                    class="fas fa-sign-in-alt me-2"></i> Login</a>
-                            <a href="login.html?tab=signup" class="dropdown-item" id="signupDropdownItem"><i
-                                    class="fas fa-user-plus me-2"></i> Sign Up</a>
-                            <a href="dashboard.html" class="dropdown-item" id="dashboardDropdownItem" style="display: none;"><i
-                                    class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                            <div class="dropdown-divider" id="authDivider"></div>
-                            <a href="#" class="dropdown-item text-danger" id="logoutDropdownItem" style="display: none;" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i> Log
-                                Out</a>
-                        </div>
-                    </div>
-                    <div class="d-flex border rounded-pill">
+            <!-- Search Bar -->
+            <div class="col-lg-5 text-center">
+                <div class="position-relative" style="margin: 0 auto; max-width: 520px;">
+                    <div class="d-flex border rounded-pill shadow-sm bg-white overflow-hidden">
                         <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="indexSearchInput" onkeyup="handleIndexSearch(event)"
-                            placeholder="Search for products...">
-                        <select class="form-select text-dark border-0 border-start rounded-0 p-2" id="categoryFilter"
-                            style="width: 150px; font-size: 14px;">
-                            <option value="">All</option>
+                            placeholder="Search for groceries, food stuffs, household items...">
+                        <select class="form-select text-dark border-0 border-start rounded-0 p-2 d-none d-xl-block" id="categoryFilter"
+                            style="width: 140px; font-size: 13px; background-color: #f8fafc;">
+                            <option value="">All Categories</option>
                             <option value="Groceries">Groceries</option>
                             <option value="Beverages">Beverages</option>
                             <option value="Dairy Products">Dairy</option>
@@ -133,45 +121,46 @@
                             <option value="Household Items">Household</option>
                             <option value="Personal Care">Personal Care</option>
                         </select>
-                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4" style="border: 0;" onclick="performIndexSearch()"><i
-                                class="fas fa-search"></i></button>
+                        <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performIndexSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                     <div class="search-results-dropdown" id="indexSearchDropdown"></div>
                 </div>
             </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-flex align-items-center justify-content-end gap-2">
-                    
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
-                                class="fas fa-random"></i></span></a>
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
-                                class="fas fa-heart"></i></span></a>
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;"><span class="rounded-circle btn-md-square border"><i
-                                class="fas fa-shopping-cart"></i></span></a>
+
+            <!-- User Auth & Quick Actions -->
+            <div class="col-lg-4 text-end">
+                <div class="d-flex align-items-center justify-content-end gap-3">
+                    <!-- Wishlist -->
+                    <a href="shop.html" class="text-muted d-flex align-items-center justify-content-center border rounded-circle"
+                        style="width: 40px; height: 40px;" title="Wishlist">
+                        <i class="fas fa-heart text-danger"></i>
+                    </a>
+
+                    <!-- Cart / Orders -->
+                    <a href="cheackout.html" class="text-muted d-flex align-items-center justify-content-center border rounded-circle position-relative"
+                        style="width: 40px; height: 40px;" title="View Order / Checkout">
+                        <i class="fas fa-shopping-basket text-primary"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount" style="font-size: 0.65rem;">
+                            0
+                        </span>
+                    </a>
                     
                     <!-- Login Button - shown when not logged in -->
-                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 ms-2" id="loginBtn">
+                    <a href="login.html" class="btn btn-primary rounded-pill py-2 px-4 shadow-sm fw-semibold" id="loginBtn">
                         <i class="fas fa-user me-2"></i>Login
                     </a>
                     
-                    <!-- Dashboard Button - shown when logged in -->
-                    <a href="dashboard.html" class="btn btn-success rounded-pill py-2 px-4 ms-2" id="dashboardBtn" style="display: none;">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-                    
-                    <!-- User Menu - shown when logged in -->
+                    <!-- Single User Menu - shown when logged in -->
                     <div class="dropdown" id="userMenuDropdown" style="display: none;">
-                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i><span id="userMenuName">User</span>
+                        <button class="btn btn-outline-primary rounded-pill py-2 px-3 dropdown-toggle shadow-sm fw-semibold" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i><span id="userMenuName">Account</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item fw-semibold" id="userDashboardLink" href="dashboard.html"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Dashboard</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="#" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            <li><a class="dropdown-item text-danger fw-semibold" href="#" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -187,7 +176,7 @@
                 <nav class="navbar navbar-light position-relative" style="width: 250px;">
                     <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
                         data-bs-toggle="collapse" data-bs-target="#allCat">
-                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
+                        <h4 class="m-0 text-white"><i class="fa fa-bars me-2"></i>All Categories</h4>
                     </button>
                     <div class="collapse navbar-collapse rounded-bottom" id="allCat">
                         <div class="navbar-nav ms-auto py-0">
@@ -203,7 +192,7 @@
                     <a href="index.html" class="navbar-brand d-block d-lg-none">
                         <h3 class="m-0 text-white"><i class="fas fa-store me-2"></i>Denla Discount</h3>
                     </a>
-                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                    <button class="navbar-toggler ms-auto text-white" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars fa-1x"></span>
                     </button>
@@ -212,7 +201,6 @@
                             <a href="index.html" class="nav-item nav-link active fw-bold text-white">Home</a>
                             <a href="shop.html" class="nav-item nav-link text-white fw-semibold">Shop</a>
                             <a href="cheackout.html" class="nav-item nav-link text-white fw-semibold">Checkout</a>
-                            <a href="#" class="nav-item nav-link text-white fw-semibold" id="myAccountLink">My Account</a>
                             <a href="contact.html" class="nav-item nav-link text-white fw-semibold me-2">Contact</a>
                             <div class="nav-item dropdown d-block d-lg-none mb-3">
                                 <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">All Category</a>
@@ -227,8 +215,8 @@
                                 <i class="fas fa-user me-2"></i>Login
                             </a>
                         </div>
-                        <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm color-white"><i
-                                class="fa fa-mobile-alt me-2"></i>+254 704 546 916</a>
+                        <a href="tel:+254704546916" class="btn btn-secondary rounded-pill py-2 px-3 mb-3 mb-md-3 mb-lg-0 fw-bold shadow-sm text-white" style="white-space: nowrap;"><i
+                                class="fa fa-phone-alt me-2"></i>+254 704 546 916</a>
                     </div>
                 </nav>
             </div>
@@ -945,12 +933,282 @@
                                     <h6>Features</h6>
                                     <ul class="pd-features small text-muted mb-3"></ul>
                                 </div>
-                                <div class="mt-3">
-                                    <button class="btn btn-warning rounded-pill me-2 pd-add-to-cart-btn"><i class="fas fa-shopping-cart me-2"></i>Add To Cart</button>
-                                    <button class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                                <div class="mt-3 d-flex flex-wrap gap-2">
+                                    <button class="btn btn-success rounded-pill px-4 fw-bold pd-buy-now-btn"><i class="fas fa-bolt text-warning me-2"></i>Buy Now</button>
+                                    <button class="btn btn-warning rounded-pill px-4 pd-add-to-cart-btn"><i class="fas fa-shopping-cart me-2"></i>Add To Cart</button>
+                                    <button class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instant Buy & Express Checkout Modal -->
+        <div class="modal fade" id="instantBuyModal" tabindex="-1" aria-labelledby="instantBuyModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden position-relative">
+                    
+                    <!-- Real-Time STK Push Waiting Overlay -->
+                    <div id="instantStkOverlay" class="instant-stk-overlay" style="display: none;">
+                        <div class="spinner-border text-success mb-3" style="width: 3.5rem; height: 3.5rem;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-1">M-Pesa STK Push Sent!</h4>
+                        <p class="text-muted small mb-3">Please check your phone screen to enter your M-Pesa PIN.</p>
+                        
+                        <div class="bg-light border rounded-3 p-3 mb-3 w-100" style="max-width: 360px;">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Target Phone:</span>
+                                <strong id="instantStkPhoneDisplay" class="text-dark">+2547XXXXXXXX</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Total Amount:</span>
+                                <strong id="instantStkAmountDisplay" class="text-success fs-5">KSh 0</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted small">Expires in:</span>
+                                <span id="instantStkCountdown" class="badge bg-danger">60s</span>
+                            </div>
+                        </div>
+
+                        <div id="instantStkStatusText" class="small text-secondary mb-4">
+                            Contacting Safaricom M-Pesa Gateway...
+                        </div>
+
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-4" onclick="cancelInstantStk()">
+                            <i class="fas fa-times me-1"></i> Cancel & Change Payment
+                        </button>
+                    </div>
+
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-light border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="bg-success text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h5 class="modal-title fw-bold text-dark mb-0" id="instantBuyModalLabel">⚡ Express Checkout</h5>
+                                <small class="text-muted" id="instantMpesaBadge"><i class="fas fa-shield-alt text-success me-1"></i> Verified Instant Order</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body p-4">
+                        <div class="row g-4">
+                            <!-- Left: Product Snapshot & Quantity -->
+                            <div class="col-12 col-md-5 border-end-md">
+                                <div class="card border bg-light rounded-3 p-3 text-center mb-3">
+                                    <img id="instantProdImg" src="img/product-1.png" alt="Product" class="img-fluid rounded mb-2 mx-auto" style="max-height: 140px; object-fit: contain;">
+                                    <span id="instantProdCat" class="small text-muted text-uppercase fw-semibold">Groceries</span>
+                                    <h6 id="instantProdTitle" class="fw-bold text-dark mb-1">Product Title</h6>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                                        <span id="instantProdPrice" class="fw-bold fs-5 text-primary">KSh 0</span>
+                                        <span id="instantProdStock" class="badge bg-success bg-opacity-10 text-success">In Stock</span>
+                                    </div>
+
+                                    <!-- Quantity Stepper -->
+                                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
+                                        <label class="small text-muted fw-bold me-1">Qty:</label>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle" style="width: 32px; height: 32px;" onclick="adjustInstantQty(-1)">-</button>
+                                        <input type="number" id="instantQtyInput" class="form-control form-control-sm text-center fw-bold" value="1" min="1" max="999" style="width: 55px;" oninput="handleInstantQtyInput(this.value)">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle" style="width: 32px; height: 32px;" onclick="adjustInstantQty(1)">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Summary Box -->
+                                <div class="p-3 bg-white border rounded-3">
+                                    <div class="d-flex justify-content-between small text-muted mb-1">
+                                        <span>Subtotal:</span>
+                                        <span id="instantOrderSubtotal" class="fw-semibold text-dark">KSh 0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>Store Pickup:</span>
+                                        <span class="text-success fw-bold">FREE</span>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold text-dark">Total Due:</span>
+                                        <span id="instantOrderTotal" class="fw-bold fs-4 text-success">KSh 0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Customer Info & Payment Method -->
+                            <div class="col-12 col-md-7">
+                                <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-circle text-primary me-2"></i>1. Customer Details</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted mb-1">Your Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="instantCustName" placeholder="e.g. John Kamau">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted mb-1" id="instantPhoneLabel">M-Pesa Phone Number <span class="text-danger">*</span></label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light fw-bold text-success"><i class="fas fa-mobile-alt me-1"></i> +254</span>
+                                        <input type="tel" class="form-control" id="instantCustPhone" placeholder="07XXXXXXXX or 01XXXXXXXX">
+                                    </div>
+                                    <small class="text-muted" style="font-size: 0.75rem;" id="instantPhoneHint">Enter phone number to receive the instant STK PIN prompt.</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted mb-1">Fulfillment Option</label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="instantDeliveryType" id="delPickup" value="pickup" checked>
+                                            <label class="form-check-label small" for="delPickup">
+                                                🏬 <strong>Store Pickup</strong> (Free)
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="instantDeliveryType" id="delDirect" value="delivery">
+                                            <label class="form-check-label small" for="delDirect">
+                                                🚚 <strong>Direct Delivery</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold text-dark mb-2 mt-3"><i class="fas fa-credit-card text-success me-2"></i>2. Choose Payment Method</h6>
+
+                                <!-- Payment Tiles -->
+                                <div class="instant-pay-tile active" id="instantTileMpesa" onclick="selectInstantPayment('mpesa')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-success p-2 rounded-circle"><i class="fas fa-mobile-alt text-white"></i></span>
+                                        <div>
+                                            <div class="fw-bold text-dark small">M-Pesa STK Push (Instant Prompt)</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Automatic PIN prompt sent directly to your phone</div>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-check-circle text-success fs-5"></i>
+                                </div>
+
+                                <div class="instant-pay-tile" id="instantTileCash" onclick="selectInstantPayment('cash')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-secondary p-2 rounded-circle"><i class="fas fa-money-bill-wave text-white"></i></span>
+                                        <div>
+                                            <div class="fw-bold text-dark small">Cash on Delivery / Pickup</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Pay in cash when you receive your order</div>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-circle text-muted"></i>
+                                </div>
+
+                                <div class="instant-pay-tile" id="instantTileWa" onclick="selectInstantPayment('whatsapp')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-success p-2 rounded-circle" style="background:#25D366 !important;"><i class="fab fa-whatsapp text-white"></i></span>
+                                        <div>
+                                            <div class="fw-bold text-dark small">Order via WhatsApp</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Send order details directly to our customer care</div>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-circle text-muted"></i>
+                                </div>
+
+                                <div class="mb-3 mt-2">
+                                    <input type="text" class="form-control form-control-sm" id="instantOrderNotes" placeholder="Optional notes (e.g. deliver after 4pm, specific room/flat)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer bg-light border-top py-3 px-4 d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary px-3 rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success px-4 rounded-pill fw-bold d-inline-flex align-items-center gap-2 shadow" id="instantPaySubmitBtn" onclick="executeInstantOrder()">
+                            <span id="instantPayBtnText">⚡ Pay with M-Pesa</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Instant Receipt Modal -->
+        <div class="modal fade" id="instantReceiptModal" tabindex="-1" aria-labelledby="instantReceiptModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="modal-header bg-success text-white py-3 px-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-check-circle fa-lg"></i>
+                            <div>
+                                <h5 class="modal-title fw-bold text-white mb-0" id="instantReceiptModalLabel">Order Confirmed!</h5>
+                                <small class="text-white-50">Denla Discount Store Receipt</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body p-4" id="instantReceiptPrintArea">
+                        <div class="text-center mb-3">
+                            <h4 class="fw-bold text-dark mb-0">Denla Discount</h4>
+                            <p class="text-muted small mb-0">Quality Groceries & Household Goods</p>
+                            <span class="badge bg-success mt-1" id="instantRcptCode">Receipt Verified</span>
+                        </div>
+
+                        <div class="bg-light rounded-3 p-3 border mb-3 small">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Order Number:</span>
+                                <strong id="instantRcptNumber">DD-00000</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Date & Time:</span>
+                                <span id="instantRcptDate">--</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Customer:</span>
+                                <strong id="instantRcptCustomer">Customer</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Phone:</span>
+                                <span id="instantRcptPhone">--</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Payment:</span>
+                                <strong id="instantRcptPayMethod" class="text-success">M-PESA</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Fulfillment:</span>
+                                <span id="instantRcptDelivery">Store Pickup</span>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm align-middle mb-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="instantRcptItems">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2" class="text-end">Total:</th>
+                                    <th class="text-end text-success fs-5" id="instantRcptTotal">KSh 0</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="alert alert-success py-2 small mb-0 text-center">
+                            🎉 Thank you for shopping with Denla Discount! Your order is being processed.
+                        </div>
+                    </div>
+
+                    <div class="modal-footer bg-light border-top py-3 px-4 d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="printInstantReceipt()">
+                            <i class="fas fa-print me-1"></i> Print Receipt
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">
+                            Done
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1477,7 +1735,8 @@
             };
         </script>
         <script src="js/api-helper.js"></script>
-        <script src="js/load-products.js"></script>
+        <script src="js/load-products.js?v=20260926_buynow"></script>
+        <script src="js/instant-buy.js?v=20260926_buynow"></script>
 </body>
 
 </html>

@@ -452,14 +452,18 @@ exports.deleteProduct = async (req, res, next) => {
 
 // @desc    Update product stock (Admin)
 // @route   PUT /api/products/:id/stock
+// @desc    Update product stock
+// @route   PUT /api/products/:id/stock
 // @access  Private/Admin
 exports.updateStock = async (req, res, next) => {
     try {
         const { stock } = req.body;
+        const numStock = Math.max(0, parseInt(stock, 10) || 0);
+        const productId = String(req.params.id).trim();
 
-        await query('UPDATE products SET stock = ? WHERE id = ?', [stock, req.params.id]);
+        await query('UPDATE products SET stock = ?, current_stock = ? WHERE id = ?', [numStock, numStock, productId]);
 
-        const product = await findById('products', req.params.id);
+        const product = await findById('products', productId);
 
         res.status(200).json({
             success: true,
@@ -485,30 +489,31 @@ exports.bulkUpdateStock = async (req, res, next) => {
             });
         }
 
-        const numAmount = parseInt(amount, 10);
-        if (isNaN(numAmount) || numAmount < 0) {
+        const numAmount = Math.max(0, parseInt(amount, 10) || 0);
+
+        // Ensure all IDs are strings (UUIDs)
+        const cleanIds = product_ids.map(id => String(id).trim()).filter(id => id.length > 0);
+        if (cleanIds.length === 0) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid stock quantity provided'
+                message: 'No valid product IDs provided'
             });
         }
 
-        // Ensure all IDs are strings (UUIDs)
-        const cleanIds = product_ids.map(id => String(id).trim());
         const placeholders = cleanIds.map(() => '?').join(',');
         
         let sql;
         let params;
 
         if (action === 'add') {
-            sql = `UPDATE products SET stock_quantity = stock_quantity + ? WHERE id IN (${placeholders})`;
-            params = [numAmount, ...cleanIds];
+            sql = `UPDATE products SET stock = COALESCE(stock, 0) + ?, current_stock = COALESCE(current_stock, 0) + ? WHERE id IN (${placeholders})`;
+            params = [numAmount, numAmount, ...cleanIds];
         } else if (action === 'set') {
-            sql = `UPDATE products SET stock_quantity = ? WHERE id IN (${placeholders})`;
-            params = [numAmount, ...cleanIds];
+            sql = `UPDATE products SET stock = ?, current_stock = ? WHERE id IN (${placeholders})`;
+            params = [numAmount, numAmount, ...cleanIds];
         } else if (action === 'subtract') {
-            sql = `UPDATE products SET stock_quantity = GREATEST(0, stock_quantity - ?) WHERE id IN (${placeholders})`;
-            params = [numAmount, ...cleanIds];
+            sql = `UPDATE products SET stock = GREATEST(0, COALESCE(stock, 0) - ?), current_stock = GREATEST(0, COALESCE(current_stock, 0) - ?) WHERE id IN (${placeholders})`;
+            params = [numAmount, numAmount, ...cleanIds];
         } else {
             return res.status(400).json({
                 success: false,

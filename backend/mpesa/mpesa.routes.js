@@ -79,11 +79,11 @@ router.post('/stkpush', async (req, res) => {
 });
 
 /**
- * @route   POST /api/mpesa/callback
- * @desc    M-Pesa callback endpoint
+ * @route   POST /api/mpesa/callback and /api/mpesa/stk/callback
+ * @desc    M-Pesa STK callback endpoint
  * @access  Public (called by Safaricom)
  */
-router.post('/callback', async (req, res) => {
+const handleStkCallback = async (req, res) => {
     try {
         console.log('📥 M-Pesa Callback Received:', JSON.stringify(req.body, null, 2));
 
@@ -131,14 +131,17 @@ router.post('/callback', async (req, res) => {
             ResultDesc: 'Failed to process callback'
         });
     }
-});
+};
+
+router.post('/callback', handleStkCallback);
+router.post('/stk/callback', handleStkCallback);
 
 /**
- * @route   POST /api/mpesa/timeout
+ * @route   POST /api/mpesa/timeout and /api/mpesa/stk/timeout
  * @desc    M-Pesa timeout endpoint
  * @access  Public (called by Safaricom)
  */
-router.post('/timeout', async (req, res) => {
+const handleTimeout = async (req, res) => {
     try {
         console.log('⏰ M-Pesa Timeout:', JSON.stringify(req.body, null, 2));
 
@@ -154,6 +157,35 @@ router.post('/timeout', async (req, res) => {
             ResultDesc: 'Failed'
         });
     }
+};
+
+router.post('/timeout', handleTimeout);
+router.post('/stk/timeout', handleTimeout);
+
+/**
+ * @route   POST /api/mpesa/b2c/result & /api/mpesa/b2c/timeout
+ */
+router.post('/b2c/result', async (req, res) => {
+    console.log('📥 M-Pesa B2C Result:', JSON.stringify(req.body, null, 2));
+    res.json({ ResultCode: 0, ResultDesc: 'B2C Result Received' });
+});
+
+router.post('/b2c/timeout', async (req, res) => {
+    console.log('⏰ M-Pesa B2C Timeout:', JSON.stringify(req.body, null, 2));
+    res.json({ ResultCode: 0, ResultDesc: 'B2C Timeout Received' });
+});
+
+/**
+ * @route   POST /api/mpesa/b2b/result & /api/mpesa/b2b/timeout
+ */
+router.post('/b2b/result', async (req, res) => {
+    console.log('📥 M-Pesa B2B Result:', JSON.stringify(req.body, null, 2));
+    res.json({ ResultCode: 0, ResultDesc: 'B2B Result Received' });
+});
+
+router.post('/b2b/timeout', async (req, res) => {
+    console.log('⏰ M-Pesa B2B Timeout:', JSON.stringify(req.body, null, 2));
+    res.json({ ResultCode: 0, ResultDesc: 'B2B Timeout Received' });
 });
 
 /**
@@ -245,27 +277,80 @@ router.get('/transactions/:phoneNumber', async (req, res) => {
 });
 
 /**
- * @route   GET /api/mpesa/stats
- * @desc    Get M-Pesa transaction statistics
- * @access  Private (add auth middleware)
+ * @route   GET /api/mpesa/settings
+ * @desc    Get current M-Pesa settlement and integration settings
+ * @access  Public / Admin
  */
-router.get('/stats', async (req, res) => {
+router.get('/settings', async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
-        
-        const stats = await mpesaModel.getStats(startDate, endDate);
+        const config = await mpesaService.getConfig();
+        res.json({
+            success: true,
+            settings: {
+                shortcode: config.shortcode,
+                environment: config.environment,
+                transactionType: config.transactionType,
+                callbackURL: config.callbackURL,
+                hasKey: !!config.consumerKey,
+                hasSecret: !!config.consumerSecret,
+                hasPasskey: !!config.passkey
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching M-Pesa settings:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch M-Pesa settings' });
+    }
+});
+
+/**
+ * @route   POST /api/mpesa/settings
+ * @desc    Save/Update M-Pesa settlement account and credentials in database
+ * @access  Admin
+ */
+router.post('/settings', async (req, res) => {
+    try {
+        const { query, generateUUID } = require('../config/database');
+        const {
+            shortcode,
+            passkey,
+            consumerKey,
+            consumerSecret,
+            environment,
+            transactionType,
+            callbackURL
+        } = req.body;
+
+        const settingsToSave = [
+            { key: 'mpesa_shortcode', val: shortcode, desc: 'M-Pesa Shortcode / Paybill / Till' },
+            { key: 'mpesa_passkey', val: passkey, desc: 'M-Pesa Passkey' },
+            { key: 'mpesa_consumer_key', val: consumerKey, desc: 'M-Pesa Consumer Key' },
+            { key: 'mpesa_consumer_secret', val: consumerSecret, desc: 'M-Pesa Consumer Secret' },
+            { key: 'mpesa_environment', val: environment || 'sandbox', desc: 'M-Pesa Environment (sandbox/production)' },
+            { key: 'mpesa_transaction_type', val: transactionType || 'CustomerPayBillOnline', desc: 'CustomerPayBillOnline or CustomerBuyGoodsOnline' },
+            { key: 'mpesa_callback_url', val: callbackURL, desc: 'M-Pesa Callback URL' }
+        ];
+
+        for (const item of settingsToSave) {
+            if (item.val !== undefined && item.val !== null) {
+                const existing = await query('SELECT id FROM system_settings WHERE setting_key = ?', [item.key]);
+                if (existing && existing.length > 0) {
+                    await query('UPDATE system_settings SET setting_value = ?, updated_at = NOW() WHERE setting_key = ?', [String(item.val), item.key]);
+                } else {
+                    const id = generateUUID ? generateUUID() : String(Date.now());
+                    await query('INSERT INTO system_settings (id, setting_key, setting_value, data_type, description, is_editable, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())', [id, item.key, String(item.val), 'string', item.desc]);
+                }
+            }
+        }
 
         res.json({
             success: true,
-            stats
+            message: 'M-Pesa settlement and API settings saved successfully!'
         });
     } catch (error) {
-        console.error('Error fetching stats:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch statistics'
-        });
+        console.error('Error saving M-Pesa settings:', error);
+        res.status(500).json({ success: false, message: error.message || 'Failed to save settings' });
     }
 });
 
 module.exports = router;
+

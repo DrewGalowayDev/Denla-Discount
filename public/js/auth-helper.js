@@ -185,35 +185,54 @@ class AuthHelper {
     // Update UI based on authentication state
     updateAuthUI() {
         const user = this.getCurrentUser();
+        const role = ((user && user.role) || '').toLowerCase();
+        const isAdmin = role === 'admin' || role === 'manager' || role === 'inventory_clerk';
+        const dashboardUrl = isAdmin ? 'admin-dashboard.html' : 'dashboard.html';
         
         // Update topbar dropdown
         const loginDropdownItem = document.getElementById('loginDropdownItem');
         const signupDropdownItem = document.getElementById('signupDropdownItem');
         const dashboardDropdownItem = document.getElementById('dashboardDropdownItem');
         const logoutDropdownItem = document.getElementById('logoutDropdownItem');
-        const authDivider = document.getElementById('authDivider');
         
         // Update header buttons
         const loginBtn = document.getElementById('loginBtn');
         const dashboardBtn = document.getElementById('dashboardBtn');
         const userMenuDropdown = document.getElementById('userMenuDropdown');
         const userMenuName = document.getElementById('userMenuName');
+        const userDashboardLink = document.getElementById('userDashboardLink');
         
+        if (dashboardDropdownItem) {
+            dashboardDropdownItem.href = dashboardUrl;
+            if (isAdmin) dashboardDropdownItem.innerHTML = '<i class="fas fa-tools me-2 text-success"></i> Administrator Portal';
+        }
+        if (userDashboardLink) {
+            userDashboardLink.href = dashboardUrl;
+            if (isAdmin) userDashboardLink.innerHTML = '<i class="fas fa-tools me-2 text-success"></i> Administrator Portal';
+        }
+
+        // Also update any links inside userMenuDropdown
+        if (userMenuDropdown) {
+            const menuDashLink = userMenuDropdown.querySelector('a[href*="dashboard.html"], a[href*="admin-dashboard.html"]');
+            if (menuDashLink) {
+                menuDashLink.href = dashboardUrl;
+                if (isAdmin) menuDashLink.innerHTML = '<i class="fas fa-tools me-2 text-success"></i> Administrator Portal';
+            }
+        }
+
         if (user) {
             // User is logged in
-            const userName = user.username || user.name || user.email || 'User';
+            const userName = user.name || user.username || user.email || 'Account';
             
             // Update dropdown items
             if (loginDropdownItem) loginDropdownItem.style.display = 'none';
             if (signupDropdownItem) signupDropdownItem.style.display = 'none';
-            if (dashboardDropdownItem) dashboardDropdownItem.style.display = '';
-            if (logoutDropdownItem) logoutDropdownItem.style.display = '';
+            if (dashboardDropdownItem) dashboardDropdownItem.style.display = 'block';
+            if (logoutDropdownItem) logoutDropdownItem.style.display = 'block';
             
-            // Update header buttons
+            // Update header buttons: show single sleek user dropdown, hide separate redundant dashboard button
             if (loginBtn) loginBtn.style.display = 'none';
-            if (dashboardBtn) {
-                dashboardBtn.style.display = 'inline-block';
-            }
+            if (dashboardBtn) dashboardBtn.style.display = 'none';
             if (userMenuDropdown) {
                 userMenuDropdown.style.display = 'inline-block';
             }
@@ -222,14 +241,12 @@ class AuthHelper {
             }
         } else {
             // User is not logged in
-            
-            // Update dropdown items
-            if (loginDropdownItem) loginDropdownItem.style.display = '';
-            if (signupDropdownItem) signupDropdownItem.style.display = '';
+            if (loginDropdownItem) loginDropdownItem.style.display = 'block';
+            if (signupDropdownItem) signupDropdownItem.style.display = 'block';
             if (dashboardDropdownItem) dashboardDropdownItem.style.display = 'none';
             if (logoutDropdownItem) logoutDropdownItem.style.display = 'none';
             
-            // Update header buttons
+            // Show login button, hide user menu & dashboard button
             if (loginBtn) loginBtn.style.display = 'inline-block';
             if (dashboardBtn) dashboardBtn.style.display = 'none';
             if (userMenuDropdown) userMenuDropdown.style.display = 'none';

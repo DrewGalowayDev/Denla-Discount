@@ -34,9 +34,16 @@ function checkAdminAuth() {
 
     const allowedRoles = ['admin', 'manager', 'inventory_clerk'];
 
-    if (!token || !user || !allowedRoles.includes(user.role)) {
+    if (!token || !user) {
         console.warn('Unauthorized access attempt - redirecting to login');
         window.location.href = 'login.html?redirect=admin-dashboard.html';
+        return false;
+    }
+
+    const role = ((user.role) || '').toLowerCase();
+    if (!allowedRoles.includes(role)) {
+        console.warn('Non-admin member detected on admin portal - redirecting to member dashboard');
+        window.location.href = 'dashboard.html';
         return false;
     }
 

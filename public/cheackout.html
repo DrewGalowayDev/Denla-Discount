@@ -29,66 +29,221 @@
     <link href="css/style.css" rel="stylesheet">
 
     <style>
-        .checkout-hero {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            padding: 30px 0 25px;
-            color: #fff;
-            border-bottom: 3px solid #FF6B35;
+        :root {
+            --primary-color: #FF6B35;
+            --primary-dark: #e8551e;
+            --success-color: #10B981;
+            --dark-color: #0F172A;
+            --surface-color: #FFFFFF;
+            --bg-color: #F8FAFC;
         }
-        .pay-tile-simple {
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #334155;
+        }
+
+        .checkout-banner {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+            padding: 24px 0 20px;
+            color: #fff;
+            border-bottom: 3px solid rgba(0,0,0,0.05);
+        }
+
+        .checkout-card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            padding: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .checkout-card-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .checkout-card-title {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--dark-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Pay Tiles */
+        .pay-tile-box {
+            border: 2px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             background: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            position: relative;
         }
-        .pay-tile-simple:hover {
-            border-color: #FF6B35;
-            background: #fff8f5;
+
+        .pay-tile-box:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.1);
         }
-        .pay-tile-simple.active {
-            border-color: #28a745;
-            background: #f0fdf4;
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+
+        .pay-tile-box.active {
+            border-color: #10B981;
+            background: #F0FDF4;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15);
         }
-        .pay-tile-simple.active.cash-active {
-            border-color: #FF6B35;
-            background: #fff8f5;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+
+        .pay-tile-box.active.cash-mode {
+            border-color: var(--primary-color);
+            background: #FFF7ED;
+            box-shadow: 0 6px 18px rgba(255, 107, 53, 0.15);
         }
-        .pay-tile-simple.active.wa-active {
+
+        .pay-tile-box.active.wa-mode {
             border-color: #25D366;
-            background: #f0fdf4;
+            background: #F0FDF4;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.15);
         }
-        .stk-modal-pulse {
+
+        .pay-icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Order item card */
+        .order-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #F8FAFC;
+            border: 1px solid #F1F5F9;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .order-item-row:hover {
+            background: #fff;
+            border-color: #CBD5E1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .order-item-thumb {
+            width: 54px;
+            height: 54px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #E2E8F0;
+            background: #fff;
+        }
+
+        .qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #CBD5E1;
+            border-radius: 20px;
+            padding: 2px 6px;
+        }
+
+        .qty-stepper button {
+            border: none;
+            background: transparent;
+            color: #475569;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .qty-stepper button:hover {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+
+        .qty-stepper span {
+            font-weight: 700;
+            font-size: 0.9rem;
+            min-width: 24px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+
+        /* STK Push Pulse */
+        .pulse-animation {
             animation: pulse-ring 1.8s infinite;
         }
+
         @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .btn-checkout-primary {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 16px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .btn-checkout-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(16, 185, 129, 0.4);
+            color: #fff;
+        }
+
+        .btn-checkout-cash {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-checkout-cash:hover {
+            box-shadow: 0 10px 28px rgba(255, 107, 53, 0.4);
+            color: #fff;
         }
     </style>
 </head>
 
 <body>
     <!-- Top Thin Strip Start -->
-    <div class="container-fluid px-5 border-bottom bg-light shop-top-strip">
-        <div class="d-flex align-items-center justify-content-end py-1" style="min-height: 32px;">
+    <div class="container-fluid px-5 border-bottom bg-light">
+        <div class="d-flex align-items-center justify-content-between py-1" style="min-height: 32px; font-size: 0.8rem;">
+            <div class="text-muted d-none d-md-block">
+                <i class="fas fa-store text-primary me-1"></i> Welcome to Denla Discount • Fresh Groceries & Household Store
+            </div>
             <div class="d-inline-flex align-items-center gap-3 ms-auto">
-                <a href="shop.html" class="top-strip-link" title="Shop">
-                    <i class="fas fa-store text-primary"></i>
-                    <span class="d-none d-sm-inline">Store</span>
+                <a href="shop.html" class="text-decoration-none text-muted fw-semibold">
+                    <i class="fas fa-store text-primary me-1"></i>Store
                 </a>
-                <a href="cheackout.html" class="top-strip-link active" title="Checkout">
-                    <i class="fas fa-shopping-basket text-primary"></i>
-                    <span class="d-none d-sm-inline">Items in Order</span>
-                    <span class="badge bg-primary rounded-pill ms-1" id="cartCount">0</span>
+                <a href="cheackout.html" class="text-decoration-none text-primary fw-bold">
+                    <i class="fas fa-shopping-basket me-1"></i>Checkout (<span id="topStripCount">0</span>)
                 </a>
             </div>
         </div>
@@ -96,24 +251,26 @@
     <!-- Top Thin Strip End -->
 
     <!-- Main Header Start -->
-    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom shop-main-header">
+    <div class="container-fluid px-5 py-3 d-none d-lg-block bg-white border-bottom">
         <div class="row gx-4 align-items-center">
             <!-- Brand Logo -->
-            <div class="col-lg-3 pe-3">
+            <div class="col-lg-3 text-start">
                 <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
-                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;">
+                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
                     <div>
-                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">Denla Discount</h3>
+                        <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">
+                            Denla Discount
+                        </h3>
                         <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.6px; font-weight: 600;">Groceries & Home Store</small>
                     </div>
                 </a>
             </div>
 
             <!-- Search Bar -->
-            <div class="col-lg-5 px-3">
-                <div class="position-relative" style="max-width: 540px; margin: 0 auto;">
-                    <div class="d-flex border rounded-pill bg-white shadow-sm overflow-hidden header-search-box">
-                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="cartSearchInput" placeholder="Search for products to add..." onkeyup="handleCartSearch(event)">
+            <div class="col-lg-5 text-center">
+                <div class="position-relative" style="margin: 0 auto; max-width: 520px;">
+                    <div class="d-flex border rounded-pill shadow-sm bg-white overflow-hidden">
+                        <input class="form-control border-0 rounded-pill w-100 py-2 ps-4" type="text" id="cartSearchInput" placeholder="Search for groceries, beverages, food stuffs..." onkeyup="handleCartSearch(event)">
                         <button type="button" class="btn btn-primary rounded-pill py-2 px-4 border-0" onclick="performCartSearch()">
                             <i class="fas fa-search"></i>
                         </button>
@@ -121,13 +278,13 @@
                 </div>
             </div>
 
-            <!-- User Actions -->
+            <!-- User Actions & Phone -->
             <div class="col-lg-4 text-end">
-                <div class="d-inline-flex align-items-center gap-3">
-                    <span class="badge bg-light text-dark border px-3 py-2 fw-semibold">
-                        <i class="fas fa-store text-success me-1"></i> In-Store Pickup & STK Push
+                <div class="d-flex align-items-center justify-content-end gap-3">
+                    <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill fw-semibold">
+                        <i class="fas fa-bolt me-1"></i> M-Pesa STK Ready
                     </span>
-                    <a href="tel:+254704546916" class="btn btn-outline-primary rounded-pill py-2 px-3 fw-semibold small">
+                    <a href="tel:+254704546916" class="btn btn-outline-primary rounded-pill py-2 px-3 fw-semibold small" style="white-space: nowrap;">
                         <i class="fas fa-phone-alt me-1"></i> +254 704 546 916
                     </a>
                 </div>
@@ -137,8 +294,8 @@
     <!-- Main Header End -->
 
     <!-- Navbar Start -->
-    <div class="container-fluid nav-bar p-0 sticky-top" style="z-index: 999;">
-        <div class="row gx-0 bg-primary px-5 align-items-center">
+    <div class="container-fluid nav-bar p-0 sticky-top bg-white" style="z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,0.08);">
+        <div class="row gx-0 align-items-center" style="background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); padding: 0 2.5rem;">
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg navbar-light py-2" style="background: transparent;">
                     <a href="index.html" class="navbar-brand d-block d-lg-none">
@@ -154,8 +311,8 @@
                             <a href="cheackout.html" class="nav-item nav-link active fw-bold text-white">Checkout</a>
                             <a href="contact.html" class="nav-item nav-link text-white fw-semibold me-2">Contact</a>
                         </div>
-                        <div class="ms-auto d-none d-lg-flex align-items-center text-white small">
-                            <i class="fas fa-shield-alt text-warning me-2"></i> Pay securely from home or at the shop till
+                        <div class="ms-auto d-none d-lg-flex align-items-center text-white small fw-semibold">
+                            <i class="fas fa-shield-alt text-warning me-2"></i> Instant STK Push to your phone • Pay from anywhere & collect at shop
                         </div>
                     </div>
                 </nav>
@@ -164,16 +321,16 @@
     </div>
     <!-- Navbar End -->
 
-    <!-- Header Start -->
-    <div class="container-fluid checkout-hero mb-4">
+    <!-- Header Banner Start -->
+    <div class="container-fluid checkout-banner mb-4">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h2 class="text-white fw-bold mb-1"><i class="fas fa-bolt text-warning me-2"></i>Quick Shop Checkout</h2>
-                    <p class="text-white-50 mb-0">Pay online from anywhere via M-Pesa STK Push or pay cash when collecting at our store counter.</p>
+                    <h2 class="text-white fw-bold mb-1"><i class="fas fa-shopping-basket me-2"></i>Fast Store Checkout</h2>
+                    <p class="text-white-50 mb-0 small">Review items, receive your M-Pesa STK PIN prompt, and pick up your order anytime at our counter.</p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <ol class="breadcrumb justify-content-md-end mb-0">
+                    <ol class="breadcrumb justify-content-md-end mb-0 small">
                         <li class="breadcrumb-item"><a href="index.html" class="text-white-50">Home</a></li>
                         <li class="breadcrumb-item"><a href="shop.html" class="text-white-50">Shop</a></li>
                         <li class="breadcrumb-item active text-white">Checkout</li>
@@ -182,156 +339,157 @@
             </div>
         </div>
     </div>
-    <!-- Header End --> 
+    <!-- Header Banner End --> 
 
-    <!-- Main Checkout Content -->
+    <!-- Main Checkout Container -->
     <div class="container mb-5">
         <div class="row g-4">
-            <!-- Left Column: Items in Order & Simple Customer Contact -->
-            <div class="col-lg-7 col-xl-7">
-                <!-- Control Bar -->
-                <div class="pos-control-bar bg-white p-3 rounded-4 shadow-sm border mb-3 d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">
-                            <i class="fas fa-shopping-basket me-1"></i> <span id="cartItemCount">0</span> Items
-                        </span>
-                        <span class="text-muted small">Selected for your order</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                            <i class="fas fa-plus me-1"></i> Add More Items
-                        </a>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="cart.clearCart()">
-                            <i class="fas fa-trash-alt me-1"></i> Clear
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Empty Cart Message -->
-                <div id="emptyCart" class="empty-cart shadow-sm p-5 text-center bg-white rounded-4 border" style="display: none;">
-                    <i class="fas fa-shopping-basket fa-4x text-muted mb-3"></i>
-                    <h4 class="fw-bold">Your order is empty</h4>
-                    <p class="text-muted mb-4">Select fresh groceries and household essentials from the shop to start your order.</p>
-                    <a href="shop.html" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
-                        <i class="fas fa-store me-2"></i>Go to Shop
-                    </a>
-                </div>
-
-                <!-- Cart Items Container -->
-                <div id="cartItemsContainer">
-                    <!-- Items rendered dynamically -->
-                </div>
-
-                <!-- Simplified Customer Pickup Info Card -->
-                <div class="card border-0 shadow-sm rounded-4 mt-4 p-4" id="customerInfoCard">
-                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
-                        <h5 class="fw-bold mb-0 text-dark">
-                            <i class="fas fa-user-tag text-primary me-2"></i>Customer & Pickup Details
+            <!-- Left Column: Order Items & Customer Details -->
+            <div class="col-lg-7">
+                <!-- Items Box -->
+                <div class="checkout-card mb-4">
+                    <div class="checkout-card-header">
+                        <h5 class="checkout-card-title">
+                            <i class="fas fa-list-check text-primary"></i> Order Items (<span id="cartItemCount">0</span>)
                         </h5>
-                        <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill small">
-                            <i class="fas fa-check me-1"></i> In-Store Pickup (Free)
+                        <div class="d-flex gap-2">
+                            <a href="shop.html" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold">
+                                <i class="fas fa-plus me-1"></i> Add More
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold" onclick="cart.clearCart()">
+                                <i class="fas fa-trash-alt me-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty Cart Message -->
+                    <div id="emptyCart" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-shopping-basket fa-4x text-muted mb-3 opacity-50"></i>
+                        <h5 class="fw-bold text-dark">Your cart is empty</h5>
+                        <p class="text-muted small mb-4">Browse our fresh grocery categories to pick your daily essentials.</p>
+                        <a href="shop.html" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+                            <i class="fas fa-store me-2"></i>Browse Products
+                        </a>
+                    </div>
+
+                    <!-- Dynamic Cart Items Container -->
+                    <div id="cartItemsContainer">
+                        <!-- Items rendered here -->
+                    </div>
+                </div>
+
+                <!-- Customer Information Card -->
+                <div class="checkout-card" id="customerInfoCard">
+                    <div class="checkout-card-header">
+                        <h5 class="checkout-card-title">
+                            <i class="fas fa-user-tag text-primary"></i> Customer & Pickup Info
+                        </h5>
+                        <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill small fw-semibold">
+                            <i class="fas fa-check-circle me-1"></i> In-Store Pickup (Free)
                         </span>
                     </div>
+
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Your Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold text-dark">Full Name <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
                                 <input type="text" class="form-control border-start-0" id="posCustomerName" placeholder="e.g. John Mwangi" required>
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Used to label your package at the shop counter</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">For identifying your order at the counter</small>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">M-Pesa Phone Number <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold text-dark">M-Pesa Phone Number <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-mobile-alt text-success"></i></span>
-                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="07XXXXXXXX or 254..." oninput="syncMpesaPhone(this.value)" required>
+                                <input type="tel" class="form-control border-start-0" id="posCustomerPhone" placeholder="07XXXXXXXX or 01XXXXXXXX" oninput="syncMpesaPhone(this.value)" required>
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Your phone will receive the M-Pesa PIN prompt</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">This number will receive the M-Pesa PIN prompt</small>
                         </div>
                         <div class="col-12">
-                            <label class="form-label small fw-bold text-muted">Pickup Time / Special Note (Optional)</label>
+                            <label class="form-label small fw-bold text-dark">Pickup Note / Time (Optional)</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-comment-alt text-muted"></i></span>
-                                <input type="text" class="form-control border-start-0" id="posDeliveryAddress" placeholder="e.g. Will pick up around 3:00 PM / Paying at counter">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-clock text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0" id="posDeliveryAddress" placeholder="e.g. Picking up at 4:30 PM / Customer at counter">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Simple Payment Station & Total -->
-            <div class="col-lg-5 col-xl-5">
-                <div class="pos-payment-station bg-white p-4 rounded-4 shadow-sm border sticky-top" style="top: 80px;">
-                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                        <h5 class="fw-bold mb-0 text-dark">
-                            <i class="fas fa-receipt text-primary me-2"></i>Payment & Summary
+            <!-- Right Column: Payment Station & Grand Total -->
+            <div class="col-lg-5">
+                <div class="checkout-card sticky-top" style="top: 80px;">
+                    <div class="checkout-card-header">
+                        <h5 class="checkout-card-title">
+                            <i class="fas fa-wallet text-primary"></i> Payment Method
                         </h5>
-                        <span class="badge bg-primary text-white rounded-pill px-3 py-1 small">Instant</span>
+                        <span class="badge bg-primary text-white rounded-pill px-3 py-1 small fw-semibold">Instant Order</span>
                     </div>
 
-                    <!-- Payment Mode Selector -->
-                    <label class="form-label small fw-bold text-muted mb-2">CHOOSE HOW TO PAY</label>
-                    
-                    <!-- 1. M-Pesa STK Option -->
-                    <div class="pay-tile-simple active" id="tile-mpesa" onclick="selectPaymentMode('mpesa')">
-                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-                            <i class="fas fa-mobile-alt fa-lg"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <strong class="text-dark">M-Pesa Express (STK Push)</strong>
-                                <span class="badge bg-success">Recommended</span>
+                    <!-- 1. M-Pesa STK Push Tile -->
+                    <div class="pay-tile-box active" id="tile-mpesa" onclick="selectPaymentMode('mpesa')">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="pay-icon-circle bg-success text-white">
+                                <i class="fas fa-mobile-alt"></i>
                             </div>
-                            <small class="text-muted d-block">Automatic PIN prompt sent straight to your phone</small>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <strong class="text-dark">M-Pesa Express (STK Push)</strong>
+                                    <span class="badge bg-success">Instant</span>
+                                </div>
+                                <small class="text-muted d-block">Automatic PIN prompt sent straight to your phone</small>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 2. Cash at Counter Option -->
-                    <div class="pay-tile-simple" id="tile-cash" onclick="selectPaymentMode('cash')">
-                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-                            <i class="fas fa-money-bill-wave fa-lg"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <strong class="text-dark">Pay Cash at Shop Counter</strong>
-                            <small class="text-muted d-block">Collect your goods and pay cash at the till</small>
-                        </div>
-                    </div>
-
-                    <!-- 3. WhatsApp Option -->
-                    <div class="pay-tile-simple" id="tile-whatsapp" onclick="selectPaymentMode('whatsapp')">
-                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background-color: #25D366 !important;">
-                            <i class="fab fa-whatsapp fa-lg"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <strong class="text-dark">Order via WhatsApp</strong>
-                            <small class="text-muted d-block">Send this order directly to our shop WhatsApp</small>
+                    <!-- 2. Pay Cash at Counter Tile -->
+                    <div class="pay-tile-box" id="tile-cash" onclick="selectPaymentMode('cash')">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="pay-icon-circle bg-primary text-white">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <strong class="text-dark">Pay Cash at Store Counter</strong>
+                                <small class="text-muted d-block">Collect your goods and pay cash at the till</small>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- M-Pesa Input Panel -->
-                    <div class="pay-panel active p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-mpesa">
+                    <!-- 3. WhatsApp Tile -->
+                    <div class="pay-tile-box" id="tile-whatsapp" onclick="selectPaymentMode('whatsapp')">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="pay-icon-circle text-white" style="background: #25D366;">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <strong class="text-dark">Order via WhatsApp</strong>
+                                <small class="text-muted d-block">Send this order directly to our shop WhatsApp</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- M-Pesa Phone Panel -->
+                    <div class="pay-panel active p-3 bg-light rounded-3 border mb-3 mt-2" id="panel-mpesa">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="small fw-bold text-success"><i class="fas fa-bolt me-1"></i> Phone to Receive M-Pesa Prompt</span>
-                            <span class="badge bg-success-subtle text-success border border-success">Till: 4123456</span>
+                            <span class="small fw-bold text-success"><i class="fas fa-bolt me-1"></i> Phone for M-Pesa Prompt</span>
+                            <span class="badge bg-success-subtle text-success border border-success" id="settlementBadge">Paybill: 4674563</span>
                         </div>
                         <div class="input-group mb-2">
                             <span class="input-group-text bg-white"><i class="fas fa-phone text-success"></i></span>
                             <input type="tel" class="form-control fw-bold text-dark" id="mpesaPromptPhone" placeholder="07XXXXXXXX">
                         </div>
                         <p class="small text-muted mb-0" style="font-size: 0.78rem;">
-                            <i class="fas fa-info-circle text-primary me-1"></i> Once you click pay, unlock your phone to enter your <strong>M-Pesa PIN</strong>.
+                            <i class="fas fa-info-circle text-primary me-1"></i> Unlock your phone to enter your <strong>M-Pesa PIN</strong> when prompted.
                         </p>
                     </div>
 
-                    <!-- Cash Panel -->
-                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-cash" style="display: none;">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="small fw-bold text-primary"><i class="fas fa-calculator me-1"></i> Shop Counter / Cash Change</span>
-                        </div>
+                    <!-- Cash Calculation Panel -->
+                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-2" id="panel-cash" style="display: none;">
+                        <span class="small fw-bold text-primary d-block mb-2"><i class="fas fa-calculator me-1"></i> Cash Tendered (Optional)</span>
                         <div class="input-group mb-2">
                             <span class="input-group-text bg-white">KSh</span>
-                            <input type="number" class="form-control fw-bold" id="cashTenderedInput" placeholder="Cash tendered (optional)" oninput="calculatePosChange()">
+                            <input type="number" class="form-control fw-bold" id="cashTenderedInput" placeholder="Amount received" oninput="calculatePosChange()">
                         </div>
                         <div class="d-flex justify-content-between align-items-center p-2 rounded bg-white border">
                             <small class="text-muted">Change to return:</small>
@@ -339,35 +497,31 @@
                         </div>
                     </div>
 
-                    <!-- WhatsApp Panel -->
-                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-3" id="panel-whatsapp" style="display: none;">
+                    <!-- WhatsApp Info Panel -->
+                    <div class="pay-panel p-3 bg-light rounded-3 border mb-3 mt-2" id="panel-whatsapp" style="display: none;">
                         <p class="small text-muted mb-0">
-                            <i class="fab fa-whatsapp text-success me-1"></i> Clicking order will format your full order and send it to <strong>+254 704 546 916</strong> on WhatsApp.
+                            <i class="fab fa-whatsapp text-success me-1"></i> Clicking order will send your complete grocery list to our shop WhatsApp at <strong>+254 704 546 916</strong>.
                         </p>
                     </div>
 
-                    <!-- Summary Calculation -->
+                    <!-- Summary Breakdown -->
                     <div class="border-top pt-3 mt-3">
                         <div class="d-flex justify-content-between text-muted mb-2">
                             <span>Subtotal (<span id="summaryCount">0</span> items):</span>
                             <strong class="text-dark" id="subtotal">KSh 0</strong>
                         </div>
                         <div class="d-flex justify-content-between text-muted mb-2">
-                            <span>Pickup / Collection Fee:</span>
+                            <span>Store Collection:</span>
                             <span class="badge bg-success-subtle text-success border border-success">FREE</span>
                         </div>
-                        <div class="d-flex justify-content-between text-success mb-2" id="discountRow" style="display: none;">
-                            <span>Discount:</span>
-                            <strong id="discount">- KSh 0</strong>
-                        </div>
                         <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2 mb-3">
-                            <span class="fs-5 fw-bold text-dark">Total Amount:</span>
+                            <span class="fs-5 fw-bold text-dark">Total Due:</span>
                             <span class="fs-4 fw-bold" style="color: #FF6B35;" id="total">KSh 0</span>
                         </div>
                     </div>
 
-                    <!-- Primary Action Button -->
-                    <button class="btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2" id="mainPayBtn" onclick="executeCheckout()">
+                    <!-- Action Button -->
+                    <button class="btn btn-checkout-primary w-100 mb-2" id="mainPayBtn" onclick="executeCheckout()">
                         <i class="fas fa-mobile-alt me-2"></i> Pay with M-Pesa STK Push
                     </button>
 
@@ -377,7 +531,7 @@
 
                     <div class="text-center mt-3 pt-2 border-top">
                         <small class="text-muted">
-                            <i class="fas fa-store text-primary me-1"></i> Denla Discount Shop • Pick up anytime during shop hours
+                            <i class="fas fa-store text-primary me-1"></i> Denla Discount Store • Pick up anytime during shop hours
                         </small>
                     </div>
                 </div>
@@ -390,15 +544,19 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4 text-center p-4">
                 <div class="modal-body">
-                    <div class="mb-3 stk-modal-pulse">
-                        <span class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                    <div class="mb-3 d-inline-block">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center pulse-animation" style="width: 80px; height: 80px; margin: 0 auto;">
                             <i class="fas fa-mobile-alt fa-3x"></i>
-                        </span>
+                        </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">M-Pesa STK Prompt Sent!</h4>
-                    <p class="text-muted mb-3">A payment request of <strong class="text-dark" id="stkModalAmount">KSh 0</strong> has been sent to phone <strong class="text-success" id="stkModalPhone">07XXXXXXXX</strong>.</p>
-                    <div class="alert alert-success border-0 py-2 small mb-4">
-                        <i class="fas fa-key me-1"></i> Please check your phone screen and enter your <strong>M-Pesa PIN</strong> to complete your purchase.
+                    <p class="text-muted mb-3">A payment request of <strong class="text-dark" id="stkModalAmount">KSh 0</strong> has been sent to <strong class="text-success" id="stkModalPhone">07XXXXXXXX</strong>.</p>
+                    <div class="alert alert-success border-0 py-2 small mb-3">
+                        <i class="fas fa-key me-1"></i> <strong>Unlock your phone</strong> and enter your <strong>M-Pesa PIN</strong> to complete payment.
+                    </div>
+                    <div class="alert alert-light border py-2 small mb-4 text-start">
+                        <i class="fas fa-building text-success me-1"></i> Paying to: <strong>Denla Discount</strong> &nbsp;|&nbsp;
+                        <i class="fas fa-hashtag text-muted"></i> Ref: <span id="stkCheckoutId" class="text-muted">—</span>
                     </div>
                     <div class="d-flex justify-content-center gap-2">
                         <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
@@ -522,10 +680,12 @@
     <!-- Checkout Application Script -->
     <script>
         let currentPaymentMode = 'mpesa';
+        let stkPollTimer = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderPosCart();
             setupCustomerSync();
+            loadSettlementBadge();
             
             // Listen for cart changes
             window.addEventListener('cartUpdated', () => {
@@ -535,6 +695,17 @@
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
         });
+
+        async function loadSettlementBadge() {
+            try {
+                const res = await fetch('/api/mpesa/settings');
+                const data = await res.json();
+                if (data.success && data.settings && data.settings.shortcode) {
+                    const el = document.getElementById('settlementBadge');
+                    if (el) el.textContent = `Shortcode: ${data.settings.shortcode}`;
+                }
+            } catch (e) {}
+        }
 
         function setupCustomerSync() {
             try {
@@ -566,15 +737,15 @@
             currentPaymentMode = mode;
             
             // Update tile states
-            document.querySelectorAll('.pay-tile-simple').forEach(el => {
-                el.classList.remove('active', 'cash-active', 'wa-active');
+            document.querySelectorAll('.pay-tile-box').forEach(el => {
+                el.classList.remove('active', 'cash-mode', 'wa-mode');
             });
             
             const activeTile = document.getElementById(`tile-${mode}`);
             if (activeTile) {
                 activeTile.classList.add('active');
-                if (mode === 'cash') activeTile.classList.add('cash-active');
-                if (mode === 'whatsapp') activeTile.classList.add('wa-active');
+                if (mode === 'cash') activeTile.classList.add('cash-mode');
+                if (mode === 'whatsapp') activeTile.classList.add('wa-mode');
             }
 
             // Update panel states
@@ -588,17 +759,21 @@
             if (panelWa) panelWa.style.display = (mode === 'whatsapp') ? 'block' : 'none';
 
             if (mainPayBtn) {
+                // Reset inline styles first
+                mainPayBtn.style.background = '';
+                mainPayBtn.style.borderColor = '';
                 if (mode === 'mpesa') {
-                    mainPayBtn.className = 'btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
-                    mainPayBtn.innerHTML = `<i class="fas fa-mobile-alt me-2"></i> Pay with M-Pesa STK Push`;
+                    mainPayBtn.className = 'btn btn-checkout-primary w-100 mb-2';
+                    mainPayBtn.innerHTML = `<i class="fas fa-mobile-alt me-2"></i> Send M-Pesa STK Push`;
                 } else if (mode === 'cash') {
-                    mainPayBtn.className = 'btn btn-primary btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
+                    mainPayBtn.className = 'btn btn-checkout-primary btn-checkout-cash w-100 mb-2';
                     mainPayBtn.innerHTML = `<i class="fas fa-store me-2"></i> Place In-Store Pickup Order`;
                     calculatePosChange();
                 } else if (mode === 'whatsapp') {
-                    mainPayBtn.className = 'btn btn-success btn-lg w-100 py-3 rounded-pill fw-bold shadow mb-2';
-                    mainPayBtn.style.backgroundColor = '#25D366';
-                    mainPayBtn.innerHTML = `<i class="fab fa-whatsapp me-2"></i> Complete via WhatsApp`;
+                    mainPayBtn.className = 'btn w-100 mb-2 fw-bold text-white rounded-pill py-3';
+                    mainPayBtn.style.background = '#25D366';
+                    mainPayBtn.style.borderColor = '#25D366';
+                    mainPayBtn.innerHTML = `<i class="fab fa-whatsapp me-2"></i> Send Order via WhatsApp`;
                 }
             }
         }
@@ -629,11 +804,13 @@
             const container = document.getElementById('cartItemsContainer');
             const emptyEl = document.getElementById('emptyCart');
             const itemCountEl = document.getElementById('cartItemCount');
+            const topStripCount = document.getElementById('topStripCount');
             const summaryCountEl = document.getElementById('summaryCount');
             const customerCard = document.getElementById('customerInfoCard');
 
             const count = cart ? cart.getItemCount() : 0;
             if (itemCountEl) itemCountEl.textContent = count;
+            if (topStripCount) topStripCount.textContent = count;
             if (summaryCountEl) summaryCountEl.textContent = count;
 
             if (!items || items.length === 0) {
@@ -651,26 +828,26 @@
                 container.innerHTML = items.map(item => {
                     const itemTotal = (item.price || 0) * (item.quantity || 1);
                     return `
-                        <div class="pos-item-card bg-white p-3 rounded-4 shadow-sm border mb-2 d-flex align-items-center justify-content-between gap-3">
-                            <img src="${item.image || 'img/product-1.png'}" alt="${item.name || 'Product'}" style="width: 56px; height: 56px; object-fit: cover; border-radius: 8px;" onerror="this.src='img/product-1.png'">
+                        <div class="order-item-row">
+                            <img src="${item.image || 'img/product-1.png'}" alt="${item.name || 'Product'}" class="order-item-thumb" onerror="this.src='img/product-1.png'">
                             <div class="flex-grow-1">
-                                <h6 class="mb-0 fw-bold text-dark">${item.name || 'Grocery Item'}</h6>
-                                <small class="text-muted">KSh ${(item.price || 0).toLocaleString()} per unit</small>
+                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">${item.name || 'Grocery Item'}</h6>
+                                <small class="text-muted">KSh ${(item.price || 0).toLocaleString()} each</small>
                             </div>
-                            <div class="d-flex align-items-center border rounded-pill bg-light px-2 py-1">
-                                <button class="btn btn-sm btn-link text-dark p-0 px-2" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) - 1})">
-                                    <i class="fas fa-minus small"></i>
+                            <div class="qty-stepper">
+                                <button type="button" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) - 1})">
+                                    <i class="fas fa-minus"></i>
                                 </button>
-                                <span class="fw-bold px-2">${item.quantity || 1}</span>
-                                <button class="btn btn-sm btn-link text-dark p-0 px-2" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) + 1})">
-                                    <i class="fas fa-plus small"></i>
+                                <span>${item.quantity || 1}</span>
+                                <button type="button" onclick="updateItemQuantity('${item.id}', ${(item.quantity || 1) + 1})">
+                                    <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                            <div class="fw-bold text-dark text-end" style="min-width: 90px;">
+                            <div class="fw-bold text-dark text-end" style="min-width: 90px; font-size: 0.95rem;">
                                 KSh ${itemTotal.toLocaleString()}
                             </div>
-                            <button class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="removeItemFromCart('${item.id}')" title="Remove">
-                                <i class="fas fa-times"></i>
+                            <button class="btn btn-sm btn-link text-danger p-0" onclick="removeItemFromCart('${item.id}')" title="Remove">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
                     `;
@@ -733,7 +910,6 @@
             const totalAmount = cart ? cart.getTotal() : 0;
 
             if (currentPaymentMode === 'mpesa') {
-                // Trigger STK Push Prompt
                 const stkPhone = document.getElementById('mpesaPromptPhone')?.value.trim() || custPhone;
                 
                 // Show waiting STK modal
@@ -743,23 +919,45 @@
                 const stkModal = new bootstrap.Modal(stkModalEl);
                 stkModal.show();
 
-                // Send STK Push request to backend
+                const mainPayBtn = document.getElementById('mainPayBtn');
+                if (mainPayBtn) mainPayBtn.disabled = true;
+
                 try {
-                    fetch('/api/mpesa/stkpush', {
+                    const response = await fetch('/api/mpesa/stkpush', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             phoneNumber: stkPhone,
                             amount: totalAmount,
-                            accountReference: `DENLA-${Date.now().toString().slice(-4)}`,
-                            transactionDesc: `Denla Grocery Order - ${custName}`
+                            accountReference: `DD-${Date.now().toString().slice(-4)}`,
+                            transactionDesc: `Denla Discount - ${custName}`
                         })
-                    }).then(r => r.json()).then(data => {
-                        console.log('STK push response:', data);
-                    }).catch(err => {
-                        console.warn('STK push request error:', err);
                     });
-                } catch (e) {}
+
+                    const data = await response.json();
+                    if (mainPayBtn) mainPayBtn.disabled = false;
+
+                    if (data.success && data.CheckoutRequestID) {
+                        // Update modal with checkout ID for tracking
+                        const stkIdEl = document.getElementById('stkCheckoutId');
+                        if (stkIdEl) stkIdEl.textContent = data.CheckoutRequestID.slice(-8);
+                        pollMpesaStatus(data.CheckoutRequestID, custName, totalAmount);
+                        showToast('M-Pesa Prompt Sent!', `Check your phone (${stkPhone}) and enter your PIN.`);
+                    } else {
+                        // Close the modal and show error
+                        const stkModalEl = document.getElementById('stkModal');
+                        if (stkModalEl) { const inst = bootstrap.Modal.getInstance(stkModalEl); if(inst) inst.hide(); }
+                        const errMsg = data.message || 'Could not reach M-Pesa. Check your phone number and try again.';
+                        showToast('M-Pesa Error', errMsg);
+                        console.warn('STK Push failed:', errMsg);
+                    }
+                } catch (err) {
+                    console.error('STK Push request error:', err);
+                    if (mainPayBtn) mainPayBtn.disabled = false;
+                    const stkModalEl = document.getElementById('stkModal');
+                    if (stkModalEl) { const inst = bootstrap.Modal.getInstance(stkModalEl); if(inst) inst.hide(); }
+                    showToast('Connection Error', 'Could not contact payment server. Please retry.');
+                }
 
             } else if (currentPaymentMode === 'whatsapp') {
                 checkoutViaWhatsApp();
@@ -769,7 +967,36 @@
             }
         }
 
-        function openReceiptModal() {
+        function pollMpesaStatus(checkoutRequestId, custName, totalAmount) {
+            if (stkPollTimer) clearInterval(stkPollTimer);
+            let attempts = 0;
+            const maxAttempts = 20; // 50 seconds max
+
+            stkPollTimer = setInterval(async () => {
+                attempts++;
+                try {
+                    const res = await fetch(`/api/mpesa/status/${encodeURIComponent(checkoutRequestId)}`);
+                    const data = await res.json();
+
+                    if (data.success && data.status === 'completed') {
+                        clearInterval(stkPollTimer);
+                        showToast('Payment Received!', `M-Pesa Receipt: ${data.mpesaReceiptNumber || 'Verified'}`);
+                        openReceiptModal(data.mpesaReceiptNumber);
+                    } else if (data.status === 'failed' || attempts >= maxAttempts) {
+                        clearInterval(stkPollTimer);
+                        if (data.status === 'failed') {
+                            showToast('M-Pesa Note', data.resultDesc || 'Payment cancelled or timed out.');
+                        }
+                    }
+                } catch (e) {
+                    if (attempts >= maxAttempts) clearInterval(stkPollTimer);
+                }
+            }, 2500);
+        }
+
+        function openReceiptModal(mpesaReceipt) {
+            if (stkPollTimer) clearInterval(stkPollTimer);
+            
             // Close STK modal if open
             const stkModalEl = document.getElementById('stkModal');
             if (stkModalEl) {
@@ -779,14 +1006,14 @@
 
             const items = cart ? cart.getItems() : [];
             const custName = document.getElementById('posCustomerName')?.value.trim() || 'Walk-in Customer';
-            const rcptNum = `#DD-${Math.floor(1000 + Math.random() * 9000)}`;
+            const rcptNum = mpesaReceipt ? `#${mpesaReceipt}` : `#DD-${Math.floor(1000 + Math.random() * 9000)}`;
             const now = new Date();
             const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             
             document.getElementById('rcptNumber').textContent = rcptNum;
             document.getElementById('rcptDateTime').textContent = dateStr;
             document.getElementById('rcptCustomer').textContent = custName;
-            document.getElementById('rcptPayMethod').textContent = currentPaymentMode.toUpperCase();
+            document.getElementById('rcptPayMethod').textContent = currentPaymentMode === 'mpesa' ? `M-PESA (${mpesaReceipt || 'STK PUSH'})` : currentPaymentMode.toUpperCase();
 
             const tbody = document.getElementById('rcptItemsBody');
             if (tbody) {

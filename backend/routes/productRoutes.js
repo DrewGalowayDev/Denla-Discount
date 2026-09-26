@@ -17,9 +17,11 @@ router.get('/brand/:brand', productController.getProductsByBrand);
 router.get('/:id', productController.getProductById);
 
 // Protected routes (Admin only)
+router.post('/bulk-stock', protect, authorize('admin'), productController.bulkUpdateStock);
 router.post('/', protect, authorize('admin'), productController.createProduct);
 router.put('/:id', protect, authorize('admin'), productController.updateProduct);
 router.delete('/:id', protect, authorize('admin'), productController.deleteProduct);
 router.put('/:id/stock', protect, authorize('admin'), productController.updateStock);
 
 module.exports = router;
+
