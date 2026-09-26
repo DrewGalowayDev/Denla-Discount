@@ -20,7 +20,9 @@ exports.getAllProducts = async (req, res, next) => {
         // Get products with categories
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug, 
                    c.icon as category_icon, 
@@ -55,7 +57,9 @@ exports.searchProducts = async (req, res, next) => {
 
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -87,13 +91,15 @@ exports.filterProducts = async (req, res, next) => {
             maxPrice, 
             brand, 
             condition, 
-            category,
+            category, 
             inStock 
         } = req.query;
 
         let sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -104,11 +110,11 @@ exports.filterProducts = async (req, res, next) => {
         const params = [];
 
         if (minPrice) {
-            sql += ' AND p.price >= ?';
+            sql += ' AND COALESCE(NULLIF(p.price, 0), p.selling_price, 0) >= ?';
             params.push(parseFloat(minPrice));
         }
         if (maxPrice) {
-            sql += ' AND p.price <= ?';
+            sql += ' AND COALESCE(NULLIF(p.price, 0), p.selling_price, 0) <= ?';
             params.push(parseFloat(maxPrice));
         }
         if (brand) {
@@ -124,7 +130,7 @@ exports.filterProducts = async (req, res, next) => {
             params.push(category);
         }
         if (inStock) {
-            sql += ' AND p.stock > 0';
+            sql += ' AND COALESCE(p.stock, p.current_stock, 0) > 0';
         }
 
         const products = await query(sql, params);
@@ -147,7 +153,9 @@ exports.getProductById = async (req, res, next) => {
         // Get product with category
         const productSql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug, 
                    c.icon as category_icon
@@ -194,7 +202,9 @@ exports.getProductsByCategory = async (req, res, next) => {
     try {
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -222,7 +232,9 @@ exports.getProductsByBrand = async (req, res, next) => {
     try {
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -250,7 +262,9 @@ exports.getFeaturedProducts = async (req, res, next) => {
     try {
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -279,14 +293,15 @@ exports.getDealsProducts = async (req, res, next) => {
     try {
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
-                   p.cost_price as old_price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.cost_price IS NOT NULL AND p.is_active = TRUE
-            ORDER BY (p.cost_price - p.selling_price) DESC
+            WHERE (p.old_price IS NOT NULL OR p.cost_price IS NOT NULL OR p.is_deal = TRUE) AND p.is_active = TRUE
+            ORDER BY (COALESCE(p.old_price, p.cost_price, 0) - COALESCE(p.price, p.selling_price, 0)) DESC
             LIMIT 8
         `;
         
@@ -309,7 +324,9 @@ exports.getNewArrivals = async (req, res, next) => {
     try {
         const sql = `
             SELECT p.*, 
-                   p.selling_price as price,
+                   COALESCE(NULLIF(p.price, 0), NULLIF(p.selling_price, 0), p.price, 0) as price,
+                   COALESCE(NULLIF(p.old_price, 0), NULLIF(p.cost_price, 0), p.old_price) as old_price,
+                   COALESCE(p.stock, p.current_stock, 0) as stock,
                    c.name as category_name, 
                    c.slug as category_slug
             FROM products p
@@ -362,21 +379,26 @@ exports.createProduct = async (req, res, next) => {
             meta_keywords
         } = productData;
 
+        const numPrice = parseFloat(price) || 0;
+        const numOldPrice = old_price ? parseFloat(old_price) : null;
+        const numStock = parseInt(stock, 10) || 0;
+
         const sql = `
             INSERT INTO products (
-                id, name, slug, description, specifications, price, old_price, brand, \`condition\`,
-                stock, low_stock_threshold, sku, images, category_id, is_featured, is_deal,
-                is_new_arrival, meta_title, meta_description, meta_keywords
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id, name, slug, description, specifications, price, selling_price, old_price, cost_price, brand, \`condition\`,
+                stock, current_stock, low_stock_threshold, sku, images, category_id, is_featured, is_deal,
+                is_new_arrival, meta_title, meta_description, meta_keywords, is_active
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)
         `;
 
         await query(sql, [
-            productId, name, slug, description,
+            productId, name, slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
+            description || '',
             specifications ? JSON.stringify(specifications) : null,
-            price, old_price || null, brand, condition || 'new',
-            stock || 0, low_stock_threshold || 10, sku || null,
+            numPrice, numPrice, numOldPrice, numOldPrice, brand || '', condition || 'new',
+            numStock, numStock, low_stock_threshold || 10, sku || null,
             images ? JSON.stringify(images) : null,
-            category_id, is_featured || false, is_deal || false,
+            category_id || null, is_featured || false, is_deal || false,
             is_new_arrival || false, meta_title || null, meta_description || null, meta_keywords || null
         ]);
 
@@ -397,14 +419,39 @@ exports.createProduct = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateProduct = async (req, res, next) => {
     try {
-        const updateData = req.body;
+        const updateData = { ...req.body };
         
-        // Convert specifications and images to JSON strings if they exist
-        if (updateData.specifications) {
+        // Convert specifications and images to JSON strings if they are objects/arrays
+        if (updateData.specifications && typeof updateData.specifications === 'object') {
             updateData.specifications = JSON.stringify(updateData.specifications);
         }
-        if (updateData.images) {
+        if (updateData.images && typeof updateData.images === 'object') {
             updateData.images = JSON.stringify(updateData.images);
+        }
+
+        // Synchronize twin columns so updates are consistent across the entire database
+        if (updateData.price !== undefined) {
+            updateData.price = parseFloat(updateData.price) || 0;
+            updateData.selling_price = updateData.price;
+        } else if (updateData.selling_price !== undefined) {
+            updateData.selling_price = parseFloat(updateData.selling_price) || 0;
+            updateData.price = updateData.selling_price;
+        }
+
+        if (updateData.stock !== undefined) {
+            updateData.stock = parseInt(updateData.stock, 10) || 0;
+            updateData.current_stock = updateData.stock;
+        } else if (updateData.current_stock !== undefined) {
+            updateData.current_stock = parseInt(updateData.current_stock, 10) || 0;
+            updateData.stock = updateData.current_stock;
+        }
+
+        if (updateData.old_price !== undefined) {
+            updateData.old_price = updateData.old_price ? parseFloat(updateData.old_price) : null;
+            updateData.cost_price = updateData.old_price;
+        } else if (updateData.cost_price !== undefined) {
+            updateData.cost_price = updateData.cost_price ? parseFloat(updateData.cost_price) : null;
+            updateData.old_price = updateData.cost_price;
         }
 
         // Whitelist of valid product columns to prevent SQL errors from unknown fields
@@ -422,7 +469,7 @@ exports.updateProduct = async (req, res, next) => {
         // Filter out any keys not in the valid columns list
         const filteredData = {};
         for (const key of Object.keys(updateData)) {
-            if (validColumns.includes(key)) {
+            if (validColumns.includes(key) && updateData[key] !== undefined) {
                 filteredData[key] = updateData[key];
             }
         }
@@ -433,7 +480,7 @@ exports.updateProduct = async (req, res, next) => {
             return res.status(400).json({ success: false, message: 'No valid fields to update' });
         }
         const setClause = fields.map(field => {
-            // Handle the condition field with backticks
+            // Handle reserved words like condition with backticks
             if (field === 'condition') {
                 return '`condition` = ?';
             }

@@ -375,7 +375,7 @@ async function executeInstantOrder() {
 
     // Handle WhatsApp Order
     if (currentInstantPaymentMode === 'whatsapp') {
-        const waNumber = '254708374149';
+        const waNumber = '254706576238';
         const msg = `*NEW INSTANT ORDER: ${orderRef}*\n\n` +
             `*Product:* ${currentInstantProduct.name}\n` +
             `*Quantity:* ${currentInstantQty} unit(s)\n` +
@@ -621,3 +621,4 @@ window.selectInstantPayment = selectInstantPayment;
 window.executeInstantOrder = executeInstantOrder;
 window.cancelInstantStk = cancelInstantStk;
 window.printInstantReceipt = printInstantReceipt;
+

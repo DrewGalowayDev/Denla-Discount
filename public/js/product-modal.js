@@ -101,7 +101,7 @@
             const price = parseFloat(priceText) || 0;
             const total = (price * qty).toFixed(0);
             const msg = `Hello, I'm interested in *${title}* (x${qty}). Total KSh ${total}. Please advise availability and delivery.`;
-            const waNumber = (window.WHATSAPP_NUMBER || '+254704546916').replace(/\D/g, '');
+            const waNumber = (window.WHATSAPP_NUMBER || '+254706576238').replace(/\D/g, '');
             const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         });
@@ -162,3 +162,4 @@
     };
 
 })();
+

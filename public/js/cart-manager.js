@@ -6,7 +6,7 @@
 
 const CART_STORAGE_KEY = 'awesomeTech_cart';
 const WISHLIST_STORAGE_KEY = 'awesomeTech_wishlist';
-const WHATSAPP_NUMBER = '+254704546916';
+const WHATSAPP_NUMBER = '+254706576238';
 const API_BASE_URL = '/api';
 
 class CartManager {
@@ -947,3 +947,4 @@ window.wishlistManager = new WishlistManager();
 document.addEventListener('DOMContentLoaded', () => {
     window.cartManager.updateCartBadge();
 });
+

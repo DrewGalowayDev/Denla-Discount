@@ -38,21 +38,54 @@ async function loadProducts() {
         const data = await apiRequest('/products');
 
         if (data.success && data.products) {
-            productsData = data.products.map(product => ({
-                id: product.id,
-                name: product.name,
-                brand: product.brand || 'N/A',
-                price: parseFloat(product.price),
-                oldPrice: product.old_price ? parseFloat(product.old_price) : null,
-                stock: parseInt(product.stock),
-                category: product.category_id,
-                condition: product.condition,
-                image: product.images && product.images.length > 0 ? product.images[0] : 'img/product-1.png',
-                featured: product.is_featured,
-                slug: product.slug,
-                description: product.description,
-                specifications: product.specifications
-            }));
+            productsData = data.products.map(product => {
+                let parsedImages = [];
+                if (Array.isArray(product.images)) {
+                    parsedImages = product.images;
+                } else if (typeof product.images === 'string') {
+                    try {
+                        parsedImages = JSON.parse(product.images);
+                    } catch (e) {
+                        parsedImages = [product.images];
+                    }
+                }
+
+                let parsedSpecs = {};
+                if (typeof product.specifications === 'object' && product.specifications !== null) {
+                    parsedSpecs = product.specifications;
+                } else if (typeof product.specifications === 'string') {
+                    try {
+                        parsedSpecs = JSON.parse(product.specifications);
+                    } catch (e) {
+                        parsedSpecs = {};
+                    }
+                }
+
+                const resolvedImage = (Array.isArray(parsedImages) && parsedImages.length > 0 && parsedImages[0])
+                    ? parsedImages[0]
+                    : (product.image || 'img/product-1.png');
+
+                return {
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand || 'N/A',
+                    price: parseFloat(product.price || 0),
+                    oldPrice: product.old_price ? parseFloat(product.old_price) : null,
+                    stock: parseInt(product.stock !== undefined && product.stock !== null ? product.stock : (product.current_stock || 0), 10),
+                    category: product.category_id,
+                    category_name: product.category_name || '',
+                    condition: product.condition || 'Standard / Fresh Pack',
+                    image: resolvedImage,
+                    images: parsedImages,
+                    featured: !!product.is_featured,
+                    deal: !!product.is_deal,
+                    newArrival: !!product.is_new_arrival,
+                    slug: product.slug,
+                    description: product.description || '',
+                    spec: parsedSpecs.unit_size || '',
+                    specifications: parsedSpecs
+                };
+            });
 
             renderProductsTable();
             showToast('success', `Loaded ${productsData.length} products`);
@@ -347,6 +380,16 @@ function editProduct(productId) {
     }
 
     const currentImage = product.image || 'img/product-1.png';
+    const categoryOptions = (categoriesData && categoriesData.length > 0)
+        ? categoriesData.map(cat => `<option value="${cat.id}" ${cat.id === product.category ? 'selected' : ''}>${cat.name}</option>`).join('')
+        : '<option value="">No categories loaded</option>';
+
+    const conditionOptions = [
+        'Standard / Fresh Pack',
+        'Farm Fresh / Organic',
+        'Saver Discount Pack',
+        'Bulk / Wholesale Carton'
+    ].map(cond => `<option value="${cond}" ${cond === product.condition ? 'selected' : ''}>${cond}</option>`).join('');
 
     Swal.fire({
         title: 'Edit Store Item',
@@ -384,30 +427,55 @@ function editProduct(productId) {
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label small fw-bold">Item Name &amp; Details</label>
-                    <input type="text" class="form-control" value="${product.name || ''}" id="editName" required>
+                <div class="row g-2 mb-3">
+                    <div class="col-7">
+                        <label class="form-label small fw-bold">Item Name &amp; Details *</label>
+                        <input type="text" class="form-control" value="${product.name || ''}" id="editName" required>
+                    </div>
+                    <div class="col-5">
+                        <label class="form-label small fw-bold">Brand / Producer *</label>
+                        <input type="text" class="form-control" value="${product.brand || ''}" id="editBrand" required>
+                    </div>
                 </div>
+
                 <div class="row g-2 mb-3">
                     <div class="col-6">
-                        <label class="form-label small fw-bold">Brand / Producer</label>
-                        <input type="text" class="form-control" value="${product.brand || ''}" id="editBrand" required>
+                        <label class="form-label small fw-bold">Category</label>
+                        <select class="form-select" id="editCategory">
+                            <option value="">Select category...</option>
+                            ${categoryOptions}
+                        </select>
                     </div>
                     <div class="col-6">
                         <label class="form-label small fw-bold">Unit / Packaging Size</label>
                         <input type="text" class="form-control" value="${product.spec || (product.specifications && product.specifications.unit_size) || ''}" id="editSpec" placeholder="e.g. 2 Litres / 1 Kg">
                     </div>
                 </div>
+
                 <div class="row g-2 mb-3">
-                    <div class="col-6">
-                        <label class="form-label small fw-bold">Price (KSh)</label>
-                        <input type="number" class="form-control" value="${product.price || 0}" id="editPrice" required>
+                    <div class="col-4">
+                        <label class="form-label small fw-bold">Price (KSh) *</label>
+                        <input type="number" class="form-control" value="${product.price || 0}" id="editPrice" step="any" min="0" required>
                     </div>
-                    <div class="col-6">
-                        <label class="form-label small fw-bold">Stock Quantity</label>
-                        <input type="number" class="form-control" value="${product.stock || 0}" id="editStock" required>
+                    <div class="col-4">
+                        <label class="form-label small fw-bold">Old / Strike Price</label>
+                        <input type="number" class="form-control" value="${product.oldPrice || ''}" id="editOldPrice" step="any" min="0" placeholder="Optional">
+                    </div>
+                    <div class="col-4">
+                        <label class="form-label small fw-bold">Stock Quantity *</label>
+                        <input type="number" class="form-control" value="${product.stock || 0}" id="editStock" min="0" required>
                     </div>
                 </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">Grade / Quality Type</label>
+                        <select class="form-select" id="editCondition">
+                            ${conditionOptions}
+                        </select>
+                    </div>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label small fw-bold">Product &amp; Storage Description</label>
                     <textarea class="form-control" id="editDescription" rows="3">${product.description || ''}</textarea>
@@ -420,6 +488,20 @@ function editProduct(productId) {
         confirmButtonColor: '#FF6B35',
         cancelButtonText: 'Cancel',
         preConfirm: async () => {
+            const name = document.getElementById('editName').value.trim();
+            const brand = document.getElementById('editBrand').value.trim();
+            const priceVal = document.getElementById('editPrice').value;
+            const stockVal = document.getElementById('editStock').value;
+
+            if (!name) {
+                Swal.showValidationMessage('Product name is required');
+                return false;
+            }
+            if (priceVal === '' || isNaN(parseFloat(priceVal))) {
+                Swal.showValidationMessage('Valid price is required');
+                return false;
+            }
+
             // Handle image: check if a new file was selected
             let imageUrl = currentImage;
             const imageInput = document.getElementById('editImageInput');
@@ -432,19 +514,26 @@ function editProduct(productId) {
                 }
             }
 
-            const specValue = document.getElementById('editSpec').value || '';
+            const specValue = document.getElementById('editSpec').value.trim();
+            const oldPriceVal = document.getElementById('editOldPrice').value;
+            const categoryVal = document.getElementById('editCategory').value || null;
+            const conditionVal = document.getElementById('editCondition').value || 'Standard / Fresh Pack';
+
             const updatedData = {
-                name: document.getElementById('editName').value,
-                slug: document.getElementById('editName').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
-                brand: document.getElementById('editBrand').value,
-                price: parseFloat(document.getElementById('editPrice').value),
-                stock: parseInt(document.getElementById('editStock').value),
+                name: name,
+                slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
+                brand: brand,
+                price: parseFloat(priceVal),
+                old_price: oldPriceVal ? parseFloat(oldPriceVal) : null,
+                stock: parseInt(stockVal, 10) || 0,
+                category_id: categoryVal,
+                condition: conditionVal,
                 description: document.getElementById('editDescription').value,
                 images: [imageUrl],
                 specifications: {
                     unit_size: specValue,
-                    barcode_sku: '',
-                    grade: ''
+                    barcode_sku: product.sku || '',
+                    grade: conditionVal
                 }
             };
 
@@ -454,9 +543,10 @@ function editProduct(productId) {
                     body: JSON.stringify(updatedData)
                 });
 
-                if (response.success) {
+                if (response.success || response.product) {
                     await loadProducts();
                     showToast('success', 'Product updated successfully!');
+                    return true;
                 } else {
                     Swal.showValidationMessage(response.error || 'Update failed. Please try again.');
                     return false;
@@ -1067,6 +1157,7 @@ function initProductTableDelegation() {
 // Export functions to global scope for onclick handlers
 window.saveProduct = saveProduct;
 window.showAddProductModal = showAddProductModal;
+window.openAddProductModal = showAddProductModal;
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
 window.viewProduct = viewProduct;
