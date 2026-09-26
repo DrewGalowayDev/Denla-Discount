@@ -470,3 +470,63 @@ exports.updateStock = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Bulk update stock for multiple products (Admin)
+// @route   POST /api/products/bulk-stock
+// @access  Private/Admin
+exports.bulkUpdateStock = async (req, res, next) => {
+    try {
+        const { product_ids, action = 'add', amount = 0 } = req.body;
+
+        if (!Array.isArray(product_ids) || product_ids.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide an array of product IDs'
+            });
+        }
+
+        const numAmount = parseInt(amount, 10);
+        if (isNaN(numAmount) || numAmount < 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid stock quantity provided'
+            });
+        }
+
+        // Ensure all IDs are strings (UUIDs)
+        const cleanIds = product_ids.map(id => String(id).trim());
+        const placeholders = cleanIds.map(() => '?').join(',');
+        
+        let sql;
+        let params;
+
+        if (action === 'add') {
+            sql = `UPDATE products SET stock_quantity = stock_quantity + ? WHERE id IN (${placeholders})`;
+            params = [numAmount, ...cleanIds];
+        } else if (action === 'set') {
+            sql = `UPDATE products SET stock_quantity = ? WHERE id IN (${placeholders})`;
+            params = [numAmount, ...cleanIds];
+        } else if (action === 'subtract') {
+            sql = `UPDATE products SET stock_quantity = GREATEST(0, stock_quantity - ?) WHERE id IN (${placeholders})`;
+            params = [numAmount, ...cleanIds];
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid action. Supported actions: add, set, subtract'
+            });
+        }
+
+        const result = await query(sql, params);
+
+        res.status(200).json({
+            success: true,
+            message: `Successfully updated stock for ${cleanIds.length} products`,
+            updatedCount: result.affectedRows || cleanIds.length,
+            action,
+            amount: numAmount
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
