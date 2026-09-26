@@ -133,18 +133,43 @@ function renderProductsTable() {
                 <span class="status-badge ${product.condition}">${product.condition}</span>
             </td>
             <td>
-                <button type="button" class="action-btn edit" data-action="edit" data-id="${product.id}" onclick="editProduct('${product.id}')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="action-btn view" data-action="view" data-id="${product.id}" onclick="viewProduct('${product.id}')" title="View">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" class="action-btn delete" data-action="delete" data-id="${product.id}" onclick="deleteProduct('${product.id}')" title="Delete">
-                    <i class="fas fa-trash"></i>
-                </button>
-                <button type="button" class="action-btn" data-action="whatsapp" data-id="${product.id}" onclick="sendProductWhatsApp('${product.id}')" title="Share via WhatsApp">
-                    <i class="fab fa-whatsapp text-success"></i>
-                </button>
+                <!-- Desktop: Show all buttons -->
+                <div class="action-buttons-desktop d-none d-md-inline-flex">
+                    <button type="button" class="action-btn edit" data-action="edit" data-id="${product.id}" onclick="editProduct('${product.id}')" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="action-btn view" data-action="view" data-id="${product.id}" onclick="viewProduct('${product.id}')" title="View">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button type="button" class="action-btn delete" data-action="delete" data-id="${product.id}" onclick="deleteProduct('${product.id}')" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button type="button" class="action-btn" data-action="whatsapp" data-id="${product.id}" onclick="sendProductWhatsApp('${product.id}')" title="Share via WhatsApp">
+                        <i class="fab fa-whatsapp text-success"></i>
+                    </button>
+                </div>
+                
+                <!-- Mobile: Show dropdown menu -->
+                <div class="action-buttons-mobile d-md-none dropdown">
+                    <button type="button" class="action-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#" onclick="editProduct('${product.id}'); return false;">
+                            <i class="fas fa-edit me-2"></i>Edit
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="viewProduct('${product.id}'); return false;">
+                            <i class="fas fa-eye me-2"></i>View
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="sendProductWhatsApp('${product.id}'); return false;">
+                            <i class="fab fa-whatsapp me-2 text-success"></i>Share
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteProduct('${product.id}'); return false;">
+                            <i class="fas fa-trash me-2"></i>Delete
+                        </a></li>
+                    </ul>
+                </div>
             </td>
         </tr>
     `).join('');
