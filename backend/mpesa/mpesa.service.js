@@ -263,6 +263,107 @@ class MpesaService {
             throw error;
         }
     }
+
+    /**
+     * Initiate M-Pesa B2B Transfer (Business to Business / Till / Paybill)
+     */
+    async b2bTransfer({ amount, destinationShortcode, destinationType = 'CustomerPayBillOnline', accountReference = 'Settlement', remarks = 'Store Settlement' }) {
+        const config = await this.getConfig();
+        const accessToken = await this.getAccessToken();
+
+        const initiatorName = process.env.MPESA_INITIATOR_NAME || 'initiator';
+        const securityCredential = process.env.MPESA_SECURITY_CREDENTIAL || '';
+
+        // Determine CommandID based on destination type
+        const isTill = destinationType === 'CustomerBuyGoodsOnline' || destinationType === 'buygoods';
+        const commandID = isTill ? 'BusinessBuyGoods' : 'BusinessPayBill';
+        const receiverIdentifierType = isTill ? '2' : '4'; // 2 = Till, 4 = Shortcode/Paybill
+
+        const timeoutUrl = `${config.callbackURL.replace(/\/stk\/callback|\/callback/, '')}/b2b/timeout`;
+        const resultUrl = `${config.callbackURL.replace(/\/stk\/callback|\/callback/, '')}/b2b/result`;
+
+        const amountInt = Math.max(1, Math.round(parseFloat(amount)));
+
+        const payload = {
+            Initiator: initiatorName,
+            SecurityCredential: securityCredential,
+            CommandID: commandID,
+            SenderIdentifierType: '4', // Shortcode
+            RecieverIdentifierType: receiverIdentifierType,
+            Amount: amountInt,
+            PartyA: config.shortcode,
+            PartyB: destinationShortcode,
+            AccountReference: (accountReference || 'Settlement').substring(0, 12),
+            Remarks: (remarks || 'Settlement').substring(0, 30),
+            QueueTimeOutURL: timeoutUrl,
+            ResultURL: resultUrl
+        };
+
+        console.log('🔄 Initiating M-Pesa B2B Settlement:', {
+            from: config.shortcode,
+            to: destinationShortcode,
+            type: commandID,
+            amount: amountInt
+        });
+
+        try {
+            const response = await axios.post(
+                `${config.baseURL}/mpesa/b2b/v1/paymentrequest`,
+                payload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 20000
+                }
+            );
+
+            console.log('✅ M-Pesa B2B Settlement Response:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('❌ M-Pesa B2B Settlement Error:', error.response?.data || error.message);
+            throw new Error(error.response?.data?.errorMessage || error.message || 'B2B Settlement Transfer Failed');
+        }
+    }
+
+    /**
+     * Automatic Settlement to Admin configured account upon successful customer payment
+     */
+    async settleToAdmin({ amount, receiptNumber, orderRef }) {
+        try {
+            const rows = await query(`SELECT setting_key, setting_value FROM system_settings WHERE setting_key IN ('settlement_shortcode', 'settlement_type', 'settlement_account_ref', 'auto_settlement_enabled')`);
+            const settings = {};
+            if (rows && Array.isArray(rows)) {
+                rows.forEach(r => { settings[r.setting_key] = r.setting_value; });
+            }
+
+            const destinationShortcode = settings.settlement_shortcode;
+            const destinationType = settings.settlement_type || 'CustomerPayBillOnline';
+            const accountReference = settings.settlement_account_ref || orderRef || 'Settlement';
+            const isAutoEnabled = settings.auto_settlement_enabled !== 'false';
+
+            if (!isAutoEnabled || !destinationShortcode) {
+                return null;
+            }
+
+            const config = await this.getConfig();
+            if (destinationShortcode === config.shortcode) {
+                return null;
+            }
+
+            return await this.b2bTransfer({
+                amount,
+                destinationShortcode,
+                destinationType,
+                accountReference,
+                remarks: `Settlement for ${receiptNumber || orderRef}`
+            });
+        } catch (err) {
+            console.warn('⚠️ Auto settlement notice:', err.message);
+            return null;
+        }
+    }
 }
 
 module.exports = new MpesaService();

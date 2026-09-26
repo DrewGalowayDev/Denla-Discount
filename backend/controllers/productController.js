@@ -407,8 +407,31 @@ exports.updateProduct = async (req, res, next) => {
             updateData.images = JSON.stringify(updateData.images);
         }
 
+        // Whitelist of valid product columns to prevent SQL errors from unknown fields
+        const validColumns = [
+            'name', 'sku', 'barcode', 'category_id', 'description', 'unit_of_measure',
+            'cost_price', 'selling_price', 'wholesale_price', 'minimum_price',
+            'current_stock', 'minimum_stock', 'maximum_stock', 'reorder_quantity',
+            'is_active', 'is_taxable', 'tax_rate', 'has_expiry', 'default_supplier_id',
+            'image', 'notes', 'views_count', 'is_featured', 'is_deal', 'is_new_arrival',
+            'brand', 'low_stock_threshold', 'specifications', 'meta_title',
+            'meta_description', 'meta_keywords', 'slug', 'price', 'old_price',
+            'stock', 'images', 'condition'
+        ];
+
+        // Filter out any keys not in the valid columns list
+        const filteredData = {};
+        for (const key of Object.keys(updateData)) {
+            if (validColumns.includes(key)) {
+                filteredData[key] = updateData[key];
+            }
+        }
+
         // Build update query dynamically
-        const fields = Object.keys(updateData);
+        const fields = Object.keys(filteredData);
+        if (fields.length === 0) {
+            return res.status(400).json({ success: false, message: 'No valid fields to update' });
+        }
         const setClause = fields.map(field => {
             // Handle the condition field with backticks
             if (field === 'condition') {
@@ -416,7 +439,7 @@ exports.updateProduct = async (req, res, next) => {
             }
             return `${field} = ?`;
         }).join(', ');
-        const values = [...Object.values(updateData), req.params.id];
+        const values = [...Object.values(filteredData), req.params.id];
 
         const sql = `UPDATE products SET ${setClause} WHERE id = ?`;
         await query(sql, values);

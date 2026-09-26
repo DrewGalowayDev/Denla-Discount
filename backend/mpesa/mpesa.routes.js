@@ -119,6 +119,15 @@ const handleStkCallback = async (req, res) => {
             mpesaReceiptNumber
         });
 
+        // Trigger Auto B2B Settlement to Admin's configured account
+        if (status === 'completed' && amount) {
+            mpesaService.settleToAdmin({
+                amount,
+                receiptNumber: mpesaReceiptNumber,
+                orderRef: checkoutRequestId
+            }).catch(e => console.warn('Settlement notice:', e.message));
+        }
+
         // Acknowledge callback
         res.json({
             ResultCode: 0,
@@ -277,6 +286,45 @@ router.get('/transactions/:phoneNumber', async (req, res) => {
 });
 
 /**
+/**
+ * @route   POST /api/mpesa/b2b/transfer
+ * @desc    Initiate B2B transfer to settle funds to admin Paybill/Till/Bank
+ * @access  Admin
+ */
+router.post('/b2b/transfer', async (req, res) => {
+    try {
+        const { amount, destinationShortcode, destinationType, accountReference, remarks } = req.body;
+
+        if (!amount || !destinationShortcode) {
+            return res.status(400).json({
+                success: false,
+                message: 'Amount and destination shortcode (Paybill/Till) are required'
+            });
+        }
+
+        const result = await mpesaService.b2bTransfer({
+            amount,
+            destinationShortcode,
+            destinationType: destinationType || 'CustomerPayBillOnline',
+            accountReference: accountReference || 'Settlement',
+            remarks: remarks || 'Store Payout'
+        });
+
+        res.json({
+            success: true,
+            message: 'B2B transfer request sent successfully',
+            data: result
+        });
+    } catch (error) {
+        console.error('B2B Transfer Route Error:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message || 'B2B transfer failed'
+        });
+    }
+});
+
+/**
  * @route   GET /api/mpesa/settings
  * @desc    Get current M-Pesa settlement and integration settings
  * @access  Public / Admin
@@ -284,6 +332,16 @@ router.get('/transactions/:phoneNumber', async (req, res) => {
 router.get('/settings', async (req, res) => {
     try {
         const config = await mpesaService.getConfig();
+        const { query } = require('../config/database');
+        
+        let customSettlement = {};
+        try {
+            const rows = await query(`SELECT setting_key, setting_value FROM system_settings WHERE setting_key IN ('settlement_shortcode', 'settlement_type', 'settlement_account_ref', 'auto_settlement_enabled')`);
+            if (rows && Array.isArray(rows)) {
+                rows.forEach(r => { customSettlement[r.setting_key] = r.setting_value; });
+            }
+        } catch (e) {}
+
         res.json({
             success: true,
             settings: {
@@ -291,6 +349,10 @@ router.get('/settings', async (req, res) => {
                 environment: config.environment,
                 transactionType: config.transactionType,
                 callbackURL: config.callbackURL,
+                settlementShortcode: customSettlement.settlement_shortcode || config.shortcode,
+                settlementType: customSettlement.settlement_type || config.transactionType,
+                settlementAccountRef: customSettlement.settlement_account_ref || '',
+                autoSettlementEnabled: customSettlement.auto_settlement_enabled !== 'false',
                 hasKey: !!config.consumerKey,
                 hasSecret: !!config.consumerSecret,
                 hasPasskey: !!config.passkey
@@ -317,18 +379,27 @@ router.post('/settings', async (req, res) => {
             consumerSecret,
             environment,
             transactionType,
-            callbackURL
+            callbackURL,
+            settlementShortcode,
+            settlementType,
+            settlementAccountRef,
+            autoSettlementEnabled
         } = req.body;
 
-        const settingsToSave = [
-            { key: 'mpesa_shortcode', val: shortcode, desc: 'M-Pesa Shortcode / Paybill / Till' },
-            { key: 'mpesa_passkey', val: passkey, desc: 'M-Pesa Passkey' },
-            { key: 'mpesa_consumer_key', val: consumerKey, desc: 'M-Pesa Consumer Key' },
-            { key: 'mpesa_consumer_secret', val: consumerSecret, desc: 'M-Pesa Consumer Secret' },
-            { key: 'mpesa_environment', val: environment || 'sandbox', desc: 'M-Pesa Environment (sandbox/production)' },
-            { key: 'mpesa_transaction_type', val: transactionType || 'CustomerPayBillOnline', desc: 'CustomerPayBillOnline or CustomerBuyGoodsOnline' },
-            { key: 'mpesa_callback_url', val: callbackURL, desc: 'M-Pesa Callback URL' }
-        ];
+        const settingsToSave = [];
+        if (shortcode !== undefined && shortcode !== null) settingsToSave.push({ key: 'mpesa_shortcode', val: shortcode, desc: 'Gateway Shortcode / Paybill' });
+        if (passkey !== undefined && passkey !== null) settingsToSave.push({ key: 'mpesa_passkey', val: passkey, desc: 'M-Pesa Passkey' });
+        if (consumerKey !== undefined && consumerKey !== null) settingsToSave.push({ key: 'mpesa_consumer_key', val: consumerKey, desc: 'M-Pesa Consumer Key' });
+        if (consumerSecret !== undefined && consumerSecret !== null) settingsToSave.push({ key: 'mpesa_consumer_secret', val: consumerSecret, desc: 'M-Pesa Consumer Secret' });
+        if (environment !== undefined && environment !== null) settingsToSave.push({ key: 'mpesa_environment', val: environment, desc: 'M-Pesa Environment (sandbox/production)' });
+        if (transactionType !== undefined && transactionType !== null) settingsToSave.push({ key: 'mpesa_transaction_type', val: transactionType, desc: 'Gateway Transaction Type' });
+        if (callbackURL !== undefined && callbackURL !== null) settingsToSave.push({ key: 'mpesa_callback_url', val: callbackURL, desc: 'M-Pesa Callback URL' });
+        
+        // Admin Settlement Destination Settings
+        if (settlementShortcode !== undefined && settlementShortcode !== null) settingsToSave.push({ key: 'settlement_shortcode', val: settlementShortcode, desc: 'Admin Settlement Destination Shortcode / Till / Paybill' });
+        if (settlementType !== undefined && settlementType !== null) settingsToSave.push({ key: 'settlement_type', val: settlementType, desc: 'Admin Settlement Destination Type' });
+        if (settlementAccountRef !== undefined && settlementAccountRef !== null) settingsToSave.push({ key: 'settlement_account_ref', val: settlementAccountRef, desc: 'Admin Settlement Account Number / Ref' });
+        if (autoSettlementEnabled !== undefined && autoSettlementEnabled !== null) settingsToSave.push({ key: 'auto_settlement_enabled', val: String(autoSettlementEnabled), desc: 'Auto B2B Settlement to Admin Account' });
 
         for (const item of settingsToSave) {
             if (item.val !== undefined && item.val !== null) {

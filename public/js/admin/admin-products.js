@@ -258,7 +258,6 @@ async function saveProduct() {
         stock: parseInt(formData.get('stock')) || 0,
         category_id: formData.get('category') || null,
         condition: formData.get('condition') || 'Standard / Fresh Pack',
-        spec: formData.get('spec') || '',
         sku: formData.get('sku') || '',
         description: formData.get('description') || '',
         is_featured: formData.get('featured') === 'on',
@@ -433,15 +432,20 @@ function editProduct(productId) {
                 }
             }
 
+            const specValue = document.getElementById('editSpec').value || '';
             const updatedData = {
                 name: document.getElementById('editName').value,
                 slug: document.getElementById('editName').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
                 brand: document.getElementById('editBrand').value,
-                spec: document.getElementById('editSpec').value,
                 price: parseFloat(document.getElementById('editPrice').value),
                 stock: parseInt(document.getElementById('editStock').value),
                 description: document.getElementById('editDescription').value,
-                images: [imageUrl]
+                images: [imageUrl],
+                specifications: {
+                    unit_size: specValue,
+                    barcode_sku: '',
+                    grade: ''
+                }
             };
 
             try {

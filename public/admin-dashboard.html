@@ -1720,25 +1720,27 @@
                 const data = await res.json();
                 if (data.success && data.settings) {
                     const s = data.settings;
+                    const activeShortcode = s.settlementShortcode || s.shortcode;
+                    const isBuyGoods = (s.settlementType || s.transactionType) === 'CustomerBuyGoodsOnline';
+
                     // Populate shortcode input
                     const scInput = document.getElementById('mpesaShortcodeInput');
-                    if (scInput && s.shortcode) scInput.value = s.shortcode;
+                    if (scInput && activeShortcode) scInput.value = activeShortcode;
+
                     // Set active preview
                     const activeDisplay = document.getElementById('activeShortcodeDisplay');
                     const activeType = document.getElementById('activeTypeDisplay');
-                    if (activeDisplay) activeDisplay.textContent = s.shortcode || 'Not set';
+                    if (activeDisplay) activeDisplay.textContent = activeShortcode || 'Not set';
                     if (activeType) {
-                        const isBuyGoods = s.transactionType === 'CustomerBuyGoodsOnline';
                         activeType.innerHTML = isBuyGoods
                             ? '<i class="fas fa-store me-1"></i> Buy Goods (Till)'
                             : '<i class="fas fa-building me-1"></i> Paybill';
                     }
                     // Transaction type radio
-                    const isBuyGoods = s.transactionType === 'CustomerBuyGoodsOnline';
                     selectSettlementType(isBuyGoods ? 'buygoods' : 'paybill', true);
-                    // Status badge — gateway is always "Live" since keys are in .env
+                    // Status badge
                     const badge = document.getElementById('mpesaLiveStatusBadge');
-                    if (badge && s.shortcode) {
+                    if (badge && activeShortcode) {
                         badge.className = 'badge bg-success fs-6 px-3 py-2';
                         badge.innerHTML = '<i class="fas fa-circle me-1" style="font-size:0.6rem;"></i> Active';
                     } else if (badge) {
@@ -1775,7 +1777,7 @@
             if (scInput) scInput.placeholder = isBuyGoods ? 'e.g. 4345167 (Till)' : 'e.g. 4345167 (Paybill)';
         }
 
-        // Save only the settlement account (shortcode + type) — API keys stay in .env
+        // Save settlement account (shortcode + type)
         async function saveMpesaSettings() {
             const shortcode = (document.getElementById('mpesaShortcodeInput')?.value || '').trim();
             const isBuyGoods = document.getElementById('radioBuygoods')?.checked;
@@ -1804,12 +1806,16 @@
                 const res = await fetch('/api/mpesa/settings', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                    body: JSON.stringify({ shortcode, transactionType })
+                    body: JSON.stringify({
+                        settlementShortcode: shortcode,
+                        settlementType: transactionType,
+                        autoSettlementEnabled: true
+                    })
                 });
                 const data = await res.json();
                 if (data.success) {
                     const typeLabel = isBuyGoods ? 'Buy Goods (Till)' : 'Paybill';
-                    showAlert('success', `✅ Settlement account saved! Customers will now pay to ${typeLabel} #${shortcode}.`);
+                    showAlert('success', `✅ Settlement account saved! Customers will pay and funds will settle to ${typeLabel} #${shortcode}.`);
                     const savedEl = document.getElementById('mpesaLastSaved');
                     if (savedEl) savedEl.textContent = `Saved at ${new Date().toLocaleTimeString()}`;
                     loadMpesaSettings();
