@@ -517,6 +517,40 @@ body.admin-body {
     border-color: #cbd5e1;
 }
 
+/* User Dropdown Menu */
+.nav-user-dropdown {
+    position: relative;
+}
+
+.nav-user-dropdown .dropdown-menu {
+    min-width: 200px;
+    margin-top: 8px;
+    border: 1px solid var(--admin-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.nav-user-dropdown .dropdown-item {
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    color: var(--admin-text-main);
+}
+
+.nav-user-dropdown .dropdown-item:hover {
+    background: #f8fafc;
+}
+
+.nav-user-dropdown .dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.nav-user-dropdown .dropdown-item.text-danger:hover {
+    background: #fee;
+    color: #dc3545;
+}
+
 /* ==========================================================================
    CONTENT SECTIONS & HEADERS
    ========================================================================== */
