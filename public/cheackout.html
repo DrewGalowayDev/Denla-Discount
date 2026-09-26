@@ -256,7 +256,7 @@
             <!-- Brand Logo -->
             <div class="col-lg-3 text-start">
                 <a href="index.html" class="navbar-brand p-0 d-flex align-items-center gap-2">
-                    <img src="img/logo.jpg" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
+                    <img src="img/denlalogo.png" alt="Denla Discount" style="height: 46px; width: auto; border-radius: 8px;" onerror="this.style.display='none'">
                     <div>
                         <h3 class="m-0 fw-bold" style="color: #FF6B35; line-height: 1.1; font-size: 1.35rem;">
                             Denla Discount
@@ -682,14 +682,73 @@
         let currentPaymentMode = 'mpesa';
         let stkPollTimer = null;
 
+        function getCartInstance() {
+            if (window.cartManager && typeof window.cartManager.getItems === 'function') {
+                return window.cartManager;
+            }
+            return {
+                getItems: () => {
+                    try {
+                        return JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]');
+                    } catch(e) { return []; }
+                },
+                getItemCount: () => {
+                    try {
+                        const items = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]');
+                        return items.reduce((sum, item) => sum + (parseInt(item.quantity, 10) || 1), 0);
+                    } catch(e) { return 0; }
+                },
+                getTotal: () => {
+                    try {
+                        const items = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]');
+                        return items.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 1)), 0);
+                    } catch(e) { return 0; }
+                },
+                updateQuantity: (id, qty) => {
+                    if (window.cartManager) return window.cartManager.updateQuantity(id, qty);
+                    let items = [];
+                    try { items = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]'); } catch(e){}
+                    const item = items.find(i => String(i.id) === String(id));
+                    if (item) item.quantity = qty;
+                    localStorage.setItem('awesomeTech_cart', JSON.stringify(items));
+                    renderPosCart();
+                },
+                removeItem: (id) => {
+                    if (window.cartManager) return window.cartManager.removeItem(id);
+                    let items = [];
+                    try { items = JSON.parse(localStorage.getItem('awesomeTech_cart') || '[]'); } catch(e){}
+                    items = items.filter(i => String(i.id) !== String(id));
+                    localStorage.setItem('awesomeTech_cart', JSON.stringify(items));
+                    renderPosCart();
+                },
+                clearCart: () => {
+                    if (window.cartManager) return window.cartManager.clearCart();
+                    localStorage.removeItem('awesomeTech_cart');
+                    renderPosCart();
+                }
+            };
+        }
+
+        let cart = getCartInstance();
+
         document.addEventListener('DOMContentLoaded', () => {
+            cart = getCartInstance();
             renderPosCart();
             setupCustomerSync();
             loadSettlementBadge();
             
             // Listen for cart changes
             window.addEventListener('cartUpdated', () => {
+                cart = getCartInstance();
                 renderPosCart();
+            });
+
+            // Re-render when window gains focus or storage changes
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'awesomeTech_cart') {
+                    cart = getCartInstance();
+                    renderPosCart();
+                }
             });
 
             const yearEl = document.getElementById('currentYear');
@@ -800,6 +859,7 @@
         }
 
         function renderPosCart() {
+            cart = getCartInstance();
             const items = cart ? cart.getItems() : [];
             const container = document.getElementById('cartItemsContainer');
             const emptyEl = document.getElementById('emptyCart');
@@ -886,6 +946,7 @@
         }
 
         async function executeCheckout() {
+            cart = getCartInstance();
             const items = cart ? cart.getItems() : [];
             if (!items || items.length === 0) {
                 alert('Your order is empty! Please add items before checking out.');
@@ -1004,6 +1065,7 @@
                 if (inst) inst.hide();
             }
 
+            cart = getCartInstance();
             const items = cart ? cart.getItems() : [];
             const custName = document.getElementById('posCustomerName')?.value.trim() || 'Walk-in Customer';
             const rcptNum = mpesaReceipt ? `#${mpesaReceipt}` : `#DD-${Math.floor(1000 + Math.random() * 9000)}`;

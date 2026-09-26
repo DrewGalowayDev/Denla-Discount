@@ -306,6 +306,9 @@ class CartManager {
     notifyListeners() {
         this.listeners.forEach(callback => callback(this.items));
         this.updateCartBadge();
+        try {
+            window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items: this.items } }));
+        } catch (e) {}
     }
 
     // Update cart count badge in header
@@ -319,7 +322,24 @@ class CartManager {
 
     // Get total number of items
     getTotalItems() {
-        return this.items.reduce((sum, item) => sum + item.quantity, 0);
+        return this.items.reduce((sum, item) => sum + (parseInt(item.quantity, 10) || 1), 0);
+    }
+
+    getItemCount() {
+        return this.getTotalItems();
+    }
+
+    getCount() {
+        return this.getTotalItems();
+    }
+
+    // Get total cart price
+    getTotal() {
+        return this.calculateTotals().total;
+    }
+
+    getSubtotal() {
+        return this.calculateTotals().subtotal;
     }
 
     // Get cart items

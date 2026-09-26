@@ -13,36 +13,50 @@ Place your app icons in this directory with the following sizes:
 
 ## How to Generate Icons
 
-You can use your logo (img/logo.jpg) to generate these icons:
+You can use the Denla logo (img/denlalogo.png) to generate these icons:
 
 ### Option 1: Online Tool
 1. Go to https://www.pwabuilder.com/imageGenerator
-2. Upload your logo
+2. Upload your logo: `d:\Drew Files\Awesome\public\img\denlalogo.png`
 3. Download the generated icons
 4. Place them in this folder
 
 ### Option 2: Using ImageMagick (command line)
 ```bash
 # Install ImageMagick first
-# Then run these commands:
+# Then run these commands from the img directory:
 
-convert logo.jpg -resize 72x72 icon-72x72.png
-convert logo.jpg -resize 96x96 icon-96x96.png
-convert logo.jpg -resize 128x128 icon-128x128.png
-convert logo.jpg -resize 144x144 icon-144x144.png
-convert logo.jpg -resize 152x152.png
-convert logo.jpg -resize 192x192 icon-192x192.png
-convert logo.jpg -resize 384x384 icon-384x384.png
-convert logo.jpg -resize 512x512 icon-512x512.png
+magick denlalogo.png -resize 72x72 icons/icon-72x72.png
+magick denlalogo.png -resize 96x96 icons/icon-96x96.png
+magick denlalogo.png -resize 128x128 icons/icon-128x128.png
+magick denlalogo.png -resize 144x144 icons/icon-144x144.png
+magick denlalogo.png -resize 152x152 icons/icon-152x152.png
+magick denlalogo.png -resize 192x192 icons/icon-192x192.png
+magick denlalogo.png -resize 384x384 icons/icon-384x384.png
+magick denlalogo.png -resize 512x512 icons/icon-512x512.png
 ```
 
 ### Option 3: Photoshop/GIMP
-1. Open your logo
+1. Open denlalogo.png
 2. Resize to each dimension (maintaining quality)
 3. Export as PNG
 4. Save with the correct filename
 
 ## Temporary Solution
 
-For now, you can copy your logo.jpg and rename it to each size.
+For now, you can copy denlalogo.png and rename it to each size.
 The PWA will still work, but icons may not be optimal quality.
+
+### Quick PowerShell Command (Windows):
+```powershell
+cd "d:\Drew Files\Awesome\public\img"
+Copy-Item denlalogo.png icons\icon-72x72.png
+Copy-Item denlalogo.png icons\icon-96x96.png
+Copy-Item denlalogo.png icons\icon-128x128.png
+Copy-Item denlalogo.png icons\icon-144x144.png
+Copy-Item denlalogo.png icons\icon-152x152.png
+Copy-Item denlalogo.png icons\icon-192x192.png
+Copy-Item denlalogo.png icons\icon-384x384.png
+Copy-Item denlalogo.png icons\icon-512x512.png
+```
+

@@ -37,7 +37,7 @@ Your app needs proper icons. Follow these steps:
 
 **Option A: Use Online Tool (Easiest)**
 1. Go to https://www.pwabuilder.com/imageGenerator
-2. Upload your logo (`public/img/logo.jpg`)
+2. Upload your logo (`public/img/denlalogo.png`)
 3. Download the generated icons
 4. Place them in `public/img/icons/`
 
@@ -46,30 +46,18 @@ Your app needs proper icons. Follow these steps:
 cd "d:\Drew Files\Awesome\public\img"
 
 # Generate all icon sizes
-magick logo.jpg -resize 72x72 icons/icon-72x72.png
-magick logo.jpg -resize 96x96 icons/icon-96x96.png
-magick logo.jpg -resize 128x128 icons/icon-128x128.png
-magick logo.jpg -resize 144x144 icons/icon-144x144.png
-magick logo.jpg -resize 152x152 icons/icon-152x152.png
-magick logo.jpg -resize 192x192 icons/icon-192x192.png
-magick logo.jpg -resize 384x384 icons/icon-384x384.png
-magick logo.jpg -resize 512x512 icons/icon-512x512.png
+magick denlalogo.png -resize 72x72 icons/icon-72x72.png
+magick denlalogo.png -resize 96x96 icons/icon-96x96.png
+magick denlalogo.png -resize 128x128 icons/icon-128x128.png
+magick denlalogo.png -resize 144x144 icons/icon-144x144.png
+magick denlalogo.png -resize 152x152 icons/icon-152x152.png
+magick denlalogo.png -resize 192x192 icons/icon-192x192.png
+magick denlalogo.png -resize 384x384 icons/icon-384x384.png
+magick denlalogo.png -resize 512x512 icons/icon-512x512.png
 ```
 
-**Option C: Temporary (For Now)**
-```bash
-# Quick workaround - copy logo as icons
-cd "d:\Drew Files\Awesome\public\img"
-mkdir icons
-copy logo.jpg icons\icon-72x72.png
-copy logo.jpg icons\icon-96x96.png
-copy logo.jpg icons\icon-128x128.png
-copy logo.jpg icons\icon-144x144.png
-copy logo.jpg icons\icon-152x152.png
-copy logo.jpg icons\icon-192x192.png
-copy logo.jpg icons\icon-384x384.png
-copy logo.jpg icons\icon-512x512.png
-```
+**Option C: Already Done! ✅**
+Icons have been generated from denlalogo.png and are ready to use!
 
 ### 2. Deploy & Test
 
